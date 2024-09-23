@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
+  static const route = "/";
+  static const routeName = "Home";
+
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -10,6 +13,11 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      appBar: AppBar(title: const Text("Home")),
+      body: const Center(
+        child: Text("Welcome to Home Screen"),
+      ),
+    );
   }
 }
