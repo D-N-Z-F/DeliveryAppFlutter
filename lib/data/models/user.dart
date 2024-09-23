@@ -1,3 +1,5 @@
+import 'package:delivery_app_flutter/utils/constants/enums.dart';
+
 class User {
   final String? id;
   final String email;
@@ -42,5 +44,3 @@ class User {
   String toString() =>
       "User(ID: $id, Email: $email, Username: $username, Status: $status)\nOrder History: $orderHistory";
 }
-
-enum Status { normal, premium }

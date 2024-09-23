@@ -3,6 +3,7 @@ import 'package:delivery_app_flutter/screens/home.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,10 +34,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       title: 'Delivery App',
+      themeMode: ThemeMode.system,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
+          textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),
+          useMaterial3: true),
+      darkTheme: ThemeData(
+          textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),
+          useMaterial3: true),
       routerConfig: GoRouter(routes: routes, initialLocation: HomeScreen.route),
     );
   }
