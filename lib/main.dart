@@ -13,43 +13,43 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Future.delayed(const Duration(seconds: 2));
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(ProviderScope(child: MyApp()));
+  runApp(const ProviderScope(child: MyApp()));
 }
 
+final routerProvider = Provider<GoRouter>((ref) {
+  final authProvider =
+      StateNotifierProvider<AuthNotifier, AuthState>((_) => AuthNotifier());
+  final authState = ref.watch(authProvider);
+  return GoRouter(
+    initialLocation: HomeScreen.route,
+    routes: [
+      GoRoute(
+        path: HomeScreen.route,
+        name: HomeScreen.routeName,
+        builder: (context, state) => const HomeScreen(),
+      ),
+      GoRoute(
+        path: AuthScreen.route,
+        name: AuthScreen.routeName,
+        builder: (context, state) => const AuthScreen(),
+      )
+    ],
+    redirect: (context, state) {
+      if (authState.isLoading) return null;
+
+      final isLoggedIn = authState.isLoggedIn;
+      final isLoggingIn = state.name == AuthScreen.routeName;
+
+      if (!isLoggedIn && !isLoggingIn) return AuthScreen.route;
+      if (isLoggedIn && isLoggingIn) return HomeScreen.route;
+
+      return null;
+    },
+  );
+});
+
 class MyApp extends ConsumerWidget {
-  MyApp({super.key});
-
-  final routerProvider = Provider<GoRouter>((ref) {
-    final authProvider =
-        StateNotifierProvider<AuthNotifier, AuthState>((_) => AuthNotifier());
-    final authState = ref.watch(authProvider);
-    return GoRouter(
-      initialLocation: HomeScreen.route,
-      routes: [
-        GoRoute(
-          path: HomeScreen.route,
-          name: HomeScreen.routeName,
-          builder: (context, state) => const HomeScreen(),
-        ),
-        GoRoute(
-          path: AuthScreen.route,
-          name: AuthScreen.routeName,
-          builder: (context, state) => const AuthScreen(),
-        )
-      ],
-      redirect: (context, state) {
-        if (authState.isLoading) return null;
-
-        final isLoggedIn = authState.isLoggedIn;
-        final isLoggingIn = state.name == AuthScreen.routeName;
-
-        if (!isLoggedIn && !isLoggingIn) return AuthScreen.route;
-        if (isLoggedIn && isLoggingIn) return HomeScreen.route;
-
-        return null;
-      },
-    );
-  });
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
