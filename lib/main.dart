@@ -1,4 +1,5 @@
 import 'package:delivery_app_flutter/firebase_options.dart';
+import 'package:delivery_app_flutter/screens/customer_order_screen.dart';
 import 'package:delivery_app_flutter/screens/home.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,11 @@ class MyApp extends StatelessWidget {
       path: HomeScreen.route,
       name: HomeScreen.routeName,
       builder: (context, state) => const HomeScreen(),
+    ),
+    GoRoute(
+      path: CustomerOrderScreen.route,
+      name: CustomerOrderScreen.routeName,
+      builder: (context, state) => const CustomerOrderScreen(),
     )
   ];
 
