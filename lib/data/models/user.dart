@@ -8,7 +8,7 @@ class User {
       {this.id,
       required this.email,
       required this.username,
-      required this.orderHistory});
+      this.orderHistory = const []});
 
   User copy(String? id, String? email, String? username,
           List<String>? orderHistory) =>
@@ -20,14 +20,12 @@ class User {
       );
 
   Map<String, dynamic> toMap() => {
-        "id": id,
         "email": email,
         "username": username,
         "orderHistory": orderHistory,
       };
 
   static User fromMap(Map<String, dynamic> map) => User(
-        id: map["id"],
         email: map["email"],
         username: map["username"],
         orderHistory: map["orderHistory"],

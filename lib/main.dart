@@ -1,6 +1,5 @@
+import 'package:delivery_app_flutter/data/providers/auth_provider.dart';
 import 'package:delivery_app_flutter/screens/auth.dart';
-import 'package:delivery_app_flutter/state_management/auth_state.dart';
-import 'package:delivery_app_flutter/state_management/auth_notifier.dart';
 import 'package:delivery_app_flutter/firebase_options.dart';
 import 'package:delivery_app_flutter/screens/home.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -11,15 +10,11 @@ import 'package:google_fonts/google_fonts.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Future.delayed(const Duration(seconds: 2));
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const ProviderScope(child: MyApp()));
 }
 
 final routerProvider = Provider<GoRouter>((ref) {
-  final authProvider =
-      StateNotifierProvider<AuthNotifier, AuthState>((_) => AuthNotifier());
-  final authState = ref.watch(authProvider);
   return GoRouter(
     initialLocation: HomeScreen.route,
     routes: [
@@ -35,14 +30,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       )
     ],
     redirect: (context, state) {
-      if (authState.isLoading) return null;
-
-      final isLoggedIn = authState.isLoggedIn;
-      final isLoggingIn = state.name == AuthScreen.routeName;
-
-      if (!isLoggedIn && !isLoggingIn) return AuthScreen.route;
-      if (isLoggedIn && isLoggingIn) return HomeScreen.route;
-
+      final isLoggedIn = ref.watch(authProvider);
+      final onAuthScreen = state.name == AuthScreen.routeName;
+      if (isLoggedIn && onAuthScreen) return HomeScreen.route;
+      if (!isLoggedIn && !onAuthScreen) return AuthScreen.route;
       return null;
     },
   );
