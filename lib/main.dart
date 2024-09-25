@@ -1,6 +1,8 @@
 import 'package:delivery_app_flutter/firebase_options.dart';
-import 'package:delivery_app_flutter/screens/customer_order_screen.dart';
 import 'package:delivery_app_flutter/screens/home.dart';
+import 'package:delivery_app_flutter/screens/profile_screen.dart';
+import 'package:delivery_app_flutter/screens/settings_screen.dart';
+import 'package:delivery_app_flutter/screens/tab_container_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -17,15 +19,25 @@ class MyApp extends StatelessWidget {
 
   static final routes = [
     GoRoute(
+      path: TabContainerScreen.route,
+      name: TabContainerScreen.routeName,
+      builder: (context, state) => const TabContainerScreen(),
+    ),
+    GoRoute(
       path: HomeScreen.route,
       name: HomeScreen.routeName,
       builder: (context, state) => const HomeScreen(),
     ),
     GoRoute(
-      path: CustomerOrderScreen.route,
-      name: CustomerOrderScreen.routeName,
-      builder: (context, state) => const CustomerOrderScreen(),
-    )
+      path: SettingsScreen.route,
+      name: SettingsScreen.routeName,
+      builder: (context, state) => const SettingsScreen(),
+    ),
+    GoRoute(
+      path: ProfileScreen.route,
+      name: ProfileScreen.routeName,
+      builder: (context, state) => const ProfileScreen(),
+    ),
   ];
 
   static SnackBar actionSnackbarBuilder(
@@ -47,7 +59,7 @@ class MyApp extends StatelessWidget {
       darkTheme: ThemeData(
           textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),
           useMaterial3: true),
-      routerConfig: GoRouter(routes: routes, initialLocation: HomeScreen.route),
+      routerConfig: GoRouter(routes: routes, initialLocation: TabContainerScreen.route),
     );
   }
 }

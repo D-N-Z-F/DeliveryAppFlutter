@@ -1,11 +1,10 @@
-import 'package:delivery_app_flutter/screens/customer_order_screen.dart';
+import 'package:delivery_app_flutter/components/my_drawer.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
-  static const route = "/";
+  static const route = "/home";
   static const routeName = "Home";
 
   @override
@@ -13,16 +12,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  void _navigateToMerchantScreen() {
-    context.push(CustomerOrderScreen.route);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Home")),
-      floatingActionButton: FloatingActionButton(
-          onPressed: _navigateToMerchantScreen, child: const Icon(Icons.add)),
+      drawer: const MyDrawer(),
       body: const Center(
         child: Text("Welcome to Home Screen"),
       ),
