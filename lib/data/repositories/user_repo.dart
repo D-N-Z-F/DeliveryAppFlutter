@@ -30,4 +30,14 @@ class UserRepo {
       debugPrint(e.message);
     }
   }
+
+  Future<void> logout() async {
+    try {
+      await _auth.signOut();
+    } on FirebaseAuthException catch (e) {
+      debugPrint(e.message);
+    }
+  }
+
+  String? getUid() => _auth.currentUser?.uid;
 }

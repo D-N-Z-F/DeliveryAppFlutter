@@ -1,3 +1,4 @@
+import 'package:delivery_app_flutter/data/repositories/user_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -9,10 +10,20 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final userRepo = UserRepo();
     return Scaffold(
       appBar: AppBar(title: const Text("Home")),
-      body: const Center(
-        child: Text("Welcome to Home Screen"),
+      body: Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Text("Welcome to Home Screen"),
+            ElevatedButton(
+              onPressed: userRepo.logout,
+              child: const Icon(Icons.logout),
+            ),
+          ],
+        ),
       ),
     );
   }

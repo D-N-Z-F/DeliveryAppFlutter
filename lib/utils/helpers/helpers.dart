@@ -1,3 +1,4 @@
+import 'package:delivery_app_flutter/utils/constants/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -15,4 +16,12 @@ class Helpers {
   }
 
   static List<T> removeDuplicates<T>(List<T> list) => list.toSet().toList();
+}
+
+extension CategoriesHelpers on Categories {
+  String enumToString() => toString().split('.').last;
+  static Categories stringToEnum(String string) => Categories.values.firstWhere(
+        (value) => value.enumToString() == string,
+        orElse: () => Categories.miscellaneous,
+      );
 }

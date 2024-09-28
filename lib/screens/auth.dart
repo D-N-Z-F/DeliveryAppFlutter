@@ -1,4 +1,3 @@
-import 'package:delivery_app_flutter/data/providers/auth_provider.dart';
 import 'package:delivery_app_flutter/data/repositories/user_repo.dart';
 import 'package:delivery_app_flutter/utils/validators/validators.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +14,7 @@ class AuthScreen extends ConsumerStatefulWidget {
 }
 
 class _AuthScreenState extends ConsumerState<AuthScreen> {
-  final stateProvider = StateProvider<bool>((ref) => true);
+  final authStateProvider = StateProvider<bool>((ref) => false);
   final formKey = GlobalKey<FormState>();
   final userRepo = UserRepo();
   final Map<String, TextEditingController> controllers = {
@@ -31,7 +30,6 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
         controllers["email"]!.text,
         controllers["password"]!.text,
       );
-      ref.read(authProvider.notifier).signIn();
     }
   }
 
@@ -43,13 +41,12 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
         controllers["password"]!.text,
         controllers["password2"]!.text,
       );
-      ref.read(authProvider.notifier).signIn();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final isRegistering = ref.watch(stateProvider);
+    final isRegistering = ref.watch(authStateProvider);
     return Scaffold(
       body: Container(
         margin: const EdgeInsets.all(10.0),
@@ -117,7 +114,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                 ),
               TextButton(
                   onPressed: () {
-                    ref.read(stateProvider.notifier).state = !isRegistering;
+                    ref.read(authStateProvider.notifier).state = !isRegistering;
                   },
                   child: Text(isRegistering
                       ? "Already have an account? Sign In now!"

@@ -7,3 +7,15 @@ enum DimensionType {
   appBarHeight,
   keyboardHeight
 }
+
+enum Categories {
+  japanese,
+  mexican,
+  korean,
+  western,
+  desserts,
+  vegetarian,
+  vietnamese,
+  beverages,
+  miscellaneous
+}
