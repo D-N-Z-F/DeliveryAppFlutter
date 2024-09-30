@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-final ThemeData lightMode = ThemeData(
+final ThemeData lightTheme = ThemeData(
   textTheme: GoogleFonts.poppinsTextTheme(),
   brightness: Brightness.light,
   scaffoldBackgroundColor: Colors.white,
@@ -15,7 +15,7 @@ final ThemeData lightMode = ThemeData(
   useMaterial3: true,
 );
 
-final ThemeData darkMode = ThemeData(
+final ThemeData darkTheme = ThemeData(
   textTheme: GoogleFonts.poppinsTextTheme(),
   brightness: Brightness.dark,
   scaffoldBackgroundColor: Colors.black,

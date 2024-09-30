@@ -17,9 +17,7 @@ class _CartScreenState extends State<CartScreen> {
       appBar: AppBar(
         title: const Text("Cart"),
       ),
-      body: const Center(
-        child: Text("Cart Screen")
-      ),
+      body: const Center(child: Text("Cart Screen")),
     );
   }
 }

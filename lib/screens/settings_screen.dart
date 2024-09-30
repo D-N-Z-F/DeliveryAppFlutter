@@ -41,7 +41,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                         color: Theme.of(context).colorScheme.inversePrimary),
                   ),
                   CupertinoSwitch(
-                      value: ref.watch(themeProvider) == darkMode,
+                      value: ref.watch(themeProvider) == darkTheme,
                       onChanged: (value) {
                         ref.read(themeProvider.notifier).toggleTheme();
                       })

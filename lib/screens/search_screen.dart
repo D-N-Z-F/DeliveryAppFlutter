@@ -17,9 +17,7 @@ class _SearchScreenState extends State<SearchScreen> {
       appBar: AppBar(
         title: const Text("Search"),
       ),
-      body: const Center(
-        child: Text("Search Screen")
-      ),
+      body: const Center(child: Text("Search Screen")),
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:delivery_app_flutter/data/repositories/user_repo.dart';
 import 'package:delivery_app_flutter/screens/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -19,6 +20,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final userRepo = UserRepo();
     return Scaffold(
         appBar: AppBar(
           title: const Text("Profile"),
@@ -103,7 +105,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Container(
               margin: const EdgeInsets.only(top: 20, left: 10, right: 10),
               child: OutlinedButton(
-                  onPressed: () {},
+                  onPressed: userRepo.logout,
                   style: OutlinedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10))),

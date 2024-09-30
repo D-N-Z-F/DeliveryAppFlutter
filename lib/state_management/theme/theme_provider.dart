@@ -3,14 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ThemeProvider extends StateNotifier<ThemeData> {
-  ThemeProvider() : super(lightMode);
+  ThemeProvider() : super(lightTheme);
 
-  void toggleTheme() {
-    state = state == lightMode ? darkMode : lightMode;
-  }
+  void toggleTheme() => state = state == lightTheme ? darkTheme : lightTheme;
 
   // For ChangeNotifier
-  // ThemeData _themeData = lightMode;
+  // ThemeData _themeData = lightTheme;
 
   // ThemeData get themeData => _themeData;
 
@@ -20,10 +18,10 @@ class ThemeProvider extends StateNotifier<ThemeData> {
   // }
 
   // void toggleTheme() {
-  //   if (_themeData == lightMode) {
-  //     themeData = darkMode;
+  //   if (_themeData == lightTheme) {
+  //     themeData = darkTheme;
   //   } else {
-  //     themeData = lightMode;
+  //     themeData = lightTheme;
   //   }
   // }
 }

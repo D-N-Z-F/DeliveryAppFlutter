@@ -1,24 +1,21 @@
 import 'dart:math';
-
 import 'package:delivery_app_flutter/data/models/restaurant.dart';
 import 'package:delivery_app_flutter/data/providers/auth_provider.dart';
 import 'package:delivery_app_flutter/data/repositories/restaurant_repo.dart';
 import 'package:delivery_app_flutter/screens/auth.dart';
 import 'package:delivery_app_flutter/screens/cart_screen.dart';
 import 'package:delivery_app_flutter/screens/search_screen.dart';
-import 'package:delivery_app_flutter/state_management/auth/auth_state.dart';
-import 'package:delivery_app_flutter/state_management/auth/auth_notifier.dart';
 import 'package:delivery_app_flutter/firebase_options.dart';
 import 'package:delivery_app_flutter/screens/home.dart';
 import 'package:delivery_app_flutter/screens/profile_screen.dart';
 import 'package:delivery_app_flutter/screens/settings_screen.dart';
 import 'package:delivery_app_flutter/screens/tab_container_screen.dart';
 import 'package:delivery_app_flutter/state_management/theme/theme_provider.dart';
+import 'package:delivery_app_flutter/utils/constants/enums.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {
@@ -105,7 +102,6 @@ class MyApp extends ConsumerWidget {
     final themeData = ref.watch(themeProvider);
     return MaterialApp.router(
       title: 'Delivery App',
-      themeMode: ThemeMode.system,
       theme: themeData,
       darkTheme: themeData,
       routerConfig: router,
