@@ -11,28 +11,35 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
+  final TextEditingController _searchController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: [
-          Container(
-            margin: const EdgeInsets.only(top: 10, bottom: 10),
-            child: Padding(
-            padding: const EdgeInsets.only(right: 16),
-            child: SizedBox(
-              width: 340, // Adjust width to fit your design
-              child: SearchBar(
-                padding: const WidgetStatePropertyAll(EdgeInsets.symmetric(horizontal: 10.0)),
-                hintText: "Search...",
-                onTap: () {},
-                leading: const Icon(Icons.search),
+        title: SizedBox(
+          height: 40,
+          width: 300,
+          child: TextField(
+            controller: _searchController,
+            decoration: InputDecoration(
+              hintText: 'Search...',
+              filled: true,
+              fillColor: Colors.white,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20),
+                borderSide: BorderSide.none,
               ),
+              contentPadding: const EdgeInsets.symmetric(
+                  vertical: 0, horizontal: 20),
+              prefixIcon: const Icon(Icons.search, color: Colors.grey),
             ),
+            onChanged: (query) {
+              // Add your search logic here
+              print("Searching for: $query");
+            },
           ),
-          )
-          
-        ],
+        ),
       ),
       body: const Center(child: Text("Search Screen")),
     );

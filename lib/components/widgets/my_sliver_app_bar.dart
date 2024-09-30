@@ -21,17 +21,22 @@ class MySliverAppBar extends StatelessWidget {
           children: [
             const SizedBox(height: 30.0),
             Padding(
-              padding: const EdgeInsets.fromLTRB(16.0, 6.0, 16.0, 16.0),
-              child: SearchBar(
-                padding: const WidgetStatePropertyAll(
-                    EdgeInsets.symmetric(horizontal: 16)),
-                hintText: "Search...",
-                onTap: () {
-                  _navigateToSearch();
-                },
-                leading: const Icon(Icons.search),
-              ),
-            ),
+                padding: const EdgeInsets.fromLTRB(16.0, 6.0, 16.0, 16.0),
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: 'Search...',
+                    prefixIcon: const Icon(Icons.search),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide.none,
+                    ),
+                    filled: true,
+                    fillColor: Colors.white,
+                  ),
+                  onTap: () {
+                    _navigateToSearch();
+                  },
+                )),
           ],
         ),
       )),
