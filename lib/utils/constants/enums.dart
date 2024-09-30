@@ -1,5 +1,3 @@
-enum Status { normal, premium }
-
 enum DimensionType {
   screenHeight,
   screenWidth,
@@ -8,4 +6,16 @@ enum DimensionType {
   bottomNavigationBarHeight,
   appBarHeight,
   keyboardHeight
+}
+
+enum Categories {
+  japanese,
+  mexican,
+  korean,
+  western,
+  desserts,
+  vegetarian,
+  vietnamese,
+  beverages,
+  miscellaneous
 }

@@ -1,3 +1,8 @@
+import 'dart:math';
+
+import 'package:delivery_app_flutter/data/models/restaurant.dart';
+import 'package:delivery_app_flutter/data/providers/auth_provider.dart';
+import 'package:delivery_app_flutter/data/repositories/restaurant_repo.dart';
 import 'package:delivery_app_flutter/screens/auth.dart';
 import 'package:delivery_app_flutter/screens/cart_screen.dart';
 import 'package:delivery_app_flutter/screens/search_screen.dart';
@@ -13,18 +18,35 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {
+  await Hive.initFlutter();
   WidgetsFlutterBinding.ensureInitialized();
-  Future.delayed(const Duration(seconds: 2));
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  // await test();
   runApp(const ProviderScope(child: MyApp()));
 }
 
+Future<void> test() async {
+  final restaurantRepo = RestaurantRepo();
+  var counter = 0;
+  while (counter < 10) {
+    final random = Random();
+    final ranDouble = (random.nextDouble() * 5.0);
+    final ranInt = random.nextInt(Categories.values.length);
+    await restaurantRepo.createRestaurant(Restaurant(
+        title: "title $counter",
+        desc: "desc $counter",
+        rating: ranDouble,
+        category: Categories.values[ranInt],
+        itemCategories: ["category $counter"]));
+    counter++;
+  }
+}
+
 final routerProvider = Provider<GoRouter>((ref) {
-  final authProvider =
-      StateNotifierProvider<AuthNotifier, AuthState>((_) => AuthNotifier());
-  final authState = ref.watch(authProvider);
   return GoRouter(
     initialLocation: TabContainerScreen.route,
     routes: [
@@ -64,17 +86,13 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const ProfileScreen(),
       ),
     ],
-    // redirect: (context, state) {
-    //   if (authState.isLoading) return null;
-
-    //   final isLoggedIn = authState.isLoggedIn;
-    //   final isLoggingIn = state.name == AuthScreen.routeName;
-
-    //   if (!isLoggedIn && !isLoggingIn) return AuthScreen.route;
-    //   if (isLoggedIn && isLoggingIn) return HomeScreen.route;
-
-    //   return null;
-    // },
+    redirect: (context, state) {
+      final isLoggedIn = ref.watch(authProvider);
+      final onAuthScreen = state.name == AuthScreen.routeName;
+      if (isLoggedIn && onAuthScreen) return HomeScreen.route;
+      if (!isLoggedIn && !onAuthScreen) return AuthScreen.route;
+      return null;
+    },
   );
 });
 

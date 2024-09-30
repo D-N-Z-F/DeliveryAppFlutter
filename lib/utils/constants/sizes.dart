@@ -14,9 +14,16 @@ class Sizes {
   static const loadingIndicatorSize = 36.0;
   static const imageCarouselHeight = 200.0;
 
-  static const icon = {"xs": 12.0, "sm": 16.0, "md": 24.0, "lg": 32.0};
+  static const icon = {
+    "xs": 12.0,
+    "sm": 16.0,
+    "md": 24.0,
+    "lg": 32.0,
+    "xl": 40.0,
+    "xxl": 48.0
+  };
 
-  static const font = {"sm": 14.0, "md": 16.0, "lg": 18.0};
+  static const font = {"xs": 12.0, "sm": 14.0, "md": 16.0, "lg": 18.0};
 
   static const button = {
     "height": 18.0,
