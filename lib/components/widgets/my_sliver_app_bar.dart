@@ -21,13 +21,14 @@ class MySliverAppBar extends StatelessWidget {
           children: [
             const SizedBox(height: 30.0),
             Padding(
-                padding: const EdgeInsets.fromLTRB(16.0, 6.0, 16.0, 16.0),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
                 child: TextField(
                   decoration: InputDecoration(
                     hintText: 'Search...',
                     prefixIcon: const Icon(Icons.search),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(30),
                       borderSide: BorderSide.none,
                     ),
                     filled: true,

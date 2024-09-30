@@ -13,35 +13,68 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   final TextEditingController _searchController = TextEditingController();
 
+  final List<String> recentSearches = [
+    "Flutter",
+    "Dart",
+    "State Management",
+    "Riverpod",
+    "Firebase",
+    "Provider",
+    "Animation",
+    "Kotlin",
+    "Android Studio",
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: SizedBox(
-          height: 40,
-          width: 300,
-          child: TextField(
-            controller: _searchController,
-            decoration: InputDecoration(
-              hintText: 'Search...',
-              filled: true,
-              fillColor: Colors.white,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
-                borderSide: BorderSide.none,
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          title: SizedBox(
+            height: 40,
+            child: TextField(
+              controller: _searchController,
+              decoration: InputDecoration(
+                hintText: 'Search...',
+                filled: true,
+                fillColor: Colors.grey.shade300,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  borderSide: BorderSide.none,
+                ),
+                contentPadding:
+                    const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+                prefixIcon: const Icon(Icons.search, color: Colors.white),
               ),
-              contentPadding: const EdgeInsets.symmetric(
-                  vertical: 0, horizontal: 20),
-              prefixIcon: const Icon(Icons.search, color: Colors.grey),
+              onChanged: (query) {
+                // Add your search logic h ere
+                print("Searching for: $query");
+              },
             ),
-            onChanged: (query) {
-              // Add your search logic here
-              print("Searching for: $query");
-            },
           ),
         ),
-      ),
-      body: const Center(child: Text("Search Screen")),
-    );
+        body: Container(
+          margin: const EdgeInsets.all(10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text("Recent Searches",  style: TextStyle(fontSize: 20),),
+              const SizedBox(height: 10),
+              Expanded(
+                  child: ListView.builder(
+                      itemCount: recentSearches.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          leading: const Icon(Icons.history),
+                          title: Text(recentSearches[index]),
+                          onTap: () {
+                            // Handle search item tap
+                            print("Selected: ${recentSearches[index]}");
+                          },
+                        );
+                      }))
+            ],
+          ),
+        ));
   }
 }
