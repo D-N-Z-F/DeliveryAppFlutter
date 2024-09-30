@@ -1,5 +1,7 @@
+import 'package:delivery_app_flutter/screens/cart_screen.dart';
 import 'package:delivery_app_flutter/screens/home.dart';
 import 'package:delivery_app_flutter/screens/profile_screen.dart';
+import 'package:delivery_app_flutter/screens/search_screen.dart';
 import 'package:delivery_app_flutter/screens/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -14,9 +16,7 @@ class TabContainerScreen extends StatefulWidget {
 }
 
 class _TabContainerScreenState extends State<TabContainerScreen> {
-  void _navigateToSettings() {
-    context.push(SettingsScreen.route);
-  }
+ 
 
   void _navigateToProfile() {
     context.push(ProfileScreen.route);
@@ -25,10 +25,10 @@ class _TabContainerScreenState extends State<TabContainerScreen> {
   @override
   Widget build(BuildContext context) {
     return const DefaultTabController(
-        length: 3,
+        length: 4,
         child: Scaffold(
-          body: TabBarView(children: [HomeScreen(), ProfileScreen()]),
-          bottomNavigationBar: TabBar(tabs: [
+          body: TabBarView(children: [HomeScreen(),SearchScreen(), CartScreen(), ProfileScreen()]),
+          bottomNavigationBar: TabBar(padding: EdgeInsets.all(10.0), tabs: [
             SizedBox(
               height: 50.0,
               child: Column(
@@ -42,6 +42,12 @@ class _TabContainerScreenState extends State<TabContainerScreen> {
               ),
             ),
             SizedBox(
+              height: 50.0,
+              child: Column(
+                children: [Icon(Icons.shopping_cart_outlined), Text("Cart")],
+              ),
+            ),
+             SizedBox(
               height: 50.0,
               child: Column(
                 children: [Icon(Icons.person), Text("Profile")],
