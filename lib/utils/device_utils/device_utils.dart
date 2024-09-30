@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:delivery_app_flutter/utils/constants/enums.dart';
-import 'package:delivery_app_flutter/utils/constants/sizes.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
