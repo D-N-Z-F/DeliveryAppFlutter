@@ -11,7 +11,7 @@ class Cart {
     this.items = const [],
   });
 
-  Cart copy(String? userId, String? restaurantId, List<Item>? items) => Cart(
+  Cart copy({String? userId, String? restaurantId, List<Item>? items}) => Cart(
         userId: userId ?? this.userId,
         restaurantId: restaurantId ?? this.restaurantId,
         items: items ?? this.items,
@@ -26,11 +26,9 @@ class Cart {
   static Cart fromMap(Map<String, dynamic> map) => Cart(
         userId: map["userId"],
         restaurantId: map["restaurantId"],
-        items: map["items"] != null
-            ? List<Item>.from(
-                map["items"].map((itemMap) => Item.fromMap(itemMap)),
-              )
-            : [],
+        items: List<Item>.from(
+          map["items"].map((itemMap) => Item.fromMap(itemMap)),
+        ),
       );
 
   @override

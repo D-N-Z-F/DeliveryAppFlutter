@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:delivery_app_flutter/data/models/user.dart' as model;
+import 'package:delivery_app_flutter/data/models/user.dart' as models;
+import 'package:delivery_app_flutter/utils/helpers/helpers.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -12,31 +13,29 @@ class UserRepo {
   final _auth = FirebaseAuth.instance;
 
   Future<void> login(String email, String password) async {
-    try {
-      await _auth.signInWithEmailAndPassword(email: email, password: password);
-    } on FirebaseAuthException catch (e) {
-      debugPrint(e.message);
-    }
+    await Helpers.globalErrorHandler(
+      () => _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      ),
+    );
   }
 
   Future<void> register(String username, String email, String password,
       String confirmPassword) async {
-    try {
-      final model.User user = model.User(email: email, username: username);
+    await Helpers.globalErrorHandler(() async {
       UserCredential credentials = await _auth.createUserWithEmailAndPassword(
-          email: user.email, password: password);
-      await _collection.doc(credentials.user?.uid).set(user.toMap());
-    } on FirebaseAuthException catch (e) {
-      debugPrint(e.message);
-    }
+        email: email,
+        password: password,
+      );
+      await _collection.doc(credentials.user?.uid).set(
+            models.User(email: email, username: username).toMap(),
+          );
+    });
   }
 
   Future<void> logout() async {
-    try {
-      await _auth.signOut();
-    } on FirebaseAuthException catch (e) {
-      debugPrint(e.message);
-    }
+    await Helpers.globalErrorHandler(() => _auth.signOut());
   }
 
   String? getUid() => _auth.currentUser?.uid;

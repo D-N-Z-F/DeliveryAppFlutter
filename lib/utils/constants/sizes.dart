@@ -16,7 +16,7 @@ class Sizes {
 
   static const icon = {"xs": 12.0, "sm": 16.0, "md": 24.0, "lg": 32.0};
 
-  static const font = {"sm": 14.0, "md": 16.0, "lg": 18.0};
+  static const font = {"xs": 12.0, "sm": 14.0, "md": 16.0, "lg": 18.0};
 
   static const button = {
     "height": 18.0,

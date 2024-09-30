@@ -13,13 +13,13 @@ class Item {
     required this.category,
   });
 
-  Item copy(
+  Item copy({
     String? id,
     String? title,
     String? desc,
     double? price,
     String? category,
-  ) =>
+  }) =>
       Item(
         id: id ?? this.id,
         title: title ?? this.title,

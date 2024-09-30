@@ -1,7 +1,12 @@
+import 'dart:math';
+
+import 'package:delivery_app_flutter/data/models/restaurant.dart';
 import 'package:delivery_app_flutter/data/providers/auth_provider.dart';
+import 'package:delivery_app_flutter/data/repositories/restaurant_repo.dart';
 import 'package:delivery_app_flutter/screens/auth.dart';
 import 'package:delivery_app_flutter/firebase_options.dart';
 import 'package:delivery_app_flutter/screens/home.dart';
+import 'package:delivery_app_flutter/utils/constants/enums.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,7 +18,25 @@ void main() async {
   await Hive.initFlutter();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  // await test();
   runApp(const ProviderScope(child: MyApp()));
+}
+
+Future<void> test() async {
+  final restaurantRepo = RestaurantRepo();
+  var counter = 0;
+  while (counter < 10) {
+    final random = Random();
+    final ranDouble = (random.nextDouble() * 5.0);
+    final ranInt = random.nextInt(Categories.values.length);
+    await restaurantRepo.createRestaurant(Restaurant(
+        title: "title $counter",
+        desc: "desc $counter",
+        rating: ranDouble,
+        category: Categories.values[ranInt],
+        itemCategories: ["category $counter"]));
+    counter++;
+  }
 }
 
 final routerProvider = Provider<GoRouter>((ref) {

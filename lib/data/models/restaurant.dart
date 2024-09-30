@@ -7,9 +7,10 @@ class Restaurant {
   final String title;
   final String desc;
   final List<Item> items;
-  final int rating;
+  final double rating;
   final Categories category;
   final List<String> itemCategories;
+  final String imageUrl;
 
   Restaurant({
     this.id,
@@ -19,17 +20,20 @@ class Restaurant {
     required this.rating,
     required this.category,
     required this.itemCategories,
+    this.imageUrl =
+        "gs://delivery-app-flutter-5608d.appspot.com/Restaurant_Card_Image.jpg",
   });
 
-  Restaurant copy(
+  Restaurant copy({
     String? id,
     String? title,
     String? desc,
     List<Item>? items,
-    int? rating,
+    double? rating,
     Categories? category,
     List<String>? itemCategories,
-  ) =>
+    String? imageUrl,
+  }) =>
       Restaurant(
         id: id ?? this.id,
         title: title ?? this.title,
@@ -38,6 +42,7 @@ class Restaurant {
         rating: rating ?? this.rating,
         category: category ?? this.category,
         itemCategories: itemCategories ?? this.itemCategories,
+        imageUrl: imageUrl ?? this.imageUrl,
       );
 
   Map<String, dynamic> toMap() => {
@@ -47,15 +52,19 @@ class Restaurant {
         "rating": rating,
         "category": category.enumToString(),
         "itemCategories": itemCategories,
+        "imageUrl": imageUrl
       };
 
   static Restaurant fromMap(Map<String, dynamic> map) => Restaurant(
         title: map["title"],
         desc: map["desc"],
-        items: map["items"],
+        items: List<Item>.from(
+          map["items"].map((itemMap) => Item.fromMap(itemMap)),
+        ),
         rating: map["rating"],
         category: CategoriesHelpers.stringToEnum(map["category"]),
-        itemCategories: map["itemCategories"],
+        itemCategories: List<String>.from(map["itemCategories"]),
+        imageUrl: map["imageUrl"],
       );
 
   @override

@@ -13,13 +13,13 @@ class User {
     this.favourites = const [],
   });
 
-  User copy(
+  User copy({
     String? id,
     String? email,
     String? username,
     List<String>? orderHistory,
     List<String>? favourites,
-  ) =>
+  }) =>
       User(
         id: id ?? this.id,
         email: email ?? this.email,
