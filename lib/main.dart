@@ -10,7 +10,7 @@ import 'package:delivery_app_flutter/screens/home.dart';
 import 'package:delivery_app_flutter/screens/profile_screen.dart';
 import 'package:delivery_app_flutter/screens/settings_screen.dart';
 import 'package:delivery_app_flutter/screens/tab_container_screen.dart';
-import 'package:delivery_app_flutter/state_management/theme/theme_provider.dart';
+import 'package:delivery_app_flutter/data/providers/theme_provider.dart';
 import 'package:delivery_app_flutter/utils/constants/enums.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';

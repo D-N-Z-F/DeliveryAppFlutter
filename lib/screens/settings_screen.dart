@@ -1,5 +1,5 @@
-import 'package:delivery_app_flutter/state_management/theme/theme.dart';
-import 'package:delivery_app_flutter/state_management/theme/theme_provider.dart';
+import 'package:delivery_app_flutter/utils/constants/themes.dart';
+import 'package:delivery_app_flutter/data/providers/theme_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
