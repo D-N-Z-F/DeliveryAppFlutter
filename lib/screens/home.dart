@@ -1,3 +1,4 @@
+import 'package:delivery_app_flutter/components/widgets/my_sliver_app_bar.dart';
 import 'package:delivery_app_flutter/common/widgets/empty_display.dart';
 import 'package:delivery_app_flutter/common/widgets/restaurant_card.dart';
 import 'package:delivery_app_flutter/data/models/restaurant.dart';
@@ -17,37 +18,9 @@ class HomeScreen extends ConsumerWidget {
     final restaurantRepo = RestaurantRepo();
     List<Restaurant> restaurants = [];
     return Scaffold(
-      appBar: AppBar(title: const Text("Home")),
-      body: Column(
-        children: [
-          Container(
-            margin: const EdgeInsets.all(8.0),
-            child: Text(
-              "Restaurants",
-              style: TextStyle(fontSize: Sizes.font["md"], letterSpacing: 2.0),
-            ),
-          ),
-          SizedBox(
-            height: 250,
-            child: StreamBuilder(
-              stream: restaurantRepo.getAllRestaurants(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) restaurants = snapshot.data!;
-                return SizedBox(
-                  width: double.infinity,
-                  child: restaurants.isEmpty
-                      ? const EmptyDisplay()
-                      : ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: restaurants.length,
-                          itemBuilder: (context, index) =>
-                              RestaurantCard(restaurant: restaurants[index]),
-                        ),
-                );
-              },
-            ),
-          ),
-        ],
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      body: const CustomScrollView(
+        slivers: [MySliverAppBar()],
       ),
     );
   }
