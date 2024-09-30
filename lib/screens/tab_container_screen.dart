@@ -16,8 +16,6 @@ class TabContainerScreen extends StatefulWidget {
 }
 
 class _TabContainerScreenState extends State<TabContainerScreen> {
- 
-
   void _navigateToProfile() {
     context.push(ProfileScreen.route);
   }
@@ -27,7 +25,12 @@ class _TabContainerScreenState extends State<TabContainerScreen> {
     return const DefaultTabController(
         length: 4,
         child: Scaffold(
-          body: TabBarView(children: [HomeScreen(),SearchScreen(), CartScreen(), ProfileScreen()]),
+          body: TabBarView(children: [
+            HomeScreen(),
+            SearchScreen(),
+            CartScreen(),
+            ProfileScreen()
+          ]),
           bottomNavigationBar: TabBar(padding: EdgeInsets.all(10.0), tabs: [
             SizedBox(
               height: 50.0,
@@ -47,7 +50,7 @@ class _TabContainerScreenState extends State<TabContainerScreen> {
                 children: [Icon(Icons.shopping_cart_outlined), Text("Cart")],
               ),
             ),
-             SizedBox(
+            SizedBox(
               height: 50.0,
               child: Column(
                 children: [Icon(Icons.person), Text("Profile")],
