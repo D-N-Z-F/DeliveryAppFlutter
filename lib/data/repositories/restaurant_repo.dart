@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:delivery_app_flutter/data/models/restaurant.dart';
 import 'package:delivery_app_flutter/utils/helpers/helpers.dart';
-import 'package:flutter/material.dart';
 
 class RestaurantRepo {
   static final RestaurantRepo _instance = RestaurantRepo._init();
@@ -10,9 +9,17 @@ class RestaurantRepo {
 
   final _collection = FirebaseFirestore.instance.collection("restaurants");
 
-  Stream<List<Restaurant>> getAllRestaurants() =>
+  Stream<List<Restaurant>> getAllRestaurants(
+          {String? query, bool isSearch = false}) =>
       _collection.snapshots().map((event) => event.docs
           .map((doc) => Restaurant.fromMap(doc.data()).copy(id: doc.id))
+          .where((restaurant) =>
+              !isSearch ||
+              (query != null &&
+                  query.isNotEmpty &&
+                  restaurant.title.toLowerCase().contains(
+                        query.toLowerCase(),
+                      )))
           .toList());
 
   Future<Restaurant?> getRestaurantById(String id) async {
