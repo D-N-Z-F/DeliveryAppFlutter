@@ -32,10 +32,15 @@ class Helpers {
 }
 
 extension CategoriesHelpers on Categories {
-  String enumToString() => toString().split('.').last;
+  String enumToString() => toString().split('.').last.capitalize();
 
   static Categories stringToEnum(String string) => Categories.values.firstWhere(
-        (value) => value.enumToString() == string,
+        (value) => value.enumToString() == string.capitalize(),
         orElse: () => Categories.miscellaneous,
       );
+}
+
+extension StringHelpers on String {
+  String capitalize() =>
+      isEmpty ? this : this[0].toUpperCase() + substring(1).toLowerCase();
 }

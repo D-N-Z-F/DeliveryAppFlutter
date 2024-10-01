@@ -83,7 +83,7 @@ class RestaurantCard extends StatelessWidget {
                     ],
                   ),
                   Text(
-                    restaurant.category.name,
+                    restaurant.category.enumToString(),
                     style: TextStyle(fontSize: Sizes.font["xs"]),
                   ),
                 ],

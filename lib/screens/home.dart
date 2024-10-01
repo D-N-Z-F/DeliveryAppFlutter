@@ -47,7 +47,8 @@ class HomeScreen extends ConsumerWidget {
                                 scrollDirection: Axis.horizontal,
                                 itemCount: restaurants.length,
                                 itemBuilder: (context, index) => RestaurantCard(
-                                    restaurant: restaurants[index]),
+                                  restaurant: restaurants[index],
+                                ),
                               ),
                       );
                     },
