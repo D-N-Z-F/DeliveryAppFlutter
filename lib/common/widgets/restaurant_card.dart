@@ -14,7 +14,7 @@ class RestaurantCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cardWidth =
-        DeviceUtils.getDimensions(context, DimensionType.screenWidth) * 0.8;
+        DeviceUtils.getDimensions(context, DimensionType.screenWidth) * 1.0;
     return Card(
       color: Colors.grey[50],
       margin: const EdgeInsets.all(Sizes.sm),

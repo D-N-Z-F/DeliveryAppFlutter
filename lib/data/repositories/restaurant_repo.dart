@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:delivery_app_flutter/data/models/restaurant.dart';
 import 'package:delivery_app_flutter/utils/helpers/helpers.dart';
-import 'package:flutter/material.dart';
 
 class RestaurantRepo {
   static final RestaurantRepo _instance = RestaurantRepo._init();

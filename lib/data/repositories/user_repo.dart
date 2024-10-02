@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:delivery_app_flutter/data/models/user.dart' as models;
 import 'package:delivery_app_flutter/utils/helpers/helpers.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 
 class UserRepo {
   static final UserRepo _instance = UserRepo._init();
