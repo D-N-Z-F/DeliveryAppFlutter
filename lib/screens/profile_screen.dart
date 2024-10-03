@@ -22,6 +22,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final userRepo = UserRepo();
+    final scheme = Theme.of(context).colorScheme;
     return Scaffold(
         appBar: AppBar(
           title: const Text("Profile"),
@@ -30,7 +31,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           children: [
             Container(
               decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primary,
+                  color: scheme.primary,
                   borderRadius: BorderRadius.circular(12.0)),
               margin: const EdgeInsets.only(left: 10, top: 10, right: 10),
               padding: const EdgeInsets.all(15),

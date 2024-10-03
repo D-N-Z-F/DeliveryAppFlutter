@@ -39,6 +39,7 @@ final ThemeData lightTheme = ThemeData(
     primary: MyColors.primary,
     secondary: MyColors.lightAccent,
     tertiary: MyColors.lightText,
+    inversePrimary: MyColors.darkText,
   ),
   useMaterial3: true,
 );
@@ -52,6 +53,7 @@ final ThemeData darkTheme = ThemeData(
     primary: MyColors.primary,
     secondary: MyColors.darkAccent,
     tertiary: MyColors.darkText,
+    inversePrimary: MyColors.lightText,
   ),
   useMaterial3: true,
 );

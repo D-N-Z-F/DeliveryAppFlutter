@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:delivery_app_flutter/common/widgets/default_image.dart';
 import 'package:delivery_app_flutter/data/models/restaurant.dart';
 import 'package:delivery_app_flutter/screens/restaurant_screen.dart';
 import 'package:delivery_app_flutter/utils/constants/enums.dart';
@@ -11,13 +12,19 @@ import 'package:go_router/go_router.dart';
 
 class RestaurantCard extends StatelessWidget {
   final Restaurant restaurant;
-  const RestaurantCard({super.key, required this.restaurant});
+  final double widthRatio;
+  const RestaurantCard({
+    super.key,
+    required this.restaurant,
+    this.widthRatio = 1.0,
+  });
 
   @override
   Widget build(BuildContext context) {
     final cardWidth =
-        DeviceUtils.getDimensions(context, DimensionType.screenWidth) * 0.8;
-    void navigateToRestaurant(String id) async {
+        DeviceUtils.getDimensions(context, DimensionType.screenWidth) *
+            widthRatio;
+    void navigateToRestaurant(String id) {
       context.pushNamed(RestaurantScreen.routeName, pathParameters: {"id": id});
     }
 
@@ -26,6 +33,9 @@ class RestaurantCard extends StatelessWidget {
       child: Card(
         color: Colors.grey[50],
         margin: const EdgeInsets.all(Sizes.sm),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(Sizes.cardRadiusSm),
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -41,17 +51,11 @@ class RestaurantCard extends StatelessWidget {
                   width: double.infinity,
                   fit: BoxFit.cover,
                   imageUrl: restaurant.imageUrl,
-                  placeholder: (context, url) => Image.asset(
-                    Strings.defaultRestaurantImagePath,
-                    height: 150,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
+                  placeholder: (context, url) => const DefaultImage(
+                    filePath: Strings.defaultRestaurantImagePath,
                   ),
-                  errorWidget: (context, url, error) => Image.asset(
-                    Strings.defaultRestaurantImagePath,
-                    height: 150,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
+                  errorWidget: (context, url, error) => const DefaultImage(
+                    filePath: Strings.defaultRestaurantImagePath,
                   ),
                 ),
               ),

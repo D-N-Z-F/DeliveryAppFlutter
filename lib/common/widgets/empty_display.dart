@@ -1,24 +1,41 @@
+import 'package:delivery_app_flutter/utils/constants/enums.dart';
 import 'package:delivery_app_flutter/utils/constants/sizes.dart';
+import 'package:delivery_app_flutter/utils/constants/strings.dart';
+import 'package:delivery_app_flutter/utils/helpers/helpers.dart';
 import 'package:flutter/material.dart';
 
 class EmptyDisplay extends StatelessWidget {
-  const EmptyDisplay({super.key});
+  final String message;
+  const EmptyDisplay({super.key, this.message = Strings.defaultDisplayMessage});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(
-          Icons.info,
-          color: Colors.grey,
-          size: Sizes.icon["xxl"],
+    final scheme = Theme.of(context).colorScheme;
+    return Center(
+      child: Card(
+        color: scheme.get(MainColors.secondary),
+        child: Padding(
+          padding: const EdgeInsets.all(Sizes.md),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.info,
+                color: scheme.get(MainColors.primary),
+                size: Sizes.icon["xxl"],
+              ),
+              Container(
+                margin: const EdgeInsets.only(top: 10.0),
+                child: Text(
+                  message,
+                  style: TextStyle(color: scheme.get(MainColors.tertiary)),
+                ),
+              )
+            ],
+          ),
         ),
-        Container(
-          margin: const EdgeInsets.only(top: 10.0),
-          child: const Text("No data to show."),
-        )
-      ],
+      ),
     );
   }
 }

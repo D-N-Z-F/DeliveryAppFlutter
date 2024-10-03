@@ -20,8 +20,7 @@ class Restaurant {
     required this.rating,
     required this.category,
     required this.itemCategories,
-    this.imageUrl =
-        "gs://delivery-app-flutter-5608d.appspot.com/Restaurant_Card_Image.jpg",
+    this.imageUrl = "",
   });
 
   Restaurant copy({
