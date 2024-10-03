@@ -121,6 +121,7 @@ class HomeScreen extends ConsumerWidget {
                                 itemCount: restaurants.length,
                                 itemBuilder: (context, index) => RestaurantCard(
                                   restaurant: restaurants[index],
+                                  widthRatio: 0.8,
                                 ),
                               ),
                       );

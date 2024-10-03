@@ -86,17 +86,18 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: RestaurantScreen.route,
         name: RestaurantScreen.routeName,
-        builder: (context, state) =>
-            RestaurantScreen(id: state.pathParameters["id"]!),
+        builder: (context, state) => RestaurantScreen(
+          id: state.pathParameters["id"]!,
+        ),
       )
     ],
-    redirect: (context, state) {
-      final isLoggedIn = ref.watch(authProvider);
-      final onAuthScreen = state.name == AuthScreen.routeName;
-      if (isLoggedIn && onAuthScreen) return HomeScreen.route;
-      if (!isLoggedIn && !onAuthScreen) return AuthScreen.route;
-      return null;
-    },
+    // redirect: (context, state) {
+    //   final isLoggedIn = ref.watch(authProvider);
+    //   final onAuthScreen = state.name == AuthScreen.routeName;
+    //   if (isLoggedIn && onAuthScreen) return HomeScreen.route;
+    //   if (!isLoggedIn && !onAuthScreen) return AuthScreen.route;
+    //   return null;
+    // },
   );
 });
 
