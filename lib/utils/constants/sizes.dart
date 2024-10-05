@@ -8,6 +8,19 @@ class Sizes {
   static const xl = 32.0;
   static const xxl = 48.0;
 
+  // Card
+  static const cardRadiusXs = 6.0;
+  static const cardRadiusSm = 10.0;
+  static const cardRadiusMd = 12.0;
+  static const cardRadiusLg = 12.0;
+
+  // Font
+  static const letterSpacing = 2.0;
+  static const fontXs = 12.0;
+  static const fontSm = 14.0;
+  static const fontMd = 16.0;
+  static const fontLg = 18.0;
+
   static const appBarHeight = 56.0;
   static const imageThumbSize = 80.0;
   static const dividerHeight = 1.0;

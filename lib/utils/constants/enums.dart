@@ -19,3 +19,5 @@ enum Categories {
   beverages,
   miscellaneous
 }
+
+enum MainColors { surface, primary, secondary, tertiary }

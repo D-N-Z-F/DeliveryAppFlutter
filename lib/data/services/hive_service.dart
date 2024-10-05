@@ -2,23 +2,48 @@
 import 'dart:convert';
 
 import 'package:delivery_app_flutter/data/models/cart.dart';
+import 'package:delivery_app_flutter/utils/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
 class HiveService {
-  HiveService() {
-    _openBox();
-  }
-  late Box _box;
-  static const _boxName = "cartBox";
+  static final HiveService _instance = HiveService._internal();
+  factory HiveService() => _instance;
+  HiveService._internal();
 
-  Future<void> _openBox() async {
+  late Box _box;
+  static const _boxName = "normalBox";
+
+  Future<void> openBox() async {
     if (!Hive.isBoxOpen(_boxName)) _box = await Hive.openBox(_boxName);
   }
 
-  Future<Cart?> getCartFromBox(String userId) async {
-    await _openBox();
-    final jsonString = await _box.get(userId);
+//User Methods------------------------------------------------------------------
+  Future<String> getUserIdFromBox() async {
+    await openBox();
+    final id = await _box.get(Strings.userToken);
+    return id.toString();
+  }
+
+  Future<void> updateUserIdInBox(String userId) async {
+    await openBox();
+    await _box.put(Strings.userToken, userId);
+    debugPrint(await getUserIdFromBox());
+  }
+
+  Future<void> removeUserIdInBox() async {
+    await openBox();
+    await _box.delete(Strings.userToken);
+    debugPrint(await getUserIdFromBox());
+  }
+//User Methods------------------------------------------------------------------
+
+//Cart Methods------------------------------------------------------------------
+
+  Future<Cart?> getCartFromBox() async {
+    await openBox();
+    final id = await getUserIdFromBox();
+    final jsonString = await _box.get(id);
     if (jsonString != null) {
       final Map<String, dynamic> cartMap = jsonDecode(jsonString);
       debugPrint("hive_service.dart\n$cartMap");
@@ -27,16 +52,20 @@ class HiveService {
     return null;
   }
 
-  Future<void> updateCartInBox(String userId, Cart cart) async {
-    await _openBox();
+  Future<void> updateCartInBox(Cart cart) async {
+    await openBox();
+    final id = await getUserIdFromBox();
     final jsonString = jsonEncode(cart.toMap());
-    await _box.put(userId, jsonString);
+    await _box.put(id, jsonString);
   }
 
-  Future<void> deleteCartFromBox(String userId) async {
-    await _openBox();
-    await _box.delete(userId);
+  Future<void> deleteCartFromBox() async {
+    await openBox();
+    final id = await getUserIdFromBox();
+    await _box.delete(id);
   }
+
+//Cart Methods------------------------------------------------------------------
 
   Future<void> clearBox() async => await _box.clear();
 }

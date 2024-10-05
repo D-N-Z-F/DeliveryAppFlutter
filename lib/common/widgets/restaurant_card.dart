@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:delivery_app_flutter/common/widgets/default_image.dart';
 import 'package:delivery_app_flutter/data/models/restaurant.dart';
 import 'package:delivery_app_flutter/screens/restaurant_screen.dart';
 import 'package:delivery_app_flutter/utils/constants/enums.dart';
@@ -29,6 +30,9 @@ class RestaurantCard extends StatelessWidget {
       child: Card(
         color: Colors.grey[50],
         margin: const EdgeInsets.all(Sizes.sm),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(Sizes.cardRadiusSm),
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -44,17 +48,11 @@ class RestaurantCard extends StatelessWidget {
                   width: double.infinity,
                   fit: BoxFit.cover,
                   imageUrl: restaurant.imageUrl,
-                  placeholder: (context, url) => Image.asset(
-                    Strings.defaultRestaurantImagePath,
-                    height: 150,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
+                  placeholder: (context, url) => const DefaultImage(
+                    filePath: Strings.defaultRestaurantImagePath,
                   ),
-                  errorWidget: (context, url, error) => Image.asset(
-                    Strings.defaultRestaurantImagePath,
-                    height: 150,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
+                  errorWidget: (context, url, error) => const DefaultImage(
+                    filePath: Strings.defaultRestaurantImagePath,
                   ),
                 ),
               ),

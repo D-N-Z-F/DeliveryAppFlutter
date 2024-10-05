@@ -34,6 +34,18 @@ class Helpers {
 extension CategoriesHelpers on Categories {
   String enumToString() => toString().split('.').last.capitalize();
 
+  IconData getIcon() => switch (this) {
+        Categories.japanese => Icons.ramen_dining,
+        Categories.mexican => Icons.local_pizza,
+        Categories.korean => Icons.kebab_dining,
+        Categories.western => Icons.fastfood,
+        Categories.desserts => Icons.cake,
+        Categories.vegetarian => Icons.eco,
+        Categories.vietnamese => Icons.rice_bowl,
+        Categories.beverages => Icons.local_drink,
+        _ => Icons.restaurant
+      };
+
   static Categories stringToEnum(String string) => Categories.values.firstWhere(
         (value) => value.enumToString() == string.capitalize(),
         orElse: () => Categories.miscellaneous,
@@ -43,4 +55,13 @@ extension CategoriesHelpers on Categories {
 extension StringHelpers on String {
   String capitalize() =>
       isEmpty ? this : this[0].toUpperCase() + substring(1).toLowerCase();
+}
+
+extension ColorSchemeHelpers on ColorScheme {
+  Color get(MainColors mainColor) => switch (mainColor) {
+        MainColors.surface => surface,
+        MainColors.primary => primary,
+        MainColors.secondary => secondary,
+        MainColors.tertiary => tertiary,
+      };
 }

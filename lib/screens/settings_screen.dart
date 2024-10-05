@@ -17,17 +17,19 @@ class SettingsScreen extends ConsumerStatefulWidget {
 class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+
     return Scaffold(
         appBar: AppBar(
           title: const Text("Settings"),
-          backgroundColor: Theme.of(context).colorScheme.surface,
+          backgroundColor: scheme.surface,
         ),
-        backgroundColor: Theme.of(context).colorScheme.surface,
+        backgroundColor: scheme.surface,
         body: Column(
           children: [
             Container(
               decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primary,
+                  color: scheme.primary,
                   borderRadius: BorderRadius.circular(12.0)),
               margin: const EdgeInsets.only(left: 25, top: 10, right: 25),
               padding: const EdgeInsets.all(25),
@@ -38,7 +40,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     "Dark Mode",
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Theme.of(context).colorScheme.inversePrimary),
+                        color: scheme.inversePrimary),
                   ),
                   CupertinoSwitch(
                       value: ref.watch(themeProvider) == darkTheme,

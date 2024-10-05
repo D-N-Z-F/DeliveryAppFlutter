@@ -1,8 +1,11 @@
 import 'package:delivery_app_flutter/common/widgets/empty_display.dart';
 import 'package:delivery_app_flutter/data/models/restaurant.dart';
 import 'package:delivery_app_flutter/data/repositories/restaurant_repo.dart';
+import 'package:delivery_app_flutter/screens/restaurant_screen.dart';
+import 'package:delivery_app_flutter/utils/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class SearchScreen extends ConsumerStatefulWidget {
   const SearchScreen({super.key});
@@ -30,6 +33,10 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   final restaurantRepo = RestaurantRepo();
   final _searchController = TextEditingController();
   final queryProvider = StateProvider<String?>((ref) => null);
+
+  void navigateToRestaurant(String id) {
+    context.pushNamed(RestaurantScreen.routeName, pathParameters: {"id": id});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,9 +80,11 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(query == null || query.isEmpty
-                    ? "Recent Searches"
-                    : "Searching for \"$query\""),
+                Text(
+                  query == null || query.isEmpty
+                      ? "Recent Searches"
+                      : "Searching for \"$query\"",
+                ),
                 const SizedBox(height: 10.0),
                 Expanded(
                   child: query == null || query.isEmpty
@@ -92,7 +101,9 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                           ? const SizedBox(
                               height: double.infinity,
                               width: double.infinity,
-                              child: EmptyDisplay(),
+                              child: EmptyDisplay(
+                                message: Strings.searchDisplayMessage,
+                              ),
                             )
                           : ListView.builder(
                               itemCount: searchResults.length,
@@ -100,8 +111,9 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                                 leading: const Icon(Icons.storefront),
                                 trailing: const Icon(Icons.arrow_outward),
                                 title: Text(searchResults[index].title),
-                                onTap: () =>
-                                    debugPrint(searchResults[index].id),
+                                onTap: () => navigateToRestaurant(
+                                  searchResults[index].id!,
+                                ),
                               ),
                             ),
                 ),

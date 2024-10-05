@@ -1,7 +1,7 @@
-import 'dart:math';
-import 'package:delivery_app_flutter/data/models/restaurant.dart';
+import 'package:delivery_app_flutter/data/models/cart.dart';
+import 'package:delivery_app_flutter/data/models/item.dart';
 import 'package:delivery_app_flutter/data/providers/auth_provider.dart';
-import 'package:delivery_app_flutter/data/repositories/restaurant_repo.dart';
+import 'package:delivery_app_flutter/data/services/hive_service.dart';
 import 'package:delivery_app_flutter/screens/auth.dart';
 import 'package:delivery_app_flutter/screens/cart_screen.dart';
 import 'package:delivery_app_flutter/screens/restaurant_screen.dart';
@@ -12,7 +12,6 @@ import 'package:delivery_app_flutter/screens/profile_screen.dart';
 import 'package:delivery_app_flutter/screens/settings_screen.dart';
 import 'package:delivery_app_flutter/screens/tab_container_screen.dart';
 import 'package:delivery_app_flutter/data/providers/theme_provider.dart';
-import 'package:delivery_app_flutter/utils/constants/enums.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,27 +20,68 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {
   await Hive.initFlutter();
+  final hive = HiveService();
+  await hive.openBox();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  // await test();
+  await test();
   runApp(const ProviderScope(child: MyApp()));
 }
 
 Future<void> test() async {
-  final restaurantRepo = RestaurantRepo();
-  var counter = 0;
-  while (counter < 10) {
-    final random = Random();
-    final ranDouble = (random.nextDouble() * 5.0);
-    final ranInt = random.nextInt(Categories.values.length);
-    await restaurantRepo.createRestaurant(Restaurant(
-        title: "title $counter",
-        desc: "desc $counter",
-        rating: ranDouble,
-        category: Categories.values[ranInt],
-        itemCategories: ["category $counter"]));
-    counter++;
-  }
+  // final restaurantRepo = RestaurantRepo();
+
+  // for (final each in data) {
+  //   restaurantRepo.createRestaurant(each);
+  // }
+
+  final cart = Cart(
+      userId: await HiveService().getUserIdFromBox(),
+      restaurantId: "1JuqPbGuMKAxDi6NUZjy",
+      restaurantTitle: "Taco Fiesta",
+      items: [
+        Item(
+            title: "Carne Asada Taco",
+            desc: "Grilled steak with guacamole.",
+            price: 3.99,
+            category: "Beef"),
+        Item(
+            title: "Carne Asada Taco",
+            desc: "Grilled steak with guacamole.",
+            price: 3.99,
+            category: "Beef"),
+        Item(
+            title: "Carne Asada Taco",
+            desc: "Grilled steak with guacamole.",
+            price: 3.99,
+            category: "Beef"),
+        Item(
+            title: "Carne Asada Taco",
+            desc: "Grilled steak with guacamole.",
+            price: 3.99,
+            category: "Beef"),
+        Item(
+            title: "Fish Taco",
+            desc: "Battered fish with salsa.",
+            price: 4.49,
+            category: "Fish"),
+        Item(
+            title: "Fish Taco",
+            desc: "Battered fish with salsa.",
+            price: 4.49,
+            category: "Fish"),
+        Item(
+            title: "Fish Taco",
+            desc: "Battered fish with salsa.",
+            price: 4.49,
+            category: "Fish"),
+        Item(
+            title: "Fish Taco",
+            desc: "Battered fish with salsa.",
+            price: 4.49,
+            category: "Fish")
+      ]);
+  await HiveService().updateCartInBox(cart);
 }
 
 final routerProvider = Provider<GoRouter>((ref) {

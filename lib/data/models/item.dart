@@ -45,4 +45,19 @@ class Item {
   @override
   String toString() =>
       "Item(ID: $id, Title: $title, Desc: $desc, Price: $price, Category: $category)";
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is Item &&
+        other.id == id &&
+        other.title == title &&
+        other.desc == desc &&
+        other.price == price &&
+        other.category == category;
+  }
+
+  @override
+  int get hashCode =>
+      title.hashCode ^ desc.hashCode ^ price.hashCode ^ category.hashCode;
 }
