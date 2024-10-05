@@ -23,10 +23,10 @@ class EmptyDisplay extends StatelessWidget {
               Icon(
                 Icons.info,
                 color: scheme.get(MainColors.primary),
-                size: Sizes.icon["xxl"],
+                size: Sizes.iconXxl,
               ),
               Container(
-                margin: const EdgeInsets.only(top: 10.0),
+                margin: const EdgeInsets.only(top: Sizes.md),
                 child: Text(
                   message,
                   style: TextStyle(color: scheme.get(MainColors.tertiary)),

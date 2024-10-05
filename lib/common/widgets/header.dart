@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 
 class Header extends StatelessWidget {
   final String heading;
-  const Header({super.key, required this.heading});
+  final bool omitMargin;
+  const Header({super.key, required this.heading, this.omitMargin = false});
 
   @override
   Widget build(BuildContext context) => Container(
-        margin: const EdgeInsets.all(Sizes.sm),
+        margin: omitMargin ? null : const EdgeInsets.all(Sizes.sm),
         child: Text(
           heading,
           style: TextStyle(

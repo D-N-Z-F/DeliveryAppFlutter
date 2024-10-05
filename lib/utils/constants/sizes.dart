@@ -21,6 +21,15 @@ class Sizes {
   static const fontMd = 16.0;
   static const fontLg = 18.0;
 
+  // Icon
+  static const iconXs = 12.0;
+  static const iconSm = 16.0;
+  static const iconMd = 24.0;
+  static const iconLg = 32.0;
+  static const iconXl = 40.0;
+  static const iconXxl = 48.0;
+
+  // Generic
   static const appBarHeight = 56.0;
   static const imageThumbSize = 80.0;
   static const dividerHeight = 1.0;

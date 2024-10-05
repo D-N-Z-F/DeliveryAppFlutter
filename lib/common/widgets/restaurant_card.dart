@@ -13,8 +13,11 @@ import 'package:go_router/go_router.dart';
 class RestaurantCard extends StatelessWidget {
   final Restaurant restaurant;
   final double widthRatio;
-  const RestaurantCard(
-      {super.key, required this.restaurant, this.widthRatio = 1.0});
+  const RestaurantCard({
+    super.key,
+    required this.restaurant,
+    this.widthRatio = 1.0,
+  });
 
   @override
   Widget build(BuildContext context) {

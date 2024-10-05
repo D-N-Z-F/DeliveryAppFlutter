@@ -9,11 +9,12 @@ class ItemCard2 extends StatelessWidget {
   final Item item;
   final int quantity;
   final double price;
-  const ItemCard2(
-      {super.key,
-      required this.item,
-      required this.quantity,
-      required this.price});
+  const ItemCard2({
+    super.key,
+    required this.item,
+    required this.quantity,
+    required this.price,
+  });
 
   @override
   Widget build(BuildContext context) {

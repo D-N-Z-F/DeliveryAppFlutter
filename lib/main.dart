@@ -24,7 +24,7 @@ void main() async {
   await hive.openBox();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  await test();
+  // await test();
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -131,13 +131,13 @@ final routerProvider = Provider<GoRouter>((ref) {
         ),
       )
     ],
-    // redirect: (context, state) {
-    //   final isLoggedIn = ref.watch(authProvider);
-    //   final onAuthScreen = state.name == AuthScreen.routeName;
-    //   if (isLoggedIn && onAuthScreen) return HomeScreen.route;
-    //   if (!isLoggedIn && !onAuthScreen) return AuthScreen.route;
-    //   return null;
-    // },
+    redirect: (context, state) {
+      final isLoggedIn = ref.watch(authProvider);
+      final onAuthScreen = state.name == AuthScreen.routeName;
+      if (isLoggedIn && onAuthScreen) return HomeScreen.route;
+      if (!isLoggedIn && !onAuthScreen) return AuthScreen.route;
+      return null;
+    },
   );
 });
 
