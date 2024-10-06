@@ -41,10 +41,10 @@ class ItemCard2 extends StatelessWidget {
                   fit: BoxFit.cover,
                   imageUrl: "",
                   placeholder: (context, url) => const DefaultImage(
-                    filePath: Strings.defaultRestaurantImagePath,
+                    filePath: Strings.defaultItemImagePath,
                   ),
                   errorWidget: (context, url, error) => const DefaultImage(
-                    filePath: Strings.defaultRestaurantImagePath,
+                    filePath: Strings.defaultItemImagePath,
                   ),
                 ),
               ),

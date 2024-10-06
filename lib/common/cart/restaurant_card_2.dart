@@ -59,10 +59,7 @@ class RestaurantCard2 extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        Helpers.truncateText(
-                          restaurant.title,
-                          21,
-                        ),
+                        Helpers.truncateText(restaurant.title, 21),
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: Sizes.font["md"],

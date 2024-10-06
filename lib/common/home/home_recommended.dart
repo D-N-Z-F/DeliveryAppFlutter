@@ -41,26 +41,3 @@ class HomeRecommended extends ConsumerWidget {
     );
   }
 }
-
-// SizedBox(
-//   height: 250,
-//   child: StreamBuilder(
-//     stream: restaurantRepo.getAllRestaurants(),
-//     builder: (context, snapshot) {
-//       if (snapshot.hasData) restaurants = snapshot.data!;
-//       return SizedBox(
-//         width: double.infinity,
-//         child: restaurants.isEmpty
-//             ? const EmptyDisplay()
-//             : ListView.builder(
-//                 scrollDirection: Axis.horizontal,
-//                 itemCount: restaurants.length,
-//                 itemBuilder: (context, index) => RestaurantCard(
-//                   restaurant: restaurants[index],
-//                   widthRatio: 0.8,
-//                 ),
-//               ),
-//       );
-//     },
-//   ),
-// )

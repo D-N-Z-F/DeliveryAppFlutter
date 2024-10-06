@@ -28,7 +28,9 @@ class RestaurantRepo {
   Future<Restaurant?> getRestaurantById(String id) async {
     final restaurant = await Helpers.globalErrorHandler(() async {
       final snapshot = await _collection.doc(id).get();
-      return snapshot.exists ? Restaurant.fromMap(snapshot.data()!) : null;
+      return snapshot.exists
+          ? Restaurant.fromMap(snapshot.data()!).copy(id: snapshot.id)
+          : null;
     });
     return restaurant;
   }

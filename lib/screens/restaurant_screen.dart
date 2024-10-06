@@ -69,6 +69,8 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen>
                           itemCount: items.length,
                           itemBuilder: (context, index) => ItemCard(
                             item: items[index],
+                            restaurantId: data.id!,
+                            restaurantTitle: data.title,
                           ),
                         ),
                       )

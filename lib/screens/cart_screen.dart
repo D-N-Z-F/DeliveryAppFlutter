@@ -5,6 +5,7 @@ import 'package:delivery_app_flutter/common/cart/restaurant_card_2.dart';
 import 'package:delivery_app_flutter/data/models/item.dart';
 import 'package:delivery_app_flutter/data/providers/cart_provider.dart';
 import 'package:delivery_app_flutter/data/providers/restaurant_provider.dart';
+import 'package:delivery_app_flutter/data/services/hive_service.dart';
 import 'package:delivery_app_flutter/utils/constants/sizes.dart';
 import 'package:delivery_app_flutter/utils/constants/strings.dart';
 import 'package:flutter/material.dart';

@@ -2,8 +2,10 @@
 import 'dart:convert';
 
 import 'package:delivery_app_flutter/data/models/cart.dart';
+import 'package:delivery_app_flutter/data/models/restaurant.dart';
 import 'package:delivery_app_flutter/utils/constants/strings.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';
 
 class HiveService {
@@ -43,7 +45,7 @@ class HiveService {
   Future<Cart?> getCartFromBox() async {
     await openBox();
     final id = await getUserIdFromBox();
-    final jsonString = await _box.get(id);
+    final jsonString = await _box.get("$id/cart");
     if (jsonString != null) {
       final Map<String, dynamic> cartMap = jsonDecode(jsonString);
       debugPrint("hive_service.dart\n$cartMap");
@@ -56,16 +58,58 @@ class HiveService {
     await openBox();
     final id = await getUserIdFromBox();
     final jsonString = jsonEncode(cart.toMap());
-    await _box.put(id, jsonString);
+    await _box.put("$id/cart", jsonString);
   }
 
   Future<void> deleteCartFromBox() async {
     await openBox();
     final id = await getUserIdFromBox();
-    await _box.delete(id);
+    await _box.delete("$id/cart");
   }
 
 //Cart Methods------------------------------------------------------------------
 
+//RecentSearch Methods----------------------------------------------------------
+
+  Future<List<Restaurant>> getRecentsFromBox() async {
+    await openBox();
+    final id = await getUserIdFromBox();
+    final jsonString = await _box.get("$id/recents");
+    List<Restaurant> recents = [];
+    if (jsonString != null) {
+      final List<dynamic> restaurants = jsonDecode(jsonString);
+      recents = restaurants
+          .map(
+            (restaurantMap) =>
+                Restaurant.fromMap(restaurantMap as Map<String, dynamic>),
+          )
+          .toList();
+    }
+    return recents;
+  }
+
+  Future<void> updateRecentsInBox(Restaurant restaurant) async {
+    await openBox();
+    final id = await getUserIdFromBox();
+    final recents = await getRecentsFromBox();
+    recents.remove(restaurant);
+    recents.add(restaurant);
+    if (recents.length > 10) recents.removeAt(0);
+    final jsonString = jsonEncode(
+      recents.map((restaurant) => restaurant.toMap()).toList(),
+    );
+    await _box.put("$id/recents", jsonString);
+  }
+
+  Future<void> deleteRecentsFromBox() async {
+    await openBox();
+    final id = getUserIdFromBox();
+    await _box.delete("$id/recents");
+  }
+
+//RecentSearch Methods----------------------------------------------------------
+
   Future<void> clearBox() async => await _box.clear();
 }
+
+final hiveProvider = Provider((ref) => HiveService());
