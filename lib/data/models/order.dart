@@ -4,7 +4,7 @@ class Order {
   final String? id;
   final Cart cart;
   final String dateCreated;
-  final double total;
+  final String total;
 
   Order({
     this.id,
@@ -17,7 +17,7 @@ class Order {
     String? id,
     Cart? cart,
     String? dateCreated,
-    double? total,
+    String? total,
   }) =>
       Order(
         id: id ?? this.id,

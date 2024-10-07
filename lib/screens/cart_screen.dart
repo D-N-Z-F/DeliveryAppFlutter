@@ -37,7 +37,7 @@ class CartScreen extends ConsumerWidget {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text("Cart"),
+            const Header(heading: "Cart", omitMargin: true),
             ElevatedButton(
               onPressed: deleteCart,
               child: const Icon(Icons.delete),

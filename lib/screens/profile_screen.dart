@@ -1,4 +1,6 @@
+import 'package:delivery_app_flutter/common/widgets/header.dart';
 import 'package:delivery_app_flutter/data/repositories/user_repo.dart';
+import 'package:delivery_app_flutter/screens/order_screen.dart';
 import 'package:delivery_app_flutter/screens/settings_screen.dart';
 import 'package:delivery_app_flutter/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +27,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final scheme = Theme.of(context).colorScheme;
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Profile"),
+          title: const Header(heading: "Profile", omitMargin: true),
         ),
         body: Column(
           children: [
@@ -54,7 +56,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   OutlinedButton(
-                    onPressed: null,
+                    onPressed: () => context.pushNamed(OrderScreen.routeName),
                     style: OutlinedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),

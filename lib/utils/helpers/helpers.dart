@@ -13,11 +13,11 @@ class Helpers {
   static bool isDarkMode(BuildContext context) =>
       Theme.of(context).brightness == Brightness.dark;
 
-  static String getFormattedDate(DateTime? date,
-      {String format = 'dd MM yyyy'}) {
-    date ??= DateTime.now();
-    return DateFormat(format).format(date);
-  }
+  static String getFormattedDate({
+    DateTime? date,
+    String format = 'MM/dd/yyyy HH:mm',
+  }) =>
+      DateFormat(format).format(date ?? DateTime.now());
 
   static List<T> removeDuplicates<T>(List<T> list) => list.toSet().toList();
 
@@ -27,8 +27,16 @@ class Helpers {
     } on FirebaseAuthException catch (e) {
       debugPrint(e.message);
     } catch (e, stackTrace) {
-      debugPrint(e.toString());
-      debugPrint(stackTrace.toString());
+      debugPrint("""
+        ------------------------------------------------------------------------
+        \n$e\n
+        ------------------------------------------------------------------------
+      """);
+      debugPrint("""
+        ------------------------------------------------------------------------
+        \n$stackTrace\n
+        ------------------------------------------------------------------------
+      """);
     }
     return null;
   }

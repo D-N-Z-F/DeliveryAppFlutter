@@ -1,3 +1,6 @@
+import 'package:delivery_app_flutter/data/models/order.dart';
+import 'package:delivery_app_flutter/data/repositories/order_repo.dart';
+import 'package:delivery_app_flutter/data/services/hive_service.dart';
 import 'package:delivery_app_flutter/utils/constants/strings.dart';
 import 'package:delivery_app_flutter/utils/helpers/helpers.dart';
 import 'package:dio/dio.dart';
@@ -39,23 +42,45 @@ class StripeService {
         return "";
       });
 
-  Future<void> makePayment(double amount, String currency) async {
-    await Helpers.globalErrorHandler(() async {
-      String? clientSecret = await _createPaymentIntent(amount, currency);
-      if (clientSecret == null || clientSecret.isEmpty) return;
-      await Stripe.instance.initPaymentSheet(
-        paymentSheetParameters: SetupPaymentSheetParameters(
-          paymentIntentClientSecret: clientSecret,
-          merchantDisplayName: Strings.appName,
-        ),
+  Future<void> makePayment(double amount, String currency) async =>
+      await Helpers.globalErrorHandler(
+        () async {
+          String? clientSecret = await _createPaymentIntent(amount, currency);
+          if (clientSecret == null || clientSecret.isEmpty) return;
+          await Stripe.instance.initPaymentSheet(
+            paymentSheetParameters: SetupPaymentSheetParameters(
+              paymentIntentClientSecret: clientSecret,
+              merchantDisplayName: Strings.appName,
+            ),
+          );
+          await _processPayment(amount);
+          await generateOrderDetails(amount);
+        },
       );
-      await _processPayment();
-    });
-  }
 
-  Future<void> _processPayment() async =>
+  Future<void> _processPayment(double amount) async =>
       await Helpers.globalErrorHandler(() async {
         await Stripe.instance.presentPaymentSheet();
-        await Stripe.instance.confirmPaymentSheetPayment();
+        await generateOrderDetails(amount);
       });
+
+  Future<void> generateOrderDetails(double amount) async {
+    await Helpers.globalErrorHandler(
+      () async {
+        final hive = HiveService();
+        final cart = await hive.getCartFromBox();
+        final dateCreated = Helpers.getFormattedDate();
+        if (cart != null) {
+          await OrderRepo().createOrder(
+            Order(
+              cart: cart,
+              dateCreated: dateCreated,
+              total: amount.toStringAsFixed(2),
+            ),
+          );
+          await hive.deleteCartFromBox();
+        }
+      },
+    );
+  }
 }
