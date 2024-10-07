@@ -14,6 +14,7 @@ import 'package:delivery_app_flutter/screens/tab_container_screen.dart';
 import 'package:delivery_app_flutter/data/providers/theme_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -23,6 +24,7 @@ void main() async {
   await HiveService().openBox();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await dotenv.load(fileName: ".env");
   await StripeService().init();
   runApp(const ProviderScope(child: MyApp()));
 }
