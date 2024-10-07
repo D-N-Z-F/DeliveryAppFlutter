@@ -1,10 +1,8 @@
-import 'package:delivery_app_flutter/screens/update_profile_screen.dart';
 import 'package:delivery_app_flutter/utils/constants/themes.dart';
 import 'package:delivery_app_flutter/data/providers/theme_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
