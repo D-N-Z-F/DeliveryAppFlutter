@@ -70,7 +70,7 @@ class Restaurant {
 
   @override
   String toString() =>
-      "Restaurant(ID: $id, Title: $title, Desc: $desc, Rating: $rating, Item Categories: $itemCategories)\nItems: $items";
+      "Restaurant(ID: $id, Title: $title, Desc: $desc, Rating: $rating, Item Categories: $itemCategories, Image URL: $imageUrl, Items: $items)";
 
   @override
   bool operator ==(Object other) {

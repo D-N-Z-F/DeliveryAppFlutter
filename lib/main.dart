@@ -1,9 +1,9 @@
-import 'package:delivery_app_flutter/data/models/cart.dart';
-import 'package:delivery_app_flutter/data/models/item.dart';
 import 'package:delivery_app_flutter/data/providers/auth_provider.dart';
 import 'package:delivery_app_flutter/data/services/hive_service.dart';
+import 'package:delivery_app_flutter/data/services/stripe_service.dart';
 import 'package:delivery_app_flutter/screens/auth.dart';
 import 'package:delivery_app_flutter/screens/cart_screen.dart';
+import 'package:delivery_app_flutter/screens/checkout_screen.dart';
 import 'package:delivery_app_flutter/screens/restaurant_screen.dart';
 import 'package:delivery_app_flutter/screens/search_screen.dart';
 import 'package:delivery_app_flutter/firebase_options.dart';
@@ -20,68 +20,11 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {
   await Hive.initFlutter();
-  final hive = HiveService();
-  await hive.openBox();
+  await HiveService().openBox();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  // await test();
+  await StripeService().init();
   runApp(const ProviderScope(child: MyApp()));
-}
-
-Future<void> test() async {
-  // final restaurantRepo = RestaurantRepo();
-
-  // for (final each in data) {
-  //   restaurantRepo.createRestaurant(each);
-  // }
-
-  final cart = Cart(
-      userId: await HiveService().getUserIdFromBox(),
-      restaurantId: "1JuqPbGuMKAxDi6NUZjy",
-      restaurantTitle: "Taco Fiesta",
-      items: [
-        Item(
-            title: "Carne Asada Taco",
-            desc: "Grilled steak with guacamole.",
-            price: 3.99,
-            category: "Beef"),
-        Item(
-            title: "Carne Asada Taco",
-            desc: "Grilled steak with guacamole.",
-            price: 3.99,
-            category: "Beef"),
-        Item(
-            title: "Carne Asada Taco",
-            desc: "Grilled steak with guacamole.",
-            price: 3.99,
-            category: "Beef"),
-        Item(
-            title: "Carne Asada Taco",
-            desc: "Grilled steak with guacamole.",
-            price: 3.99,
-            category: "Beef"),
-        Item(
-            title: "Fish Taco",
-            desc: "Battered fish with salsa.",
-            price: 4.49,
-            category: "Fish"),
-        Item(
-            title: "Fish Taco",
-            desc: "Battered fish with salsa.",
-            price: 4.49,
-            category: "Fish"),
-        Item(
-            title: "Fish Taco",
-            desc: "Battered fish with salsa.",
-            price: 4.49,
-            category: "Fish"),
-        Item(
-            title: "Fish Taco",
-            desc: "Battered fish with salsa.",
-            price: 4.49,
-            category: "Fish")
-      ]);
-  await HiveService().updateCartInBox(cart);
 }
 
 final routerProvider = Provider<GoRouter>((ref) {
@@ -129,6 +72,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => RestaurantScreen(
           id: state.pathParameters["id"]!,
         ),
+      ),
+      GoRoute(
+        path: CheckoutScreen.route,
+        name: CheckoutScreen.routeName,
+        builder: (context, state) => const CheckoutScreen(),
       )
     ],
     redirect: (context, state) {

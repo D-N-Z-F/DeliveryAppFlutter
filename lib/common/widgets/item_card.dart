@@ -51,7 +51,7 @@ class ItemCard extends StatelessWidget {
                   height: 75,
                   width: double.infinity,
                   fit: BoxFit.cover,
-                  imageUrl: "",
+                  imageUrl: item.imageUrl,
                   placeholder: (context, url) => const DefaultImage(
                     filePath: Strings.defaultItemImagePath,
                   ),

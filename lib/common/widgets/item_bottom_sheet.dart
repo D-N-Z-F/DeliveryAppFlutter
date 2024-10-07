@@ -3,6 +3,7 @@ import 'package:delivery_app_flutter/common/widgets/default_image.dart';
 import 'package:delivery_app_flutter/data/models/cart.dart';
 import 'package:delivery_app_flutter/data/models/item.dart';
 import 'package:delivery_app_flutter/data/providers/cart_provider.dart';
+import 'package:delivery_app_flutter/data/repositories/user_repo.dart';
 import 'package:delivery_app_flutter/data/services/hive_service.dart';
 import 'package:delivery_app_flutter/utils/constants/sizes.dart';
 import 'package:delivery_app_flutter/utils/constants/strings.dart';
@@ -20,27 +21,27 @@ class ItemBottomSheet extends ConsumerWidget {
     required this.restaurantId,
     required this.restaurantTitle,
   });
-  final counterProvider = StateProvider<int>((ref) => 0);
+  final _counterProvider = StateProvider<int>((ref) => 1);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final counter = ref.watch(counterProvider);
+    final counter = ref.watch(_counterProvider);
     final scheme = Theme.of(context).colorScheme;
     final hive = HiveService();
+    final userRepo = UserRepo();
 
     Future<Cart> getCartForRestaurant() async {
       Cart? cart = await hive.getCartFromBox();
-      debugPrint("${cart != null && cart.restaurantId != restaurantId}");
       if (cart != null && cart.restaurantId != restaurantId) {
         await hive.deleteCartFromBox();
         return Cart(
-          userId: await hive.getUserIdFromBox(),
+          userId: userRepo.getUid()!,
           restaurantId: restaurantId,
           restaurantTitle: restaurantTitle,
         );
       }
       return cart ??= Cart(
-        userId: await hive.getUserIdFromBox(),
+        userId: userRepo.getUid()!,
         restaurantId: restaurantId,
         restaurantTitle: restaurantTitle,
       );
@@ -75,7 +76,7 @@ class ItemBottomSheet extends ConsumerWidget {
             height: 200,
             width: double.infinity,
             fit: BoxFit.cover,
-            imageUrl: "",
+            imageUrl: item.imageUrl,
             placeholder: (context, url) => const DefaultImage(
               filePath: Strings.defaultItemImagePath,
             ),
@@ -132,7 +133,7 @@ class ItemBottomSheet extends ConsumerWidget {
             children: [
               ElevatedButton(
                 onPressed: () => counter > 0
-                    ? ref.read(counterProvider.notifier).state--
+                    ? ref.read(_counterProvider.notifier).state--
                     : null,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: scheme.inversePrimary,
@@ -150,13 +151,14 @@ class ItemBottomSheet extends ConsumerWidget {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: scheme.inversePrimary,
                   shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.zero),
+                    borderRadius: BorderRadius.zero,
+                  ),
                 ),
                 child: const Icon(Icons.shopping_cart),
               ),
               ElevatedButton(
                 onPressed: () => counter < 10
-                    ? ref.read(counterProvider.notifier).state++
+                    ? ref.read(_counterProvider.notifier).state++
                     : null,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: scheme.inversePrimary,

@@ -6,10 +6,12 @@ import 'package:delivery_app_flutter/data/models/item.dart';
 import 'package:delivery_app_flutter/data/providers/cart_provider.dart';
 import 'package:delivery_app_flutter/data/providers/restaurant_provider.dart';
 import 'package:delivery_app_flutter/data/services/hive_service.dart';
+import 'package:delivery_app_flutter/screens/checkout_screen.dart';
 import 'package:delivery_app_flutter/utils/constants/sizes.dart';
 import 'package:delivery_app_flutter/utils/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class CartScreen extends ConsumerWidget {
   const CartScreen({super.key});
@@ -19,11 +21,15 @@ class CartScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final cart = ref.watch(cartProvider);
+    final data = ref.watch(cartProvider);
 
     void deleteCart() {
       ref.read(hiveProvider).deleteCartFromBox();
       ref.invalidate(cartProvider);
+    }
+
+    void navigateToCheckoutScreen() {
+      context.pushNamed(CheckoutScreen.routeName);
     }
 
     return Scaffold(
@@ -39,18 +45,16 @@ class CartScreen extends ConsumerWidget {
           ],
         ),
       ),
-      body: cart.when(
-        data: (data) {
-          if (data == null) {
+      body: data.when(
+        data: (cart) {
+          if (cart == null) {
             return const EmptyDisplay(message: Strings.cartDisplayMessage);
           }
-          final restaurant = ref.watch(restaurantProvider(data.restaurantId));
-          return restaurant.when(
-            data: (data2) {
+          final data2 = ref.watch(restaurantProvider(cart.restaurantId));
+          return data2.when(
+            data: (restaurant) {
               final items = <Item, int>{};
-              for (final item in data.items) {
-                debugPrint(item.toString());
-                debugPrint(items.keys.toString());
+              for (final item in cart.items) {
                 items[item] = (items[item] ?? 0) + 1;
               }
               return SingleChildScrollView(
@@ -58,7 +62,7 @@ class CartScreen extends ConsumerWidget {
                   padding: const EdgeInsets.all(Sizes.sm),
                   child: Column(
                     children: [
-                      RestaurantCard2(restaurant: data2!),
+                      RestaurantCard2(restaurant: restaurant!),
                       const Header(heading: "Items"),
                       items.isNotEmpty
                           ? ListView.builder(
@@ -72,12 +76,28 @@ class CartScreen extends ConsumerWidget {
                                   item: item,
                                   quantity: quantity,
                                   price: item.price * quantity,
+                                  restaurantId: restaurant.id!,
+                                  restaurantTitle: restaurant.title,
                                 );
                               },
                             )
                           : const EmptyDisplay(
                               message: "No items found. Go add some!",
                             ),
+                      Container(
+                        margin: const EdgeInsets.only(top: Sizes.md),
+                        child: ElevatedButton(
+                          onPressed: navigateToCheckoutScreen,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                Theme.of(context).colorScheme.inversePrimary,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(Sizes.sm),
+                            ),
+                          ),
+                          child: const Text("Proceed To Checkout"),
+                        ),
+                      ),
                     ],
                   ),
                 ),
