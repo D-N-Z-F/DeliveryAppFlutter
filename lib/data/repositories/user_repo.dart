@@ -37,5 +37,16 @@ class UserRepo {
     await Helpers.globalErrorHandler(() => _auth.signOut());
   }
 
+  Future<models.User?> getUserById() async {
+    final user = await Helpers.globalErrorHandler(() async {
+      final id = getUid();
+      final snapshot = await _collection.doc(id).get();
+      return snapshot.exists
+          ? models.User.fromMap(snapshot.data()!).copy(id: id)
+          : null;
+    });
+    return user;
+  }
+
   String? getUid() => _auth.currentUser?.uid;
 }

@@ -1,28 +1,39 @@
+import 'package:delivery_app_flutter/common/widgets/empty_display.dart';
+import 'package:delivery_app_flutter/data/providers/user_provider.dart';
 import 'package:delivery_app_flutter/data/repositories/user_repo.dart';
 import 'package:delivery_app_flutter/screens/settings_screen.dart';
+import 'package:delivery_app_flutter/screens/update_profile_screen.dart';
 import 'package:delivery_app_flutter/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class ProfileScreen extends StatefulWidget {
+class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
 
   static const route = "/profile";
   static const routeName = "Profile";
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  ConsumerState<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _ProfileScreenState extends ConsumerState<ProfileScreen> {
+  final userRepo = UserRepo();
+
   void _navigateToSettings() {
     context.push(SettingsScreen.route);
   }
 
+   void navigateToUpdateProfile() {
+    context.push(UpdateProfileScreen.route);
+  }
+
+
   @override
   Widget build(BuildContext context) {
-    final userRepo = UserRepo();
     final scheme = Theme.of(context).colorScheme;
+    final data = ref.watch(userProvider);
     return Scaffold(
         appBar: AppBar(
           title: const Text("Profile"),
@@ -30,24 +41,45 @@ class _ProfileScreenState extends State<ProfileScreen> {
         body: Column(
           children: [
             Container(
-              decoration: BoxDecoration(
-                  color: scheme.primary,
-                  borderRadius: BorderRadius.circular(12.0)),
-              margin: const EdgeInsets.only(left: 10, top: 10, right: 10),
-              padding: const EdgeInsets.all(15),
-              child: Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 30),
-                    child: Icon(
-                      Icons.person_2,
-                      size: Sizes.icon["xxl"],
-                    ),
+                decoration: BoxDecoration(
+                    color: scheme.primary,
+                    borderRadius: BorderRadius.circular(12.0)),
+                margin: const EdgeInsets.only(left: 10, top: 10, right: 10),
+                padding: const EdgeInsets.all(15),
+                child: data.when(
+                  data: (user) {
+                    if (user == null) {
+                      return const Text("User not found");
+                    }
+                    return Row(
+                      children: [
+                        SizedBox(
+                            child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              user.username,
+                              style: const TextStyle(fontSize: Sizes.fontLg),
+                            ),
+                            Text("Email: ${user.email}")
+                          ],
+                        )),
+                        const Spacer(),
+                        GestureDetector(
+                          onTap: navigateToUpdateProfile,
+                          child: Icon(
+                            Icons.edit,
+                            size: Sizes.icon["lg"],
+                          ),
+                        )
+                      ],
+                    );
+                  },
+                  error: (_, __) => const EmptyDisplay(),
+                  loading: () => const Center(
+                    child: CircularProgressIndicator(),
                   ),
-                  const Expanded(child: Text("Name"))
-                ],
-              ),
-            ),
+                )),
             Container(
               margin: const EdgeInsets.only(top: 20),
               child: Row(

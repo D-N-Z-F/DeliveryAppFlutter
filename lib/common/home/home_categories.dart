@@ -1,13 +1,23 @@
 import 'package:delivery_app_flutter/common/widgets/header.dart';
+import 'package:delivery_app_flutter/screens/categories_screen.dart';
 import 'package:delivery_app_flutter/utils/constants/enums.dart';
 import 'package:delivery_app_flutter/utils/helpers/helpers.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeCategories extends StatelessWidget {
   const HomeCategories({super.key});
 
   @override
   Widget build(BuildContext context) {
+    void navigateToCategories(Categories category) {
+      final name = category.enumToString();
+      context.pushNamed(
+        CategoriesScreen.routeName,
+        pathParameters: {'name': name},
+      );
+    }
+
     return SliverToBoxAdapter(
       child: Column(
         children: [
@@ -21,7 +31,7 @@ class HomeCategories extends StatelessWidget {
               itemBuilder: (context, index) {
                 final category = Categories.values[index];
                 return GestureDetector(
-                  onTap: () {},
+                  onTap: () => navigateToCategories(category),
                   child: Column(
                     children: [
                       Container(
