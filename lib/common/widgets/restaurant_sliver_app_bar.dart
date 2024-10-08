@@ -2,10 +2,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:delivery_app_flutter/common/widgets/default_image.dart';
 import 'package:delivery_app_flutter/common/widgets/restaurant_tab_bar.dart';
 import 'package:delivery_app_flutter/data/models/restaurant.dart';
+import 'package:delivery_app_flutter/data/providers/favorites_provider.dart';
 import 'package:delivery_app_flutter/utils/constants/sizes.dart';
 import 'package:delivery_app_flutter/utils/constants/strings.dart';
 import 'package:delivery_app_flutter/utils/helpers/helpers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class RestaurantSliverAppBar extends StatelessWidget {
   final TabController tabController;
@@ -19,6 +21,7 @@ class RestaurantSliverAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
+
     return SliverAppBar(
       iconTheme: IconThemeData(color: scheme.tertiary),
       pinned: true,
@@ -100,6 +103,28 @@ class RestaurantSliverAppBar extends StatelessWidget {
                 ),
               ),
             ),
+            Positioned(
+                top: 30,
+                right: 10,
+                child: Consumer(
+                  builder: (context, ref, child) {
+                    final isFavorited =
+                        ref.watch(favoriteProvider(restaurant.id!));
+
+                    return IconButton(
+                      icon: Icon(
+                        isFavorited ? Icons.favorite : Icons.favorite_border,
+                        color: isFavorited ? Colors.red : Colors.white,
+                        size: 28,
+                      ),
+                      onPressed: () {
+                        ref
+                            .read(favoriteProvider(restaurant.id!).notifier)
+                            .state = !isFavorited;
+                      },
+                    );
+                  },
+                )),
           ],
         ),
         title: RestaurantTabBar(

@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:delivery_app_flutter/common/widgets/default_image.dart';
 import 'package:delivery_app_flutter/data/models/restaurant.dart';
+import 'package:delivery_app_flutter/data/providers/favorites_provider.dart';
 import 'package:delivery_app_flutter/screens/restaurant_screen.dart';
 import 'package:delivery_app_flutter/utils/constants/enums.dart';
 import 'package:delivery_app_flutter/utils/constants/sizes.dart';
@@ -8,11 +9,13 @@ import 'package:delivery_app_flutter/utils/constants/strings.dart';
 import 'package:delivery_app_flutter/utils/device_utils/device_utils.dart';
 import 'package:delivery_app_flutter/utils/helpers/helpers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class RestaurantCard extends StatelessWidget {
+class RestaurantCard extends ConsumerWidget {
   final Restaurant restaurant;
   final double widthRatio;
+
   const RestaurantCard({
     super.key,
     required this.restaurant,
@@ -20,7 +23,7 @@ class RestaurantCard extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final cardWidth =
         DeviceUtils.getDimensions(context, DimensionType.screenWidth) *
             widthRatio;
@@ -28,6 +31,7 @@ class RestaurantCard extends StatelessWidget {
       context.pushNamed(RestaurantScreen.routeName, pathParameters: {"id": id});
     }
 
+    final isFavorited = ref.watch(favoriteProvider(restaurant.id!));
     return GestureDetector(
       onTap: () => navigateToRestaurant(restaurant.id!),
       child: Card(
@@ -39,27 +43,51 @@ class RestaurantCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
-              width: cardWidth,
-              child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(10.0),
-                  topRight: Radius.circular(10.0),
-                ),
-                child: CachedNetworkImage(
-                  height: 150,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                  imageUrl: restaurant.imageUrl,
-                  placeholder: (context, url) => const DefaultImage(
-                    filePath: Strings.defaultRestaurantImagePath,
+            Stack(children: [
+              SizedBox(
+                width: cardWidth,
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(10.0),
+                    topRight: Radius.circular(10.0),
                   ),
-                  errorWidget: (context, url, error) => const DefaultImage(
-                    filePath: Strings.defaultRestaurantImagePath,
+                  child: CachedNetworkImage(
+                    height: 150,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                    imageUrl: restaurant.imageUrl,
+                    placeholder: (context, url) => const DefaultImage(
+                      filePath: Strings.defaultRestaurantImagePath,
+                    ),
+                    errorWidget: (context, url, error) => const DefaultImage(
+                      filePath: Strings.defaultRestaurantImagePath,
+                    ),
                   ),
                 ),
               ),
-            ),
+              Positioned(
+                top: 8,
+                right: 8,
+                child: GestureDetector(
+                  onTap: () {
+                    ref.read(favoriteProvider(restaurant.id!).notifier).state =
+                        !isFavorited;
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.white.withOpacity(0.9),
+                    ),
+                    padding: const EdgeInsets.all(8),
+                    child: Icon(
+                      isFavorited ? Icons.favorite : Icons.favorite_border,
+                      color: isFavorited ? Colors.red : Colors.grey,
+                      size: 24,
+                    ),
+                  ),
+                ),
+              ),
+            ]),
             SizedBox(
               width: cardWidth,
               child: Container(
