@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:delivery_app_flutter/common/widgets/default_image.dart';
 import 'package:delivery_app_flutter/common/widgets/restaurant_tab_bar.dart';
 import 'package:delivery_app_flutter/data/models/restaurant.dart';
+import 'package:delivery_app_flutter/utils/constants/enums.dart';
 import 'package:delivery_app_flutter/utils/constants/sizes.dart';
 import 'package:delivery_app_flutter/utils/constants/strings.dart';
 import 'package:delivery_app_flutter/utils/helpers/helpers.dart';
@@ -20,7 +21,7 @@ class RestaurantSliverAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
     return SliverAppBar(
-      iconTheme: IconThemeData(color: scheme.tertiary),
+      iconTheme: IconThemeData(color: scheme.get(MainColors.tertiaryFixed)),
       pinned: true,
       floating: true,
       expandedHeight: 250,
@@ -65,7 +66,7 @@ class RestaurantSliverAppBar extends StatelessWidget {
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: Sizes.fontLg,
-                            color: scheme.tertiary,
+                            color: scheme.get(MainColors.tertiaryFixed),
                           ),
                         ),
                         Row(
@@ -75,7 +76,7 @@ class RestaurantSliverAppBar extends StatelessWidget {
                                   .clamp(0.0, 5.0)
                                   .toStringAsFixed(2),
                               style: TextStyle(
-                                color: scheme.tertiary,
+                                color: scheme.get(MainColors.tertiaryFixed),
                                 fontSize: Sizes.fontLg,
                               ),
                             ),
@@ -93,7 +94,7 @@ class RestaurantSliverAppBar extends StatelessWidget {
                       restaurant.category.enumToString(),
                       style: TextStyle(
                         fontSize: Sizes.fontMd,
-                        color: scheme.tertiary,
+                        color: scheme.get(MainColors.tertiaryFixed),
                       ),
                     )
                   ],

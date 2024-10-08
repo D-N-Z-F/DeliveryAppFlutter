@@ -31,29 +31,39 @@ import 'package:google_fonts/google_fonts.dart';
 // );
 
 final ThemeData lightTheme = ThemeData(
-  textTheme: GoogleFonts.poppinsTextTheme(),
+  textTheme: GoogleFonts.poppinsTextTheme().apply(
+    bodyColor: MyColors.darkAccent,
+    displayColor: MyColors.darkAccent,
+  ),
   brightness: Brightness.light,
   scaffoldBackgroundColor: MyColors.lightSurface,
   colorScheme: const ColorScheme.light(
     surface: MyColors.lightSurface,
-    primary: MyColors.primary,
+    inverseSurface: MyColors.darkSurface,
+    primary: MyColors.lightPrimary,
+    inversePrimary: MyColors.darkPrimary,
     secondary: MyColors.lightAccent,
-    tertiary: MyColors.lightText,
-    inversePrimary: MyColors.darkText,
+    tertiary: MyColors.darkAccent,
+    tertiaryFixed: MyColors.lightSurface,
   ),
   useMaterial3: true,
 );
 
 final ThemeData darkTheme = ThemeData(
-  textTheme: GoogleFonts.poppinsTextTheme(),
+  textTheme: GoogleFonts.poppinsTextTheme().apply(
+    bodyColor: MyColors.lightAccent,
+    displayColor: MyColors.lightAccent,
+  ),
   brightness: Brightness.dark,
   scaffoldBackgroundColor: MyColors.darkSurface,
   colorScheme: const ColorScheme.dark(
     surface: MyColors.darkSurface,
-    primary: MyColors.primary,
+    inverseSurface: MyColors.lightSurface,
+    primary: MyColors.darkPrimary,
+    inversePrimary: MyColors.lightPrimary,
     secondary: MyColors.darkAccent,
-    tertiary: MyColors.darkText,
-    inversePrimary: MyColors.lightText,
+    tertiary: MyColors.lightAccent,
+    tertiaryFixed: MyColors.lightSurface,
   ),
   useMaterial3: true,
 );

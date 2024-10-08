@@ -71,8 +71,11 @@ extension StringHelpers on String {
 extension ColorSchemeHelpers on ColorScheme {
   Color get(MainColors mainColor) => switch (mainColor) {
         MainColors.surface => surface,
+        MainColors.inverseSurface => inverseSurface,
         MainColors.primary => primary,
+        MainColors.inversePrimary => inversePrimary,
         MainColors.secondary => secondary,
         MainColors.tertiary => tertiary,
+        MainColors.tertiaryFixed => tertiaryFixed,
       };
 }
