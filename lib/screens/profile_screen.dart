@@ -1,5 +1,6 @@
 import 'package:delivery_app_flutter/common/widgets/header.dart';
 import 'package:delivery_app_flutter/data/repositories/user_repo.dart';
+import 'package:delivery_app_flutter/screens/favourites_screen.dart';
 import 'package:delivery_app_flutter/screens/order_screen.dart';
 import 'package:delivery_app_flutter/screens/settings_screen.dart';
 import 'package:delivery_app_flutter/utils/constants/sizes.dart';
@@ -77,7 +78,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ),
                   OutlinedButton(
-                    onPressed: null,
+                    onPressed: () =>
+                        context.pushNamed(FavouritesScreen.routeName),
                     style: OutlinedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),

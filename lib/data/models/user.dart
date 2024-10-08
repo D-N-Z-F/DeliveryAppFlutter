@@ -1,9 +1,11 @@
+import 'package:delivery_app_flutter/data/models/restaurant.dart';
+
 class User {
   final String? id;
   final String email;
   final String username;
   final List<String> orderHistory;
-  final List<String> favourites;
+  final List<Restaurant> favourites;
 
   User({
     this.id,
@@ -18,7 +20,7 @@ class User {
     String? email,
     String? username,
     List<String>? orderHistory,
-    List<String>? favourites,
+    List<Restaurant>? favourites,
   }) =>
       User(
         id: id ?? this.id,
@@ -32,17 +34,21 @@ class User {
         "email": email,
         "username": username,
         "orderHistory": orderHistory,
-        "favourites": favourites
+        "favourites": favourites.map((favourite) => favourite.toMap()).toList(),
       };
 
   static User fromMap(Map<String, dynamic> map) => User(
         email: map["email"],
         username: map["username"],
-        orderHistory: map["orderHistory"],
-        favourites: map["favourites"],
+        orderHistory: List<String>.from(map["orderHistory"]),
+        favourites: List<Restaurant>.from(
+          map["favourites"].map(
+            (restaurantMap) => Restaurant.fromMap(restaurantMap),
+          ),
+        ),
       );
 
   @override
   String toString() =>
-      "User(ID: $id, Email: $email, Username: $username, Order History: $orderHistory)";
+      "User(ID: $id, Email: $email, Username: $username, Order History: $orderHistory, Favourites: $favourites)";
 }
