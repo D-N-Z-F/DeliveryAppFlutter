@@ -24,6 +24,7 @@ class RestaurantCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final scheme = Theme.of(context).colorScheme;
     final cardWidth =
         DeviceUtils.getDimensions(context, DimensionType.screenWidth) *
             widthRatio;
@@ -35,7 +36,7 @@ class RestaurantCard extends ConsumerWidget {
     return GestureDetector(
       onTap: () => navigateToRestaurant(restaurant.id!),
       child: Card(
-        color: Colors.grey[50],
+        color: scheme.get(MainColors.secondary),
         margin: const EdgeInsets.all(Sizes.sm),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(Sizes.cardRadiusSm),

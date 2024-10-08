@@ -1,5 +1,8 @@
+import 'package:delivery_app_flutter/common/widgets/header.dart';
+import 'package:delivery_app_flutter/utils/constants/enums.dart';
 import 'package:delivery_app_flutter/utils/constants/themes.dart';
 import 'package:delivery_app_flutter/data/providers/theme_provider.dart';
+import 'package:delivery_app_flutter/utils/helpers/helpers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,7 +24,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Settings"),
+          title: const Header(heading: "Settings", omitMargin: true),
           backgroundColor: scheme.surface,
         ),
         backgroundColor: scheme.surface,
@@ -39,17 +42,18 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   Text(
                     "Dark Mode",
                     style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: scheme.inversePrimary),
+                      fontWeight: FontWeight.bold,
+                      color: scheme.get(MainColors.tertiary),
+                    ),
                   ),
                   CupertinoSwitch(
-                      value: ref.watch(themeProvider) == darkTheme,
-                      onChanged: (value) {
-                        ref.read(themeProvider.notifier).toggleTheme();
-                      })
+                    value: ref.watch(themeProvider) == darkTheme,
+                    onChanged: (value) =>
+                        ref.read(themeProvider.notifier).toggleTheme(),
+                  )
                 ],
               ),
-            )
+            ),
           ],
         ));
   }

@@ -20,4 +20,17 @@ enum Categories {
   miscellaneous
 }
 
-enum MainColors { surface, primary, secondary, tertiary }
+enum MainColors {
+  surface,
+  inverseSurface,
+  primary,
+  inversePrimary,
+  secondary,
+  tertiary,
+  tertiaryFixed,
+}
+
+enum PaymentStatus {
+  isCancelled,
+  isConfirmed,
+}

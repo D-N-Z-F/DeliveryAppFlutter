@@ -5,6 +5,7 @@ import 'package:delivery_app_flutter/data/models/item.dart';
 import 'package:delivery_app_flutter/data/providers/cart_provider.dart';
 import 'package:delivery_app_flutter/data/repositories/user_repo.dart';
 import 'package:delivery_app_flutter/data/services/hive_service.dart';
+import 'package:delivery_app_flutter/utils/constants/enums.dart';
 import 'package:delivery_app_flutter/utils/constants/sizes.dart';
 import 'package:delivery_app_flutter/utils/constants/strings.dart';
 import 'package:delivery_app_flutter/utils/helpers/helpers.dart';
@@ -97,10 +98,9 @@ class ItemBottomSheet extends ConsumerWidget {
                   children: [
                     Text(
                       Helpers.truncateText(item.title, 21),
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: Sizes.font["md"],
-                        color: scheme.inversePrimary,
+                        fontSize: Sizes.fontMd,
                       ),
                     ),
                     Text(
@@ -111,21 +111,13 @@ class ItemBottomSheet extends ConsumerWidget {
                 ),
                 Container(
                   margin: const EdgeInsets.only(top: Sizes.sm),
-                  child: Text(
-                    item.desc,
-                    style: TextStyle(
-                      color: scheme.inversePrimary,
-                    ),
-                  ),
+                  child: Text(item.desc),
                 ),
               ],
             ),
           ),
         ),
-        Text(
-          "Quantity To Be Added: $counter",
-          style: TextStyle(color: scheme.inversePrimary),
-        ),
+        Text("Quantity To Be Added: $counter"),
         Container(
           margin: const EdgeInsets.all(Sizes.lg),
           child: Row(
@@ -136,7 +128,7 @@ class ItemBottomSheet extends ConsumerWidget {
                     ? ref.read(_counterProvider.notifier).state--
                     : null,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: scheme.inversePrimary,
+                  backgroundColor: scheme.get(MainColors.secondary),
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(Sizes.sm),
@@ -149,7 +141,7 @@ class ItemBottomSheet extends ConsumerWidget {
               ElevatedButton(
                 onPressed: () => addItemToCart(counter),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: scheme.inversePrimary,
+                  backgroundColor: scheme.get(MainColors.secondary),
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.zero,
                   ),
@@ -161,7 +153,7 @@ class ItemBottomSheet extends ConsumerWidget {
                     ? ref.read(_counterProvider.notifier).state++
                     : null,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: scheme.inversePrimary,
+                  backgroundColor: scheme.get(MainColors.secondary),
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
                       topRight: Radius.circular(Sizes.sm),

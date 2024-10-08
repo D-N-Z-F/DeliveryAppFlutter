@@ -4,8 +4,10 @@ import 'package:delivery_app_flutter/common/widgets/item_bottom_sheet.dart';
 import 'package:delivery_app_flutter/data/models/item.dart';
 import 'package:delivery_app_flutter/data/providers/cart_provider.dart';
 import 'package:delivery_app_flutter/data/services/hive_service.dart';
+import 'package:delivery_app_flutter/utils/constants/enums.dart';
 import 'package:delivery_app_flutter/utils/constants/sizes.dart';
 import 'package:delivery_app_flutter/utils/constants/strings.dart';
+import 'package:delivery_app_flutter/utils/helpers/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -26,6 +28,7 @@ class ItemCard2 extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final scheme = Theme.of(context).colorScheme;
     void removeItemFromCart() async {
       final hive = HiveService();
       final cart = await hive.getCartFromBox();
@@ -51,7 +54,7 @@ class ItemCard2 extends ConsumerWidget {
         ),
       ),
       child: Card(
-        color: Colors.grey[50],
+        color: scheme.get(MainColors.secondary),
         margin: const EdgeInsets.all(Sizes.sm),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(Sizes.cardRadiusSm),
@@ -112,11 +115,15 @@ class ItemCard2 extends ConsumerWidget {
                   minimumSize: const Size(40, 40),
                   maximumSize: const Size(40, 40),
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  backgroundColor: scheme.get(MainColors.surface),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(Sizes.sm),
                   ),
                 ),
-                label: const Icon(Icons.delete),
+                label: Icon(
+                  Icons.delete,
+                  color: scheme.get(MainColors.primary),
+                ),
               ),
             ),
           ],

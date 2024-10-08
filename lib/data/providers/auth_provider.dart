@@ -14,3 +14,5 @@ class AuthProvider extends StateNotifier<bool> {
 final authProvider = StateNotifierProvider<AuthProvider, bool>(
   (ref) => AuthProvider(),
 );
+
+final authStateProvider = StateProvider<bool>((ref) => false);

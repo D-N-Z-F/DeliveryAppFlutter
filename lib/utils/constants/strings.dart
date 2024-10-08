@@ -10,8 +10,9 @@ class Strings {
 
   static const userToken = "userToken";
 
-  static const defaultDisplayMessage = "No data to show.";
+  static const defaultDisplayMessage = "Nothing to show.";
   static const searchDisplayMessage = "Search result not found.";
+  static const userDisplayMessage = "No user found.";
   static const cartDisplayMessage = "No cart found. Go add items!";
   static const defaultErrorMessage = "Something went wrong...";
 
