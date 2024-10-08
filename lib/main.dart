@@ -2,13 +2,16 @@ import 'package:delivery_app_flutter/data/providers/auth_provider.dart';
 import 'package:delivery_app_flutter/data/services/hive_service.dart';
 import 'package:delivery_app_flutter/data/services/stripe_service.dart';
 import 'package:delivery_app_flutter/screens/auth.dart';
+import 'package:delivery_app_flutter/screens/cart_screen.dart';
 import 'package:delivery_app_flutter/screens/checkout_screen.dart';
 import 'package:delivery_app_flutter/screens/favourites_screen.dart';
 import 'package:delivery_app_flutter/screens/order_screen.dart';
 import 'package:delivery_app_flutter/screens/categories_screen.dart';
 import 'package:delivery_app_flutter/screens/restaurant_screen.dart';
+import 'package:delivery_app_flutter/screens/search_screen.dart';
 import 'package:delivery_app_flutter/firebase_options.dart';
 import 'package:delivery_app_flutter/screens/home.dart';
+import 'package:delivery_app_flutter/screens/profile_screen.dart';
 import 'package:delivery_app_flutter/screens/settings_screen.dart';
 import 'package:delivery_app_flutter/screens/tab_container_screen.dart';
 import 'package:delivery_app_flutter/data/providers/theme_provider.dart';
@@ -40,14 +43,34 @@ final routerProvider = Provider<GoRouter>(
         builder: (context, state) => const TabContainerScreen(),
       ),
       GoRoute(
+        path: HomeScreen.route,
+        name: HomeScreen.routeName,
+        builder: (context, state) => const HomeScreen(),
+      ),
+      GoRoute(
         path: AuthScreen.route,
         name: AuthScreen.routeName,
         builder: (context, state) => const AuthScreen(),
       ),
       GoRoute(
+        path: SearchScreen.route,
+        name: SearchScreen.routeName,
+        builder: (context, state) => const SearchScreen(),
+      ),
+      GoRoute(
+        path: CartScreen.route,
+        name: CartScreen.routeName,
+        builder: (context, state) => const CartScreen(),
+      ),
+      GoRoute(
         path: SettingsScreen.route,
         name: SettingsScreen.routeName,
         builder: (context, state) => const SettingsScreen(),
+      ),
+      GoRoute(
+        path: ProfileScreen.route,
+        name: ProfileScreen.routeName,
+        builder: (context, state) => const ProfileScreen(),
       ),
       GoRoute(
         path: RestaurantScreen.route,
