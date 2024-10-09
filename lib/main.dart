@@ -3,6 +3,7 @@ import 'package:delivery_app_flutter/data/services/hive_service.dart';
 import 'package:delivery_app_flutter/data/services/stripe_service.dart';
 import 'package:delivery_app_flutter/screens/auth.dart';
 import 'package:delivery_app_flutter/screens/cart_screen.dart';
+import 'package:delivery_app_flutter/screens/categories_screen.dart';
 import 'package:delivery_app_flutter/screens/checkout_screen.dart';
 import 'package:delivery_app_flutter/screens/restaurant_screen.dart';
 import 'package:delivery_app_flutter/screens/search_screen.dart';
@@ -12,6 +13,7 @@ import 'package:delivery_app_flutter/screens/profile_screen.dart';
 import 'package:delivery_app_flutter/screens/settings_screen.dart';
 import 'package:delivery_app_flutter/screens/tab_container_screen.dart';
 import 'package:delivery_app_flutter/data/providers/theme_provider.dart';
+import 'package:delivery_app_flutter/screens/update_profile_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -76,6 +78,19 @@ final routerProvider = Provider<GoRouter>((ref) {
         ),
       ),
       GoRoute(
+        path: CategoriesScreen.route,
+        name: CategoriesScreen.routeName,
+        builder: (context, state) => CategoriesScreen(
+          name: state.pathParameters["name"]!,
+        ),
+      ),
+      GoRoute(
+        path: UpdateProfileScreen.route,
+        name: UpdateProfileScreen.routeName,
+        builder: (context, state) => UpdateProfileScreen(
+          id: state.pathParameters["id"]!,
+        ),
+      ),
         path: CheckoutScreen.route,
         name: CheckoutScreen.routeName,
         builder: (context, state) => const CheckoutScreen(),
