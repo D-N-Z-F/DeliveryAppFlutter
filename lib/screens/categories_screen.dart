@@ -28,31 +28,16 @@ class CategoriesScreen extends ConsumerWidget {
               )
               .toList();
           if (restaurants.isEmpty) return const EmptyDisplay();
-      appBar: AppBar(
-        title: Text(name),
-      ),
-      body: data.when(
-        data: (restaurants) {
-          restaurants = restaurants
-              .where((restaurant) =>
-                  restaurant.category == CategoriesHelpers.stringToEnum(name))
-              .toList();
           return ListView.builder(
             itemCount: restaurants.length,
             itemBuilder: (context, index) {
               final restaurant = restaurants[index];
               return RestaurantCard(restaurant: restaurant);
-              return RestaurantCard(
-                restaurant: restaurant,
-              );
             },
           );
         },
         error: (_, __) => const EmptyDisplay(),
         loading: () => const Center(child: CircularProgressIndicator()),
-        loading: () => const Center(
-          child: CircularProgressIndicator(),
-        ),
       ),
     );
   }

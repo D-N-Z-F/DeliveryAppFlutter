@@ -29,8 +29,7 @@ class NotificationService {
         priority: Priority.high,
       ),
     );
-
-    await plugin.show(0, title, body, notificationDetails);
+    await plugin.show((title + body).length, title, body, notificationDetails);
   }
 
   static Future<void> scheduleNotification(
@@ -49,7 +48,7 @@ class NotificationService {
     );
 
     await plugin.zonedSchedule(
-      0,
+      (title + body).length,
       title,
       body,
       tz.TZDateTime.from(scheduledDate, tz.local),

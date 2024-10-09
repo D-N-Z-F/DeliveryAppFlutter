@@ -41,7 +41,7 @@ class HiveService {
     final id = getUid();
     final jsonString = jsonEncode(cart.toMap());
     await _box.put("$id/cart", jsonString);
-    MyApp.showSnackBar(content: "Added to cart.", seconds: 1);
+    MyApp.showSnackBar(content: "Updated cart.", seconds: 1);
   }
 
   Future<void> deleteCartFromBox() async {

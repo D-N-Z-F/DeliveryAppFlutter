@@ -3,7 +3,6 @@ import 'package:delivery_app_flutter/data/providers/auth_provider.dart';
 import 'package:delivery_app_flutter/data/repositories/user_repo.dart';
 import 'package:delivery_app_flutter/utils/constants/enums.dart';
 import 'package:delivery_app_flutter/utils/constants/sizes.dart';
-
 import 'package:delivery_app_flutter/utils/helpers/helpers.dart';
 import 'package:delivery_app_flutter/utils/validators/validators.dart';
 import 'package:flutter/material.dart';
@@ -84,17 +83,6 @@ class AuthScreen extends ConsumerWidget {
                 labelText: "Enter your password",
                 hintText: "e.g johndoe123",
                 isPasswordField: true,
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
-                child: TextFormField(
-                    controller: controllers["password"],
-                    obscureText: true,    
-                    validator: (value) => Validators.validatePassword(value),
-                    decoration: InputDecoration(
-                        labelText: "Enter your password",
-                        hintText: "e.g johndoe123",
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0)))),
               ),
               if (isRegistering)
                 AuthTextFormField(

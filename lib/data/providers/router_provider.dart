@@ -1,10 +1,10 @@
 import 'package:delivery_app_flutter/data/providers/auth_provider.dart';
-import 'package:delivery_app_flutter/screens/auth.dart';
 import 'package:delivery_app_flutter/screens/cart_screen.dart';
 import 'package:delivery_app_flutter/screens/categories_screen.dart';
 import 'package:delivery_app_flutter/screens/checkout_screen.dart';
 import 'package:delivery_app_flutter/screens/favourites_screen.dart';
 import 'package:delivery_app_flutter/screens/home.dart';
+import 'package:delivery_app_flutter/screens/auth.dart';
 import 'package:delivery_app_flutter/screens/order_screen.dart';
 import 'package:delivery_app_flutter/screens/profile_screen.dart';
 import 'package:delivery_app_flutter/screens/restaurant_screen.dart';

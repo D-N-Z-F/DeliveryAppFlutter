@@ -66,15 +66,5 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         ],
       ),
     );
-                  CupertinoSwitch(
-                      value: ref.watch(themeProvider) == darkTheme,
-                      onChanged: (value) {
-                        ref.read(themeProvider.notifier).toggleTheme();
-                      })
-                ],
-              ),
-            ),
-          ],
-        ));
   }
 }
