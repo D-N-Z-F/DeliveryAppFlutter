@@ -38,8 +38,8 @@ class User {
   static User fromMap(Map<String, dynamic> map) => User(
         email: map["email"],
         username: map["username"],
-        orderHistory: map["orderHistory"],
-        favourites: map["favourites"],
+        orderHistory: List<String>.from(map["orderHistory"]),
+        favourites: List<String>.from(map["favourites"]),
       );
 
   @override

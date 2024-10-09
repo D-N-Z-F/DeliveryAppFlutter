@@ -91,7 +91,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                 padding: const EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
                 child: TextFormField(
                     controller: controllers["password"],
-                    obscureText: true,
+                    obscureText: true,    
                     validator: (value) => Validators.validatePassword(value),
                     decoration: InputDecoration(
                         labelText: "Enter your password",
