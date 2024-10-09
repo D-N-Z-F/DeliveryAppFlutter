@@ -8,15 +8,45 @@ class Sizes {
   static const xl = 32.0;
   static const xxl = 48.0;
 
+  // Card
+  static const cardRadiusXs = 6.0;
+  static const cardRadiusSm = 10.0;
+  static const cardRadiusMd = 12.0;
+  static const cardRadiusLg = 12.0;
+
+  // Font
+  static const letterSpacing = 2.0;
+  static const fontXs = 12.0;
+  static const fontSm = 14.0;
+  static const fontMd = 16.0;
+  static const fontLg = 18.0;
+
+  // Icon
+  static const iconXs = 12.0;
+  static const iconSm = 16.0;
+  static const iconMd = 24.0;
+  static const iconLg = 32.0;
+  static const iconXl = 40.0;
+  static const iconXxl = 48.0;
+
+  // Generic
   static const appBarHeight = 56.0;
   static const imageThumbSize = 80.0;
-  static const dividerHeight = 1.0;
+  static const dividerHeight = 20.0;
+  static const dividerThickness = 1.0;
   static const loadingIndicatorSize = 36.0;
   static const imageCarouselHeight = 200.0;
 
-  static const icon = {"xs": 12.0, "sm": 16.0, "md": 24.0, "lg": 32.0};
+  static const icon = {
+    "xs": 12.0,
+    "sm": 16.0,
+    "md": 24.0,
+    "lg": 32.0,
+    "xl": 40.0,
+    "xxl": 48.0
+  };
 
-  static const font = {"sm": 14.0, "md": 16.0, "lg": 18.0};
+  static const font = {"xs": 12.0, "sm": 14.0, "md": 16.0, "lg": 18.0};
 
   static const button = {
     "height": 18.0,
