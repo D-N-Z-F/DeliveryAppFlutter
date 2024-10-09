@@ -13,6 +13,29 @@ class HomeSliverAppBar extends StatelessWidget {
       context.push(SearchScreen.route);
     }
 
+    void addAddressBox() {
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                title: const Text("Add address"),
+                content: const TextField(
+                    decoration: InputDecoration(hintText: "Add address...")),
+                actions: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ElevatedButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: const Text("Save")),
+                      ElevatedButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: const Text("Cancel"))
+                    ],
+                  )
+                ],
+              ));
+    }
+
     return SliverAppBar(
       pinned: true,
       floating: true,
@@ -53,13 +76,16 @@ class HomeSliverAppBar extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const Text("Home"),
-                Row(
-                  children: [
-                    Text(
-                      Helpers.truncateText("35, Taman Haha, Jalan Hehe", 21),
-                    ),
-                    const Icon(Icons.location_on_outlined),
-                  ],
+                GestureDetector(
+                  onTap: () => addAddressBox(),
+                  child: Row(
+                    children: [
+                      Text(
+                        Helpers.truncateText("35, Taman Haha, Jalan Hehe", 21),
+                      ),
+                      const Icon(Icons.location_on_outlined),
+                    ],
+                  ),
                 )
               ],
             )),

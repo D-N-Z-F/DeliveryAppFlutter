@@ -98,6 +98,50 @@ class RestaurantSliverAppBar extends StatelessWidget {
                         fontSize: Sizes.fontMd,
                         color: scheme.tertiary,
                       ),
+                    ),
+                    const Column(
+                      children: [
+                        Divider(
+                          indent: 5,
+                          endIndent: 5,
+                          color: Colors.white,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              children: [
+                                Text(
+                                  "Delivery Fee:",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: Sizes.fontXs),
+                                ),
+                                Text("RM 5",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: Sizes.fontXs))
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                Text(
+                                  "Delivery Time:",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: Sizes.fontXs),
+                                ),
+                                Text(
+                                  "15 - 30 minutes",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: Sizes.fontXs),
+                                )
+                              ],
+                            )
+                          ],
+                        )
+                      ],
                     )
                   ],
                 ),

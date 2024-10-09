@@ -42,6 +42,19 @@ class CheckoutScreen extends ConsumerWidget {
                   child: items.isNotEmpty
                       ? Column(
                           children: [
+                            const Card(
+                                child: Padding(
+                              padding: EdgeInsets.all(20.0),
+                              child: Row(
+                                children: [
+                                  Icon(Icons.delivery_dining_outlined),
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 20),
+                                    child: Text("Address"),
+                                  ),
+                                ],
+                              ),
+                            )),
                             const Header(heading: "Items"),
                             ListView.builder(
                               shrinkWrap: true,
