@@ -4,7 +4,9 @@ import 'package:delivery_app_flutter/data/providers/recents_provider.dart';
 import 'package:delivery_app_flutter/data/repositories/restaurant_repo.dart';
 import 'package:delivery_app_flutter/data/services/hive_service.dart';
 import 'package:delivery_app_flutter/screens/restaurant_screen.dart';
+import 'package:delivery_app_flutter/utils/constants/enums.dart';
 import 'package:delivery_app_flutter/utils/constants/strings.dart';
+import 'package:delivery_app_flutter/utils/helpers/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -38,9 +40,10 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   Widget build(BuildContext context) {
     final recents = ref.watch(recentsProvider);
     final query = ref.watch(queryProvider);
+    final scheme = Theme.of(context).colorScheme;
     return Scaffold(
+      backgroundColor: scheme.get(MainColors.surface),
       appBar: AppBar(
-        backgroundColor: Colors.white,
         title: SizedBox(
           height: 40,
           child: TextField(
@@ -48,14 +51,14 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
             decoration: InputDecoration(
               hintText: 'Search...',
               filled: true,
-              fillColor: Colors.grey.shade300,
+              fillColor: scheme.get(MainColors.secondary),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(20),
                 borderSide: BorderSide.none,
               ),
               contentPadding:
                   const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
-              prefixIcon: const Icon(Icons.search, color: Colors.white),
+              prefixIcon: const Icon(Icons.search),
             ),
             onChanged: (value) {
               ref.read(queryProvider.notifier).state = value;

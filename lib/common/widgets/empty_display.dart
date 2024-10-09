@@ -29,7 +29,7 @@ class EmptyDisplay extends StatelessWidget {
                 margin: const EdgeInsets.only(top: Sizes.md),
                 child: Text(
                   message,
-                  style: TextStyle(color: scheme.get(MainColors.tertiary)),
+                  style: TextStyle(color: scheme.get(MainColors.primary)),
                 ),
               )
             ],

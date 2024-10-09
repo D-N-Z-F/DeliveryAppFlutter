@@ -3,8 +3,10 @@ import 'package:delivery_app_flutter/common/widgets/item_card.dart';
 import 'package:delivery_app_flutter/common/widgets/restaurant_sliver_app_bar.dart';
 import 'package:delivery_app_flutter/data/providers/restaurant_provider.dart';
 import 'package:delivery_app_flutter/data/repositories/restaurant_repo.dart';
+import 'package:delivery_app_flutter/utils/constants/enums.dart';
 import 'package:delivery_app_flutter/utils/constants/sizes.dart';
 import 'package:delivery_app_flutter/utils/constants/strings.dart';
+import 'package:delivery_app_flutter/utils/helpers/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -36,11 +38,11 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen>
     final scheme = Theme.of(context).colorScheme;
     final restaurant = ref.watch(restaurantProvider(widget.id));
     return Scaffold(
-      backgroundColor: scheme.surface,
+      backgroundColor: scheme.get(MainColors.surface),
       body: restaurant.when(
         data: (data) {
           if (data == null) {
-            return const Center(child: Text("Restaurant Not Found!"));
+            return const Center(child: Text("Restaurant Not Found."));
           }
           final noOfCategories = data.itemCategories.length;
           if (tabController == null ||
@@ -81,9 +83,7 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen>
         },
         error: (_, __) =>
             const EmptyDisplay(message: Strings.cartDisplayMessage),
-        loading: () => const Center(
-          child: CircularProgressIndicator(),
-        ),
+        loading: () => const Center(child: CircularProgressIndicator()),
       ),
     );
   }

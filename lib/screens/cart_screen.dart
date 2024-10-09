@@ -7,8 +7,10 @@ import 'package:delivery_app_flutter/data/providers/cart_provider.dart';
 import 'package:delivery_app_flutter/data/providers/restaurant_provider.dart';
 import 'package:delivery_app_flutter/data/services/hive_service.dart';
 import 'package:delivery_app_flutter/screens/checkout_screen.dart';
+import 'package:delivery_app_flutter/utils/constants/enums.dart';
 import 'package:delivery_app_flutter/utils/constants/sizes.dart';
 import 'package:delivery_app_flutter/utils/constants/strings.dart';
+import 'package:delivery_app_flutter/utils/helpers/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -22,6 +24,7 @@ class CartScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final data = ref.watch(cartProvider);
+    final scheme = Theme.of(context).colorScheme;
 
     void deleteCart() {
       ref.read(hiveProvider).deleteCartFromBox();
@@ -40,6 +43,12 @@ class CartScreen extends ConsumerWidget {
             const Header(heading: "Cart", omitMargin: true),
             ElevatedButton(
               onPressed: deleteCart,
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                backgroundColor: scheme.get(MainColors.secondary),
+              ),
               child: const Icon(Icons.delete),
             ),
           ],
@@ -89,13 +98,17 @@ class CartScreen extends ConsumerWidget {
                         child: ElevatedButton(
                           onPressed: navigateToCheckoutScreen,
                           style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                Theme.of(context).colorScheme.inversePrimary,
+                            backgroundColor: scheme.get(MainColors.secondary),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(Sizes.sm),
                             ),
                           ),
-                          child: const Text("Proceed To Checkout"),
+                          child: Text(
+                            "Proceed To Checkout",
+                            style: TextStyle(
+                              color: scheme.get(MainColors.primary),
+                            ),
+                          ),
                         ),
                       ),
                     ],

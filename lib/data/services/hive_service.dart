@@ -19,11 +19,13 @@ class HiveService {
     if (!Hive.isBoxOpen(_boxName)) _box = await Hive.openBox(_boxName);
   }
 
+  String? getUid() => UserRepo().getUid();
+
 //Cart Methods------------------------------------------------------------------
 
   Future<Cart?> getCartFromBox() async {
     await openBox();
-    final id = UserRepo().getUid();
+    final id = getUid();
     final jsonString = await _box.get("$id/cart");
     if (jsonString != null) {
       final Map<String, dynamic> cartMap = jsonDecode(jsonString);
@@ -34,14 +36,14 @@ class HiveService {
 
   Future<void> updateCartInBox(Cart cart) async {
     await openBox();
-    final id = UserRepo().getUid();
+    final id = getUid();
     final jsonString = jsonEncode(cart.toMap());
     await _box.put("$id/cart", jsonString);
   }
 
   Future<void> deleteCartFromBox() async {
     await openBox();
-    final id = UserRepo().getUid();
+    final id = getUid();
     await _box.delete("$id/cart");
   }
 
@@ -51,7 +53,7 @@ class HiveService {
 
   Future<List<Restaurant>> getRecentsFromBox() async {
     await openBox();
-    final id = UserRepo().getUid();
+    final id = getUid();
     final jsonString = await _box.get("$id/recents");
     List<Restaurant> recents = [];
     if (jsonString != null) {
@@ -68,7 +70,7 @@ class HiveService {
 
   Future<void> updateRecentsInBox(Restaurant restaurant) async {
     await openBox();
-    final id = UserRepo().getUid();
+    final id = getUid();
     final recents = await getRecentsFromBox();
     recents.remove(restaurant);
     recents.add(restaurant);
@@ -81,11 +83,27 @@ class HiveService {
 
   Future<void> deleteRecentsFromBox() async {
     await openBox();
-    final id = UserRepo().getUid();
+    final id = getUid();
     await _box.delete("$id/recents");
   }
 
 //RecentSearch Methods----------------------------------------------------------
+
+//Theme Methods-----------------------------------------------------------------
+
+  Future<String> getAppThemeFromBox() async {
+    await openBox();
+    final id = getUid();
+    return await _box.get("$id/theme", defaultValue: "lightTheme");
+  }
+
+  Future<void> updateAppThemeInBox(String theme) async {
+    await openBox();
+    final id = getUid();
+    await _box.put("$id/theme", theme);
+  }
+
+//Theme Methods-----------------------------------------------------------------
 
   Future<void> clearBox() async => await _box.clear();
 }

@@ -1,4 +1,5 @@
 import 'package:delivery_app_flutter/screens/search_screen.dart';
+import 'package:delivery_app_flutter/utils/constants/enums.dart';
 import 'package:delivery_app_flutter/utils/constants/sizes.dart';
 import 'package:delivery_app_flutter/utils/helpers/helpers.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ class HomeSliverAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
     void navigateToSearch() {
       context.push(SearchScreen.route);
     }
@@ -51,18 +53,18 @@ class HomeSliverAppBar extends StatelessWidget {
             padding:
                 const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.8),
+              color: scheme.get(MainColors.secondary).withOpacity(0.5),
               borderRadius: BorderRadius.circular(16.0),
             ),
             child: Row(
               children: [
-                const Icon(Icons.search, color: Colors.grey),
+                Icon(Icons.search, color: scheme.get(MainColors.primary)),
                 const SizedBox(width: 8.0),
                 Text(
                   'Search',
                   style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: Sizes.font["xs"],
+                    color: scheme.get(MainColors.primary),
+                    fontSize: Sizes.fontXs,
                   ),
                 ),
               ],

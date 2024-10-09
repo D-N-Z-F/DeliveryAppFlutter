@@ -1,9 +1,11 @@
 import 'package:delivery_app_flutter/data/models/order.dart';
 import 'package:delivery_app_flutter/data/repositories/order_repo.dart';
 import 'package:delivery_app_flutter/data/services/hive_service.dart';
+import 'package:delivery_app_flutter/utils/constants/enums.dart';
 import 'package:delivery_app_flutter/utils/constants/strings.dart';
 import 'package:delivery_app_flutter/utils/helpers/helpers.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 
@@ -42,26 +44,36 @@ class StripeService {
         return "";
       });
 
-  Future<void> makePayment(double amount, String currency) async =>
-      await Helpers.globalErrorHandler(
-        () async {
-          String? clientSecret = await _createPaymentIntent(amount, currency);
-          if (clientSecret == null || clientSecret.isEmpty) return;
-          await Stripe.instance.initPaymentSheet(
-            paymentSheetParameters: SetupPaymentSheetParameters(
-              paymentIntentClientSecret: clientSecret,
-              merchantDisplayName: Strings.appName,
-            ),
-          );
-          await _processPayment(amount);
-          await generateOrderDetails(amount);
-        },
-      );
+  Future<Map<PaymentStatus, double>?> makePayment(
+    double amount,
+    String currency,
+    BuildContext context,
+  ) async {
+    final result = await Helpers.globalErrorHandler(
+      () async {
+        String? clientSecret = await _createPaymentIntent(amount, currency);
+        if (clientSecret == null || clientSecret.isEmpty) {
+          return {PaymentStatus.isCancelled: amount};
+        }
+        final appearance =
+            context.mounted ? getAppearanceParams(context) : null;
+        await Stripe.instance.initPaymentSheet(
+          paymentSheetParameters: SetupPaymentSheetParameters(
+            paymentIntentClientSecret: clientSecret,
+            merchantDisplayName: Strings.appName,
+            appearance: appearance,
+          ),
+        );
+        return await _processPayment(amount);
+      },
+    );
+    return result;
+  }
 
-  Future<void> _processPayment(double amount) async =>
+  Future<Map<PaymentStatus, double>?> _processPayment(double amount) async =>
       await Helpers.globalErrorHandler(() async {
         await Stripe.instance.presentPaymentSheet();
-        await generateOrderDetails(amount);
+        return {PaymentStatus.isConfirmed: amount};
       });
 
   Future<void> generateOrderDetails(double amount) async {
@@ -81,6 +93,16 @@ class StripeService {
           await hive.deleteCartFromBox();
         }
       },
+    );
+  }
+
+  PaymentSheetAppearance? getAppearanceParams(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    return PaymentSheetAppearance(
+      colors: PaymentSheetAppearanceColors(
+        primary: scheme.get(MainColors.primary),
+        background: scheme.get(MainColors.secondary),
+      ),
     );
   }
 }

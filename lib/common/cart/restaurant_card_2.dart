@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:delivery_app_flutter/common/widgets/default_image.dart';
 import 'package:delivery_app_flutter/data/models/restaurant.dart';
 import 'package:delivery_app_flutter/screens/restaurant_screen.dart';
+import 'package:delivery_app_flutter/utils/constants/enums.dart';
 import 'package:delivery_app_flutter/utils/constants/sizes.dart';
 import 'package:delivery_app_flutter/utils/constants/strings.dart';
 import 'package:delivery_app_flutter/utils/helpers/helpers.dart';
@@ -73,8 +74,8 @@ class RestaurantCard2 extends StatelessWidget {
                           Helpers.truncateText(restaurant.title, 21),
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: Sizes.font["md"],
-                            color: scheme.tertiary,
+                            fontSize: Sizes.fontMd,
+                            color: scheme.get(MainColors.tertiaryFixed),
                           ),
                         ),
                         Row(
@@ -84,14 +85,14 @@ class RestaurantCard2 extends StatelessWidget {
                                   .clamp(0.0, 5.0)
                                   .toStringAsFixed(2),
                               style: TextStyle(
-                                color: scheme.tertiary,
+                                color: scheme.get(MainColors.tertiaryFixed),
                               ),
                             ),
                             const SizedBox(width: Sizes.xs),
-                            Icon(
+                            const Icon(
                               Icons.star,
                               color: Colors.amber,
-                              size: Sizes.icon["sm"],
+                              size: Sizes.iconSm,
                             )
                           ],
                         ),
@@ -100,8 +101,8 @@ class RestaurantCard2 extends StatelessWidget {
                     Text(
                       restaurant.category.enumToString(),
                       style: TextStyle(
-                        fontSize: Sizes.font["xs"],
-                        color: scheme.tertiary,
+                        fontSize: Sizes.fontXs,
+                        color: scheme.get(MainColors.tertiaryFixed),
                       ),
                     ),
                   ],

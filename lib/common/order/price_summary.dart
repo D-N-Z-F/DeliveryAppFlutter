@@ -1,6 +1,7 @@
 import 'package:delivery_app_flutter/data/models/item.dart';
 import 'package:delivery_app_flutter/data/providers/cart_provider.dart';
 import 'package:delivery_app_flutter/data/services/stripe_service.dart';
+import 'package:delivery_app_flutter/utils/constants/enums.dart';
 import 'package:delivery_app_flutter/utils/constants/sizes.dart';
 import 'package:delivery_app_flutter/utils/constants/strings.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,25 @@ class PriceSummary extends StatelessWidget {
 
   double _getTotal(double subtotal) =>
       subtotal + (tax / 100 * subtotal) + deliveryFee;
+
+  Future<void> _performTransaction(BuildContext context, WidgetRef ref) async {
+    final stripe = StripeService();
+    final status = await stripe.makePayment(
+      _getTotal(_getSubtotal()),
+      Strings.defaultCurrency,
+      context,
+    );
+    debugPrint("""
+--------------------------------------------------------------------------------
+$status
+--------------------------------------------------------------------------------
+""");
+    if (status != null && status.containsKey(PaymentStatus.isConfirmed)) {
+      await stripe.generateOrderDetails(status[PaymentStatus.isConfirmed]!);
+      ref.invalidate(cartProvider);
+      if (context.mounted) Navigator.pop(context);
+    }
+  }
 
   @override
   Widget build(BuildContext context) => Column(
@@ -85,22 +105,20 @@ class PriceSummary extends StatelessWidget {
             thickness: Sizes.dividerThickness,
           ),
           Consumer(
-            builder: (_, ref, __) => ElevatedButton(
-              onPressed: () async {
-                await StripeService().makePayment(
-                  _getTotal(_getSubtotal()),
-                  Strings.defaultCurrency,
-                );
-                ref.invalidate(cartProvider);
-                if (context.mounted) Navigator.pop(context);
-              },
+            builder: (context, ref, __) => ElevatedButton(
+              onPressed: () async => _performTransaction(context, ref),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+                backgroundColor: Theme.of(context).colorScheme.secondary,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(Sizes.sm),
                 ),
               ),
-              child: const Text("Pay Now"),
+              child: Text(
+                "Pay Now",
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.inversePrimary,
+                ),
+              ),
             ),
           ),
         ],

@@ -1,6 +1,7 @@
 import 'package:delivery_app_flutter/common/widgets/header.dart';
 import 'package:delivery_app_flutter/data/models/restaurant.dart';
-import 'package:delivery_app_flutter/utils/constants/colors.dart';
+import 'package:delivery_app_flutter/utils/constants/enums.dart';
+import 'package:delivery_app_flutter/utils/helpers/helpers.dart';
 import 'package:flutter/material.dart';
 
 class RestaurantTabBar extends StatelessWidget {
@@ -13,20 +14,19 @@ class RestaurantTabBar extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) => TabBar(
-        controller: tabController,
-        tabs: restaurant.itemCategories
-            .map((category) => Header(heading: category, omitMargin: true))
-            .toList(),
-        isScrollable: true,
-        dividerColor: Colors.transparent,
-        unselectedLabelColor: MyColors.lightText,
-      );
-
-  // You might want to define viewList dynamically or keep it static
-  // final viewList = List.generate(restaurant.itemCategories.length, (index) {
-  //   return Center(
-  //     child: Text('View for ${restaurant.itemCategories[index]}'),
-  //   );
-  // });
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    return TabBar(
+      controller: tabController,
+      tabs: restaurant.itemCategories
+          .map((category) => Header(
+                heading: category,
+                omitMargin: true,
+                color: scheme.get(MainColors.inversePrimary),
+              ))
+          .toList(),
+      isScrollable: true,
+      dividerColor: Colors.transparent,
+    );
+  }
 }

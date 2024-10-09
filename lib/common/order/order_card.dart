@@ -1,7 +1,9 @@
 import 'package:delivery_app_flutter/common/order/item_card_3.dart';
 import 'package:delivery_app_flutter/data/models/item.dart';
 import 'package:delivery_app_flutter/data/models/order.dart';
+import 'package:delivery_app_flutter/utils/constants/enums.dart';
 import 'package:delivery_app_flutter/utils/constants/sizes.dart';
+import 'package:delivery_app_flutter/utils/helpers/helpers.dart';
 import 'package:flutter/material.dart';
 
 class OrderCard extends StatelessWidget {
@@ -16,7 +18,7 @@ class OrderCard extends StatelessWidget {
       items[item] = (items[item] ?? 0) + 1;
     }
     return Card(
-      color: Colors.grey[50],
+      color: scheme.get(MainColors.secondary),
       margin: const EdgeInsets.all(Sizes.sm),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(Sizes.cardRadiusSm),
