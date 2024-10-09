@@ -1,3 +1,4 @@
+import 'package:delivery_app_flutter/common/auth/auth_text_form_field.dart';
 import 'package:delivery_app_flutter/common/widgets/empty_display.dart';
 import 'package:delivery_app_flutter/common/widgets/header.dart';
 import 'package:delivery_app_flutter/data/providers/address_provider.dart';
@@ -8,6 +9,7 @@ import 'package:delivery_app_flutter/utils/constants/sizes.dart';
 import 'package:delivery_app_flutter/utils/constants/strings.dart';
 
 import 'package:delivery_app_flutter/utils/helpers/helpers.dart';
+import 'package:delivery_app_flutter/utils/validators/validators.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -18,26 +20,29 @@ class HomeSliverAppBar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final scheme = Theme.of(context).colorScheme;
+    final formKey = GlobalKey<FormState>();
     final data = ref.watch(addressProvider);
     final addressController = TextEditingController();
     void navigateToSearch() => context.push(SearchScreen.route);
     void updateAddress() async {
-      await HiveService().updateAddressInBox(addressController.text);
-      ref.invalidate(addressProvider);
-      if (context.mounted) Navigator.pop(context);
+      if (formKey.currentState!.validate()) {
+        await HiveService().updateAddressInBox(addressController.text);
+        ref.invalidate(addressProvider);
+        if (context.mounted) Navigator.pop(context);
+      }
     }
 
     void addAddressBox() => showDialog(
           context: context,
           builder: (context) => AlertDialog(
             title: const Header(heading: 'Set Address', omitMargin: true),
-            content: TextField(
-              controller: addressController,
-              decoration: InputDecoration(
-                hintText: "Enter your address here.",
-                hintStyle: TextStyle(
-                  color: scheme.get(MainColors.inverseSurface).withOpacity(0.6),
-                ),
+            content: Form(
+              key: formKey,
+              child: AuthTextFormField(
+                controller: addressController,
+                labelText: "Enter your address",
+                hintText: "e.g Taman Haha, Jalan Hehe, Unit-123",
+                validator: Validators.validateAddress,
               ),
             ),
             actions: [

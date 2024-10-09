@@ -37,4 +37,9 @@ class Validators {
     if (value != original) return "Both passwords must match.";
     return null;
   }
+
+  static String? validateAddress(String? value) {
+    if (value == null || value.isEmpty) return "Address shouldn't be empty.";
+    return null;
+  }
 }

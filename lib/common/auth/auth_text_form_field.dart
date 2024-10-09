@@ -9,7 +9,7 @@ class AuthTextFormField extends ConsumerWidget {
   final TextEditingController controller;
   final Function(String?)? validator;
   final Function(String?, String?)? validator2;
-  final String labelText;
+  final String? labelText;
   final String? hintText;
   final bool isPasswordField;
   final String? comparator;
@@ -19,7 +19,7 @@ class AuthTextFormField extends ConsumerWidget {
     required this.controller,
     this.validator,
     this.validator2,
-    required this.labelText,
+    this.labelText,
     this.hintText,
     this.isPasswordField = false,
     this.comparator,
