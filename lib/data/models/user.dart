@@ -46,6 +46,7 @@ class User {
             (restaurantMap) => Restaurant.fromMap(restaurantMap),
           ),
         ),
+        favourites: List<String>.from(map["favourites"]),
       );
 
   @override
