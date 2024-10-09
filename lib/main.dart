@@ -10,6 +10,8 @@ import 'package:delivery_app_flutter/screens/restaurant_screen.dart';
 import 'package:delivery_app_flutter/screens/search_screen.dart';
 import 'package:delivery_app_flutter/firebase_options.dart';
 import 'package:delivery_app_flutter/screens/home.dart';
+import 'package:delivery_app_flutter/screens/login.dart';
+import 'package:delivery_app_flutter/screens/register.dart';
 import 'package:delivery_app_flutter/screens/profile_screen.dart';
 import 'package:delivery_app_flutter/screens/settings_screen.dart';
 import 'package:delivery_app_flutter/screens/tab_container_screen.dart';
@@ -20,6 +22,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:path/path.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {
@@ -32,6 +35,24 @@ void main() async {
   runApp(const ProviderScope(child: MyApp()));
 }
 
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  static final routes = [
+    GoRoute(
+      path: HomeScreen.route,
+      name: HomeScreen.routeName,
+      builder: (context, state) => const HomeScreen(),
+    ),
+    GoRoute(
+        path: LoginScreen.route,
+        name: LoginScreen.routeName,
+        builder: (context, state) => const LoginScreen()),
+        GoRoute(
+        path: RegisterScreen.route,
+        name: RegisterScreen.routeName,
+        builder: (context, state) => const RegisterScreen())
+  ];
 final routerProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     initialLocation: TabContainerScreen.route,
@@ -121,6 +142,11 @@ class MyApp extends ConsumerWidget {
     final themeData = ref.watch(themeProvider);
     return MaterialApp.router(
       title: 'Delivery App',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
+      routerConfig: GoRouter(routes: routes, initialLocation: LoginScreen.route),
       theme: themeData,
       darkTheme: themeData,
       routerConfig: router,
