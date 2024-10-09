@@ -3,6 +3,7 @@ import 'package:delivery_app_flutter/data/repositories/order_repo.dart';
 import 'package:delivery_app_flutter/data/services/hive_service.dart';
 import 'package:delivery_app_flutter/utils/constants/enums.dart';
 import 'package:delivery_app_flutter/utils/constants/strings.dart';
+
 import 'package:delivery_app_flutter/utils/helpers/helpers.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -102,6 +103,9 @@ class StripeService {
       colors: PaymentSheetAppearanceColors(
         primary: scheme.get(MainColors.primary),
         background: scheme.get(MainColors.secondary),
+        primaryText: scheme.get(MainColors.inverseSurface),
+        secondaryText: scheme.get(MainColors.inverseSurface),
+        icon: scheme.get(MainColors.inverseSurface),
       ),
     );
   }

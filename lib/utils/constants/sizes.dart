@@ -13,6 +13,7 @@ class Sizes {
   static const cardRadiusSm = 10.0;
   static const cardRadiusMd = 12.0;
   static const cardRadiusLg = 12.0;
+  static const cardElevation = 5.0;
 
   // Font
   static const letterSpacing = 2.0;

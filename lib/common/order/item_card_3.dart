@@ -4,6 +4,7 @@ import 'package:delivery_app_flutter/data/models/item.dart';
 import 'package:delivery_app_flutter/utils/constants/enums.dart';
 import 'package:delivery_app_flutter/utils/constants/sizes.dart';
 import 'package:delivery_app_flutter/utils/constants/strings.dart';
+
 import 'package:delivery_app_flutter/utils/helpers/helpers.dart';
 import 'package:flutter/material.dart';
 
@@ -71,7 +72,7 @@ class ItemCard3 extends StatelessWidget {
                     ],
                   ),
                   Text(
-                    "\$ $price",
+                    "\$ ${price.toStringAsFixed(2)}",
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ],

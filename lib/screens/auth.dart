@@ -3,6 +3,7 @@ import 'package:delivery_app_flutter/data/providers/auth_provider.dart';
 import 'package:delivery_app_flutter/data/repositories/user_repo.dart';
 import 'package:delivery_app_flutter/utils/constants/enums.dart';
 import 'package:delivery_app_flutter/utils/constants/sizes.dart';
+
 import 'package:delivery_app_flutter/utils/helpers/helpers.dart';
 import 'package:delivery_app_flutter/utils/validators/validators.dart';
 import 'package:flutter/material.dart';
@@ -87,7 +88,10 @@ class AuthScreen extends ConsumerWidget {
               if (isRegistering)
                 AuthTextFormField(
                   controller: password2Controller,
-                  validator2: Validators.validatePassword2,
+                  validator2: (value, _) => Validators.validatePassword2(
+                    value,
+                    passwordController.text,
+                  ),
                   labelText: "Confirm password",
                   isPasswordField: true,
                   comparator: passwordController.text,

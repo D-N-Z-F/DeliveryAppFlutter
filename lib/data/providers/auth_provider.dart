@@ -16,3 +16,5 @@ final authProvider = StateNotifierProvider<AuthProvider, bool>(
 );
 
 final authStateProvider = StateProvider<bool>((ref) => false);
+
+final updateStateProvider = StateProvider<bool>((ref) => false);
