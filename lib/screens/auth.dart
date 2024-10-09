@@ -1,4 +1,4 @@
-import 'package:delivery_app_flutter/common/widgets/auth_text_form_field.dart';
+import 'package:delivery_app_flutter/common/auth/auth_text_form_field.dart';
 import 'package:delivery_app_flutter/data/providers/auth_provider.dart';
 import 'package:delivery_app_flutter/data/repositories/user_repo.dart';
 import 'package:delivery_app_flutter/utils/constants/enums.dart';

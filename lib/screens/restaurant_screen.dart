@@ -1,6 +1,6 @@
 import 'package:delivery_app_flutter/common/widgets/empty_display.dart';
-import 'package:delivery_app_flutter/common/widgets/item_card.dart';
-import 'package:delivery_app_flutter/common/widgets/restaurant_sliver_app_bar.dart';
+import 'package:delivery_app_flutter/common/restaurant/item_card.dart';
+import 'package:delivery_app_flutter/common/restaurant/restaurant_sliver_app_bar.dart';
 import 'package:delivery_app_flutter/data/providers/restaurant_provider.dart';
 import 'package:delivery_app_flutter/data/repositories/restaurant_repo.dart';
 import 'package:delivery_app_flutter/utils/constants/enums.dart';

@@ -95,3 +95,19 @@ extension SnackBarThemeHelpers on SnackBarTheme {
         SnackBarTheme.error => Icons.error,
       };
 }
+
+extension DeliveryStatusHelpers on DeliveryStatus {
+  String enumToString() => toString().split('.').last.capitalize();
+  static DeliveryStatus stringToEnum(String string) =>
+      DeliveryStatus.values.firstWhere(
+        (value) => value.enumToString() == string.capitalize(),
+        orElse: () => DeliveryStatus.cancelled,
+      );
+  String getStatusText() => switch (this) {
+        DeliveryStatus.processing => "Your order is being processed.",
+        DeliveryStatus.preparing => "Your food is being prepared.",
+        DeliveryStatus.enroute => "Your food is out for delivery.",
+        DeliveryStatus.delivered => "Your food has been delivered. Enjoy!",
+        DeliveryStatus.cancelled => "Your order has been cancelled.",
+      };
+}

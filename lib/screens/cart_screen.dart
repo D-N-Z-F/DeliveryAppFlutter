@@ -6,7 +6,9 @@ import 'package:delivery_app_flutter/data/models/item.dart';
 import 'package:delivery_app_flutter/data/providers/cart_provider.dart';
 import 'package:delivery_app_flutter/data/providers/restaurant_provider.dart';
 import 'package:delivery_app_flutter/data/services/hive_service.dart';
+import 'package:delivery_app_flutter/main.dart';
 import 'package:delivery_app_flutter/screens/checkout_screen.dart';
+import 'package:delivery_app_flutter/utils/constants/colors.dart';
 import 'package:delivery_app_flutter/utils/constants/enums.dart';
 import 'package:delivery_app_flutter/utils/constants/sizes.dart';
 import 'package:delivery_app_flutter/utils/constants/strings.dart';
@@ -32,8 +34,18 @@ class CartScreen extends ConsumerWidget {
       ref.invalidate(cartProvider);
     }
 
-    void navigateToCheckoutScreen() {
-      context.pushNamed(CheckoutScreen.routeName);
+    void navigateToCheckoutScreen() async {
+      final address = await HiveService().getAddressFromBox();
+      if (address != Strings.defaultAddressMessage && context.mounted) {
+        context.pushNamed(CheckoutScreen.routeName);
+      } else {
+        MyApp.showSnackBar(
+          content: "No address found. Please set one first.",
+          theme: SnackBarTheme.warning,
+          color: MyColors.warning,
+          seconds: 2,
+        );
+      }
     }
 
     return Scaffold(

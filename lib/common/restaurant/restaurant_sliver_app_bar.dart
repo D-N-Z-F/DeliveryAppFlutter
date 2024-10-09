@@ -1,14 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:delivery_app_flutter/common/widgets/default_image.dart';
 import 'package:delivery_app_flutter/common/widgets/empty_display.dart';
-import 'package:delivery_app_flutter/common/widgets/restaurant_tab_bar.dart';
+import 'package:delivery_app_flutter/common/restaurant/restaurant_tab_bar.dart';
 import 'package:delivery_app_flutter/data/models/restaurant.dart';
 import 'package:delivery_app_flutter/data/providers/favourites_provider.dart';
 import 'package:delivery_app_flutter/data/repositories/user_repo.dart';
 import 'package:delivery_app_flutter/utils/constants/enums.dart';
 import 'package:delivery_app_flutter/utils/constants/sizes.dart';
 import 'package:delivery_app_flutter/utils/constants/strings.dart';
-
 import 'package:delivery_app_flutter/utils/helpers/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

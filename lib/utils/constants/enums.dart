@@ -41,3 +41,11 @@ enum SnackBarTheme {
   warning,
   error,
 }
+
+enum DeliveryStatus {
+  processing,
+  preparing,
+  enroute,
+  delivered,
+  cancelled,
+}

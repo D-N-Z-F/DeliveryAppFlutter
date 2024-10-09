@@ -1,4 +1,5 @@
 import 'package:delivery_app_flutter/common/cart/item_card_2.dart';
+import 'package:delivery_app_flutter/common/cart/address_card.dart';
 import 'package:delivery_app_flutter/common/widgets/empty_display.dart';
 import 'package:delivery_app_flutter/common/widgets/header.dart';
 import 'package:delivery_app_flutter/common/order/price_summary.dart';
@@ -19,76 +20,60 @@ class CheckoutScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final data = ref.watch(cartProvider);
-
     return Scaffold(
       appBar: AppBar(
         title: const Text("Checkout Screen"),
       ),
       body: data.when(
-        data: (cart) {
-          if (cart == null) {
-            return const EmptyDisplay(message: Strings.defaultErrorMessage);
-          }
-          final data2 = ref.watch(restaurantProvider(cart.restaurantId));
-          return data2.when(
-            data: (restaurant) {
-              final items = <Item, int>{};
-              for (final item in cart.items) {
-                items[item] = (items[item] ?? 0) + 1;
-              }
-              return SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(Sizes.sm),
-                  child: items.isNotEmpty
-                      ? Column(
-                          children: [
-                            const Card(
-                                child: Padding(
-                              padding: EdgeInsets.all(20.0),
-                              child: Row(
+        data: (cart) => cart == null
+            ? const EmptyDisplay(message: Strings.defaultErrorMessage)
+            : ref.watch(restaurantProvider(cart.restaurantId)).when(
+                  data: (restaurant) {
+                    final items = <Item, int>{};
+                    for (final item in cart.items) {
+                      items[item] = (items[item] ?? 0) + 1;
+                    }
+                    return SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.all(Sizes.sm),
+                        child: items.isNotEmpty
+                            ? Column(
                                 children: [
-                                  Icon(Icons.delivery_dining_outlined),
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 20),
-                                    child: Text("Address"),
+                                  const AddressCard(),
+                                  const Header(heading: "Items"),
+                                  ListView.builder(
+                                    shrinkWrap: true,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    itemCount: items.length,
+                                    itemBuilder: (context, index) {
+                                      final item = items.keys.elementAt(index);
+                                      final quantity = items[item]!;
+                                      final price = item.price * quantity;
+                                      return ItemCard2(
+                                        item: item,
+                                        quantity: quantity,
+                                        price: price,
+                                        restaurantId: restaurant!.id!,
+                                        restaurantTitle: restaurant.title,
+                                      );
+                                    },
                                   ),
+                                  PriceSummary(items: items),
                                 ],
+                              )
+                            : const EmptyDisplay(
+                                message: "No items found. Go add some!",
                               ),
-                            )),
-                            const Header(heading: "Items"),
-                            ListView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: items.length,
-                              itemBuilder: (context, index) {
-                                final item = items.keys.elementAt(index);
-                                final quantity = items[item]!;
-                                final price = item.price * quantity;
-                                return ItemCard2(
-                                  item: item,
-                                  quantity: quantity,
-                                  price: price,
-                                  restaurantId: restaurant!.id!,
-                                  restaurantTitle: restaurant.title,
-                                );
-                              },
-                            ),
-                            PriceSummary(items: items),
-                          ],
-                        )
-                      : const EmptyDisplay(
-                          message: "No items found. Go add some!",
-                        ),
+                      ),
+                    );
+                  },
+                  error: (_, __) =>
+                      const EmptyDisplay(message: Strings.defaultErrorMessage),
+                  loading: () => const Center(
+                    child: CircularProgressIndicator(),
+                  ),
                 ),
-              );
-            },
-            error: (_, __) =>
-                const EmptyDisplay(message: Strings.defaultErrorMessage),
-            loading: () => const Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
-        },
         error: (_, __) =>
             const EmptyDisplay(message: Strings.defaultErrorMessage),
         loading: () => const Center(

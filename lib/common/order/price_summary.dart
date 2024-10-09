@@ -1,13 +1,16 @@
 import 'package:delivery_app_flutter/data/models/item.dart';
 import 'package:delivery_app_flutter/data/providers/cart_provider.dart';
+import 'package:delivery_app_flutter/data/services/notification_service.dart';
 import 'package:delivery_app_flutter/data/services/stripe_service.dart';
 import 'package:delivery_app_flutter/main.dart';
 import 'package:delivery_app_flutter/utils/constants/colors.dart';
 import 'package:delivery_app_flutter/utils/constants/enums.dart';
 import 'package:delivery_app_flutter/utils/constants/sizes.dart';
 import 'package:delivery_app_flutter/utils/constants/strings.dart';
+import 'package:delivery_app_flutter/utils/helpers/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:workmanager/workmanager.dart';
 
 class PriceSummary extends StatelessWidget {
   final Map<Item, int> items;
@@ -39,10 +42,42 @@ class PriceSummary extends StatelessWidget {
         color: MyColors.success,
         seconds: 2,
       );
+      NotificationService.showNotification(
+        "Transaction Success!",
+        "Your order of \$${_getTotal(_getSubtotal()).toStringAsFixed(2)} was successful.",
+      );
+      showDeliveryProcess();
       await stripe.generateOrderDetails(status[PaymentStatus.isConfirmed]!);
       ref.invalidate(cartProvider);
       if (context.mounted) Navigator.pop(context);
     }
+  }
+
+  void showDeliveryProcess() {
+    Workmanager().registerOneOffTask(
+      "taskProcessing",
+      "Processing Order",
+      initialDelay: const Duration(seconds: 5),
+      inputData: {"status": DeliveryStatus.processing.enumToString()},
+    );
+    Workmanager().registerOneOffTask(
+      "taskPreparing",
+      "Preparing Food",
+      initialDelay: const Duration(seconds: 10),
+      inputData: {"status": DeliveryStatus.preparing.enumToString()},
+    );
+    Workmanager().registerOneOffTask(
+      "taskEnRoute",
+      "Delivery En Route",
+      initialDelay: const Duration(seconds: 15),
+      inputData: {"status": DeliveryStatus.enroute.enumToString()},
+    );
+    Workmanager().registerOneOffTask(
+      "taskDelivered",
+      "Food Delivered",
+      initialDelay: const Duration(seconds: 20),
+      inputData: {"status": DeliveryStatus.delivered.enumToString()},
+    );
   }
 
   @override

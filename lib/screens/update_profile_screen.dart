@@ -1,6 +1,6 @@
 import 'package:delivery_app_flutter/common/widgets/empty_display.dart';
 import 'package:delivery_app_flutter/common/widgets/header.dart';
-import 'package:delivery_app_flutter/common/widgets/update_profile_card.dart';
+import 'package:delivery_app_flutter/common/profile/update_profile_card.dart';
 import 'package:delivery_app_flutter/data/providers/auth_provider.dart';
 import 'package:delivery_app_flutter/data/providers/user_provider.dart';
 import 'package:delivery_app_flutter/data/repositories/user_repo.dart';
