@@ -1,8 +1,10 @@
 import 'package:delivery_app_flutter/data/models/item.dart';
+import 'package:delivery_app_flutter/data/providers/cart_provider.dart';
 import 'package:delivery_app_flutter/data/services/stripe_service.dart';
 import 'package:delivery_app_flutter/utils/constants/sizes.dart';
 import 'package:delivery_app_flutter/utils/constants/strings.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PriceSummary extends StatelessWidget {
   final Map<Item, int> items;
@@ -82,18 +84,24 @@ class PriceSummary extends StatelessWidget {
             height: Sizes.dividerHeight,
             thickness: Sizes.dividerThickness,
           ),
-          ElevatedButton(
-            onPressed: () => StripeService().makePayment(
-              _getTotal(_getSubtotal()),
-              Strings.defaultCurrency,
-            ),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(Sizes.sm),
+          Consumer(
+            builder: (_, ref, __) => ElevatedButton(
+              onPressed: () async {
+                await StripeService().makePayment(
+                  _getTotal(_getSubtotal()),
+                  Strings.defaultCurrency,
+                );
+                ref.invalidate(cartProvider);
+                if (context.mounted) Navigator.pop(context);
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(Sizes.sm),
+                ),
               ),
+              child: const Text("Pay Now"),
             ),
-            child: const Text("Pay Now"),
           ),
         ],
       );

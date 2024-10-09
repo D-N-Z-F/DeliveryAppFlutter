@@ -1,6 +1,8 @@
+import 'package:delivery_app_flutter/common/widgets/header.dart';
 import 'package:delivery_app_flutter/common/widgets/empty_display.dart';
 import 'package:delivery_app_flutter/data/providers/user_provider.dart';
 import 'package:delivery_app_flutter/data/repositories/user_repo.dart';
+import 'package:delivery_app_flutter/screens/order_screen.dart';
 import 'package:delivery_app_flutter/screens/settings_screen.dart';
 import 'package:delivery_app_flutter/screens/update_profile_screen.dart';
 import 'package:delivery_app_flutter/utils/constants/sizes.dart';
@@ -35,7 +37,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     final data = ref.watch(userProvider);
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Profile"),
+          title: const Header(heading: "Profile", omitMargin: true),
         ),
         body: Column(
           children: [
@@ -84,7 +86,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   OutlinedButton(
-                    onPressed: null,
+                    onPressed: () => context.pushNamed(OrderScreen.routeName),
                     style: OutlinedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),

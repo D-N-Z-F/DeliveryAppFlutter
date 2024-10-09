@@ -33,10 +33,10 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen>
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context).colorScheme;
+    final scheme = Theme.of(context).colorScheme;
     final restaurant = ref.watch(restaurantProvider(widget.id));
     return Scaffold(
-      backgroundColor: theme.surface,
+      backgroundColor: scheme.surface,
       body: restaurant.when(
         data: (data) {
           if (data == null) {

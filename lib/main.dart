@@ -5,6 +5,7 @@ import 'package:delivery_app_flutter/screens/auth.dart';
 import 'package:delivery_app_flutter/screens/cart_screen.dart';
 import 'package:delivery_app_flutter/screens/categories_screen.dart';
 import 'package:delivery_app_flutter/screens/checkout_screen.dart';
+import 'package:delivery_app_flutter/screens/order_screen.dart';
 import 'package:delivery_app_flutter/screens/restaurant_screen.dart';
 import 'package:delivery_app_flutter/screens/search_screen.dart';
 import 'package:delivery_app_flutter/firebase_options.dart';
@@ -94,7 +95,12 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: CheckoutScreen.route,
         name: CheckoutScreen.routeName,
         builder: (context, state) => const CheckoutScreen(),
-      )
+      ),
+      GoRoute(
+        path: OrderScreen.route,
+        name: OrderScreen.routeName,
+        builder: (context, state) => const OrderScreen(),
+      ),
     ],
     redirect: (context, state) {
       final isLoggedIn = ref.watch(authProvider);
