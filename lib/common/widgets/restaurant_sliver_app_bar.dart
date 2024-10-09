@@ -1,16 +1,19 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:delivery_app_flutter/common/widgets/default_image.dart';
+import 'package:delivery_app_flutter/common/widgets/empty_display.dart';
 import 'package:delivery_app_flutter/common/widgets/restaurant_tab_bar.dart';
 import 'package:delivery_app_flutter/data/models/restaurant.dart';
-import 'package:delivery_app_flutter/data/providers/favorites_provider.dart';
+import 'package:delivery_app_flutter/data/providers/favourites_provider.dart';
+import 'package:delivery_app_flutter/data/repositories/user_repo.dart';
 import 'package:delivery_app_flutter/utils/constants/enums.dart';
 import 'package:delivery_app_flutter/utils/constants/sizes.dart';
 import 'package:delivery_app_flutter/utils/constants/strings.dart';
+
 import 'package:delivery_app_flutter/utils/helpers/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class RestaurantSliverAppBar extends StatelessWidget {
+class RestaurantSliverAppBar extends ConsumerWidget {
   final TabController tabController;
   final Restaurant restaurant;
   const RestaurantSliverAppBar({
@@ -20,8 +23,14 @@ class RestaurantSliverAppBar extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final scheme = Theme.of(context).colorScheme;
+    final data = ref.watch(favouriteProvider(restaurant.id!));
+
+    Future<void> addToUserFavourites() async {
+      await UserRepo().updateUserFavourites(restaurant);
+      ref.invalidate(favouriteProvider);
+    }
 
     return SliverAppBar(
       iconTheme: IconThemeData(color: scheme.get(MainColors.tertiaryFixed)),
@@ -49,7 +58,7 @@ class RestaurantSliverAppBar extends StatelessWidget {
             Positioned.fill(
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.5),
+                  color: Colors.black.withOpacity(0.8),
                 ),
               ),
             ),
@@ -105,27 +114,26 @@ class RestaurantSliverAppBar extends StatelessWidget {
               ),
             ),
             Positioned(
-                top: 30,
-                right: 10,
-                child: Consumer(
-                  builder: (context, ref, child) {
-                    final isFavorited =
-                        ref.watch(favoriteProvider(restaurant.id!));
-
-                    return IconButton(
-                      icon: Icon(
-                        isFavorited ? Icons.favorite : Icons.favorite_border,
-                        color: isFavorited ? Colors.red : Colors.white,
-                        size: 28,
-                      ),
-                      onPressed: () {
-                        ref
-                            .read(favoriteProvider(restaurant.id!).notifier)
-                            .state = !isFavorited;
-                      },
-                    );
-                  },
-                )),
+              top: 30,
+              right: 10,
+              child: data.when(
+                data: (favourite) {
+                  final isFavourited = favourite != null;
+                  return IconButton(
+                    icon: Icon(
+                      isFavourited ? Icons.favorite : Icons.favorite_border,
+                      color: isFavourited ? Colors.red : Colors.white,
+                      size: 28,
+                    ),
+                    onPressed: addToUserFavourites,
+                  );
+                },
+                error: (_, __) => const EmptyDisplay(),
+                loading: () => const Center(
+                  child: CircularProgressIndicator(),
+                ),
+              ),
+            ),
           ],
         ),
         title: RestaurantTabBar(

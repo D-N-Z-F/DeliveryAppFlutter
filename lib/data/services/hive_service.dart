@@ -4,6 +4,8 @@ import 'dart:convert';
 import 'package:delivery_app_flutter/data/models/cart.dart';
 import 'package:delivery_app_flutter/data/models/restaurant.dart';
 import 'package:delivery_app_flutter/data/repositories/user_repo.dart';
+import 'package:delivery_app_flutter/main.dart';
+import 'package:delivery_app_flutter/utils/helpers/helpers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';
 
@@ -34,18 +36,25 @@ class HiveService {
     return null;
   }
 
-  Future<void> updateCartInBox(Cart cart) async {
-    await openBox();
-    final id = getUid();
-    final jsonString = jsonEncode(cart.toMap());
-    await _box.put("$id/cart", jsonString);
-  }
+  Future<void> updateCartInBox(Cart cart) async =>
+      await Helpers.globalErrorHandler(
+        () async {
+          await openBox();
+          final id = getUid();
+          final jsonString = jsonEncode(cart.toMap());
+          await _box.put("$id/cart", jsonString);
+          MyApp.showSnackBar(content: "Added to cart.", seconds: 1);
+        },
+      );
 
-  Future<void> deleteCartFromBox() async {
-    await openBox();
-    final id = getUid();
-    await _box.delete("$id/cart");
-  }
+  Future<void> deleteCartFromBox() async => await Helpers.globalErrorHandler(
+        () async {
+          await openBox();
+          final id = getUid();
+          await _box.delete("$id/cart");
+          MyApp.showSnackBar(content: "Cart deleted.", seconds: 1);
+        },
+      );
 
 //Cart Methods------------------------------------------------------------------
 

@@ -7,6 +7,7 @@ import 'package:delivery_app_flutter/data/services/hive_service.dart';
 import 'package:delivery_app_flutter/utils/constants/enums.dart';
 import 'package:delivery_app_flutter/utils/constants/sizes.dart';
 import 'package:delivery_app_flutter/utils/constants/strings.dart';
+
 import 'package:delivery_app_flutter/utils/helpers/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -99,7 +100,7 @@ class ItemCard2 extends ConsumerWidget {
                       ],
                     ),
                     Text(
-                      "\$ $price",
+                      "\$ ${price.toStringAsFixed(2)}",
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ],

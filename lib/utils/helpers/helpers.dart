@@ -1,7 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:delivery_app_flutter/main.dart';
+import 'package:delivery_app_flutter/utils/constants/colors.dart';
 import 'package:delivery_app_flutter/utils/constants/enums.dart';
+import 'package:delivery_app_flutter/utils/constants/strings.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:intl/intl.dart';
 
 class Helpers {
@@ -26,17 +30,20 @@ class Helpers {
       return await func();
     } on FirebaseAuthException catch (e) {
       debugPrint(e.message);
-    } catch (e, stackTrace) {
-      debugPrint("""
-        ------------------------------------------------------------------------
-        \n$e\n
-        ------------------------------------------------------------------------
-      """);
-      debugPrint("""
-        ------------------------------------------------------------------------
-        \n$stackTrace\n
-        ------------------------------------------------------------------------
-      """);
+      MyApp.showSnackBar(
+        content: e.message ?? Strings.defaultErrorMessage,
+        theme: SnackBarTheme.error,
+        color: MyColors.error,
+      );
+    } on StripeException catch (e) {
+      debugPrint(e.error.toString());
+    } catch (e, _) {
+      debugPrint(e.toString());
+      MyApp.showSnackBar(
+        content: e.toString(),
+        theme: SnackBarTheme.error,
+        color: MyColors.error,
+      );
     }
     return null;
   }
@@ -77,5 +84,14 @@ extension ColorSchemeHelpers on ColorScheme {
         MainColors.secondary => secondary,
         MainColors.tertiary => tertiary,
         MainColors.tertiaryFixed => tertiaryFixed,
+      };
+}
+
+extension SnackBarThemeHelpers on SnackBarTheme {
+  IconData get() => switch (this) {
+        SnackBarTheme.info => Icons.info,
+        SnackBarTheme.success => Icons.check,
+        SnackBarTheme.warning => Icons.warning,
+        SnackBarTheme.error => Icons.error,
       };
 }

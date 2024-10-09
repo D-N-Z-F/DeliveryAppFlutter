@@ -1,11 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:delivery_app_flutter/common/widgets/default_image.dart';
+import 'package:delivery_app_flutter/common/widgets/empty_display.dart';
 import 'package:delivery_app_flutter/data/models/restaurant.dart';
-import 'package:delivery_app_flutter/data/providers/favorites_provider.dart';
+import 'package:delivery_app_flutter/data/providers/favourites_provider.dart';
+import 'package:delivery_app_flutter/data/repositories/user_repo.dart';
 import 'package:delivery_app_flutter/screens/restaurant_screen.dart';
 import 'package:delivery_app_flutter/utils/constants/enums.dart';
 import 'package:delivery_app_flutter/utils/constants/sizes.dart';
 import 'package:delivery_app_flutter/utils/constants/strings.dart';
+
 import 'package:delivery_app_flutter/utils/device_utils/device_utils.dart';
 import 'package:delivery_app_flutter/utils/helpers/helpers.dart';
 import 'package:flutter/material.dart';
@@ -28,11 +31,16 @@ class RestaurantCard extends ConsumerWidget {
     final cardWidth =
         DeviceUtils.getDimensions(context, DimensionType.screenWidth) *
             widthRatio;
+    final data = ref.watch(favouriteProvider(restaurant.id!));
     void navigateToRestaurant(String id) async {
       context.pushNamed(RestaurantScreen.routeName, pathParameters: {"id": id});
     }
 
-    final isFavorited = ref.watch(favoriteProvider(restaurant.id!));
+    Future<void> addToUserFavourites() async {
+      await UserRepo().updateUserFavourites(restaurant);
+      ref.invalidate(favouriteProvider);
+    }
+
     return GestureDetector(
       onTap: () => navigateToRestaurant(restaurant.id!),
       child: Card(
@@ -70,20 +78,26 @@ class RestaurantCard extends ConsumerWidget {
                 top: 8,
                 right: 8,
                 child: GestureDetector(
-                  onTap: () {
-                    ref.read(favoriteProvider(restaurant.id!).notifier).state =
-                        !isFavorited;
-                  },
+                  onTap: addToUserFavourites,
                   child: Container(
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: Colors.white.withOpacity(0.9),
                     ),
                     padding: const EdgeInsets.all(8),
-                    child: Icon(
-                      isFavorited ? Icons.favorite : Icons.favorite_border,
-                      color: isFavorited ? Colors.red : Colors.grey,
-                      size: 24,
+                    child: data.when(
+                      data: (favourite) {
+                        final isFavourited = favourite != null;
+                        return Icon(
+                          isFavourited ? Icons.favorite : Icons.favorite_border,
+                          color: isFavourited ? Colors.red : Colors.grey,
+                          size: 24,
+                        );
+                      },
+                      error: (_, __) => const EmptyDisplay(),
+                      loading: () => const Center(
+                        child: CircularProgressIndicator(),
+                      ),
                     ),
                   ),
                 ),

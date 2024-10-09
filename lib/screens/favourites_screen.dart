@@ -3,6 +3,7 @@ import 'package:delivery_app_flutter/common/widgets/header.dart';
 import 'package:delivery_app_flutter/common/widgets/restaurant_card.dart';
 import 'package:delivery_app_flutter/data/providers/favourites_provider.dart';
 import 'package:delivery_app_flutter/utils/constants/sizes.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

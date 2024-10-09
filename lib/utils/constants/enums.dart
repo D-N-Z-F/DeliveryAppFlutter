@@ -34,3 +34,10 @@ enum PaymentStatus {
   isCancelled,
   isConfirmed,
 }
+
+enum SnackBarTheme {
+  info,
+  success,
+  warning,
+  error,
+}

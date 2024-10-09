@@ -1,6 +1,8 @@
 import 'package:delivery_app_flutter/data/models/item.dart';
 import 'package:delivery_app_flutter/data/providers/cart_provider.dart';
 import 'package:delivery_app_flutter/data/services/stripe_service.dart';
+import 'package:delivery_app_flutter/main.dart';
+import 'package:delivery_app_flutter/utils/constants/colors.dart';
 import 'package:delivery_app_flutter/utils/constants/enums.dart';
 import 'package:delivery_app_flutter/utils/constants/sizes.dart';
 import 'package:delivery_app_flutter/utils/constants/strings.dart';
@@ -30,12 +32,13 @@ class PriceSummary extends StatelessWidget {
       Strings.defaultCurrency,
       context,
     );
-    debugPrint("""
---------------------------------------------------------------------------------
-$status
---------------------------------------------------------------------------------
-""");
     if (status != null && status.containsKey(PaymentStatus.isConfirmed)) {
+      MyApp.showSnackBar(
+        content: "Payment success.",
+        theme: SnackBarTheme.success,
+        color: MyColors.success,
+        seconds: 2,
+      );
       await stripe.generateOrderDetails(status[PaymentStatus.isConfirmed]!);
       ref.invalidate(cartProvider);
       if (context.mounted) Navigator.pop(context);

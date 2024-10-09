@@ -16,6 +16,9 @@ import 'package:delivery_app_flutter/screens/settings_screen.dart';
 import 'package:delivery_app_flutter/screens/tab_container_screen.dart';
 import 'package:delivery_app_flutter/data/providers/theme_provider.dart';
 import 'package:delivery_app_flutter/screens/update_profile_screen.dart';
+import 'package:delivery_app_flutter/utils/constants/colors.dart';
+import 'package:delivery_app_flutter/utils/constants/enums.dart';
+import 'package:delivery_app_flutter/utils/helpers/helpers.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -32,6 +35,8 @@ void main() async {
   await StripeService().init();
   runApp(const ProviderScope(child: MyApp()));
 }
+
+final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
 final routerProvider = Provider<GoRouter>(
   (ref) => GoRouter(
@@ -104,9 +109,7 @@ final routerProvider = Provider<GoRouter>(
       GoRoute(
         path: UpdateProfileScreen.route,
         name: UpdateProfileScreen.routeName,
-        builder: (context, state) => UpdateProfileScreen(
-          id: state.pathParameters["id"]!,
-        ),
+        builder: (context, state) => const UpdateProfileScreen(),
       ),
     ],
     redirect: (context, state) {
@@ -122,12 +125,33 @@ final routerProvider = Provider<GoRouter>(
 class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
+  static void showSnackBar({
+    required String content,
+    SnackBarTheme theme = SnackBarTheme.info,
+    Color color = MyColors.info,
+    int seconds = 2,
+  }) =>
+      scaffoldMessengerKey.currentState?.showSnackBar(
+        SnackBar(
+          backgroundColor: color,
+          content: Row(
+            children: [
+              Icon(theme.get(), color: Colors.white),
+              const SizedBox(width: 8),
+              Text(Helpers.truncateText(content, 42)),
+            ],
+          ),
+          duration: Duration(seconds: seconds),
+        ),
+      );
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(routerProvider);
     final themeData = ref.watch(themeProvider);
     return MaterialApp.router(
       title: 'Delivery App',
+      scaffoldMessengerKey: scaffoldMessengerKey,
       theme: themeData,
       darkTheme: themeData,
       routerConfig: router,

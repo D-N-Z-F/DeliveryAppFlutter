@@ -13,6 +13,7 @@ class MyColors {
 
   static const Color cardBackground = Color(0xFF374151);
 
+  static const Color info = Color(0xFF3B82F6);
   static const Color success = Color(0xFF34D399);
   static const Color error = Color(0xFFEF4444);
 }
