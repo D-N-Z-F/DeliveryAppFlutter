@@ -1,6 +1,8 @@
 import 'package:delivery_app_flutter/common/widgets/empty_display.dart';
 import 'package:delivery_app_flutter/data/models/restaurant.dart';
+import 'package:delivery_app_flutter/data/providers/recents_provider.dart';
 import 'package:delivery_app_flutter/data/repositories/restaurant_repo.dart';
+import 'package:delivery_app_flutter/data/services/hive_service.dart';
 import 'package:delivery_app_flutter/screens/restaurant_screen.dart';
 import 'package:delivery_app_flutter/utils/constants/strings.dart';
 import 'package:flutter/material.dart';
@@ -19,20 +21,14 @@ class SearchScreen extends ConsumerStatefulWidget {
 
 class _SearchScreenState extends ConsumerState<SearchScreen> {
   List<Restaurant> searchResults = [];
-  final List<String> recentSearches = [
-    "Flutter",
-    "Dart",
-    "State Management",
-    "Riverpod",
-    "Firebase",
-    "Provider",
-    "Animation",
-    "Kotlin",
-    "Android Studio",
-  ];
   final restaurantRepo = RestaurantRepo();
   final _searchController = TextEditingController();
   final queryProvider = StateProvider<String?>((ref) => null);
+
+  void updateRecents(Restaurant restaurant) async {
+    await ref.read(hiveProvider).updateRecentsInBox(restaurant);
+    ref.invalidate(recentsProvider);
+  }
 
   void navigateToRestaurant(String id) {
     context.pushNamed(RestaurantScreen.routeName, pathParameters: {"id": id});
@@ -40,7 +36,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var query = ref.watch(queryProvider);
+    final recents = ref.watch(recentsProvider);
+    final query = ref.watch(queryProvider);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -88,13 +85,25 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                 const SizedBox(height: 10.0),
                 Expanded(
                   child: query == null || query.isEmpty
-                      ? ListView.builder(
-                          itemCount: recentSearches.length,
-                          itemBuilder: (context, index) => ListTile(
-                            leading: const Icon(Icons.history),
-                            trailing: const Icon(Icons.arrow_outward),
-                            title: Text(recentSearches[index]),
-                            onTap: () => debugPrint(recentSearches[index]),
+                      ? recents.when(
+                          data: (data) {
+                            data = data.reversed.toList();
+                            return ListView.builder(
+                              itemCount: data.length,
+                              itemBuilder: (context, index) => ListTile(
+                                leading: const Icon(Icons.history),
+                                trailing: const Icon(Icons.arrow_outward),
+                                title: Text(data[index].title),
+                                onTap: () =>
+                                    navigateToRestaurant(data[index].id!),
+                              ),
+                            );
+                          },
+                          error: (error, __) => EmptyDisplay(
+                            message: error.toString(),
+                          ),
+                          loading: () => const Center(
+                            child: CircularProgressIndicator(),
                           ),
                         )
                       : searchResults.isEmpty
@@ -111,9 +120,12 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                                 leading: const Icon(Icons.storefront),
                                 trailing: const Icon(Icons.arrow_outward),
                                 title: Text(searchResults[index].title),
-                                onTap: () => navigateToRestaurant(
-                                  searchResults[index].id!,
-                                ),
+                                onTap: () {
+                                  updateRecents(searchResults[index]);
+                                  navigateToRestaurant(
+                                    searchResults[index].id!,
+                                  );
+                                },
                               ),
                             ),
                 ),

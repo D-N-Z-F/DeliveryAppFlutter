@@ -44,5 +44,5 @@ class Cart {
 
   @override
   String toString() =>
-      "Cart(UserID: $userId, RestaurantID: $restaurantId)\nItems: $items";
+      "Cart(UserID: $userId, RestaurantID: $restaurantId, Items: $items)";
 }

@@ -32,7 +32,8 @@ class Sizes {
   // Generic
   static const appBarHeight = 56.0;
   static const imageThumbSize = 80.0;
-  static const dividerHeight = 1.0;
+  static const dividerHeight = 20.0;
+  static const dividerThickness = 1.0;
   static const loadingIndicatorSize = 36.0;
   static const imageCarouselHeight = 200.0;
 

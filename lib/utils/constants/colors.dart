@@ -11,7 +11,8 @@ class MyColors {
   static const Color darkAccent = Color(0xFF1F2937);
 
   static const Color lightText = Color(0xFFF9FAFB);
-  static const Color darkText = Color(0xFFD1D5DB);
+  // static const Color darkText = Color(0xFFD1D5DB);
+  static const Color darkText = Color(0xFF4B5563);
 
   static const Color cardBackground = Color(0xFF374151);
 

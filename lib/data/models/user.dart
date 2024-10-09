@@ -44,5 +44,5 @@ class User {
 
   @override
   String toString() =>
-      "User(ID: $id, Email: $email, Username: $username)\nOrder History: $orderHistory";
+      "User(ID: $id, Email: $email, Username: $username, Order History: $orderHistory)";
 }

@@ -45,6 +45,7 @@ class Restaurant {
       );
 
   Map<String, dynamic> toMap() => {
+        "id": id,
         "title": title,
         "desc": desc,
         "items": items.map((item) => item.toMap()).toList(),
@@ -55,6 +56,7 @@ class Restaurant {
       };
 
   static Restaurant fromMap(Map<String, dynamic> map) => Restaurant(
+        id: map["id"],
         title: map["title"],
         desc: map["desc"],
         items: List<Item>.from(
@@ -68,5 +70,30 @@ class Restaurant {
 
   @override
   String toString() =>
-      "Restaurant(ID: $id, Title: $title, Desc: $desc, Rating: $rating, Item Categories: $itemCategories)\nItems: $items";
+      "Restaurant(ID: $id, Title: $title, Desc: $desc, Rating: $rating, Item Categories: $itemCategories, Image URL: $imageUrl, Items: $items)";
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is Restaurant &&
+        other.id == id &&
+        other.title == title &&
+        other.desc == desc &&
+        Helpers.listEquality.equals(other.items, items) &&
+        Helpers.listEquality.equals(other.itemCategories, itemCategories) &&
+        other.rating == rating &&
+        other.category == category &&
+        other.imageUrl == imageUrl;
+  }
+
+  @override
+  int get hashCode =>
+      id.hashCode ^
+      title.hashCode ^
+      desc.hashCode ^
+      rating.hashCode ^
+      category.hashCode ^
+      Helpers.listEquality.hash(items) ^
+      Helpers.listEquality.hash(itemCategories) ^
+      imageUrl.hashCode;
 }

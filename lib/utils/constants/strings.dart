@@ -6,9 +6,14 @@ class Strings {
   static const defaultItemImagePath =
       "assets/images/Item_Placeholder_Image.jpg";
 
+  static const appName = "Food Delivery App";
+
   static const userToken = "userToken";
 
   static const defaultDisplayMessage = "No data to show.";
   static const searchDisplayMessage = "Search result not found.";
   static const cartDisplayMessage = "No cart found. Go add items!";
+  static const defaultErrorMessage = "Something went wrong...";
+
+  static const defaultCurrency = "usd";
 }

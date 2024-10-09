@@ -1,9 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:delivery_app_flutter/utils/constants/enums.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class Helpers {
+  static const listEquality = ListEquality();
+
   static String truncateText(String text, int maxLength) =>
       text.length <= maxLength ? text : "${text.substring(0, maxLength)}...";
 

@@ -20,7 +20,7 @@ class RestaurantSliverAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
     return SliverAppBar(
-      iconTheme: IconThemeData(color: scheme.inversePrimary),
+      iconTheme: IconThemeData(color: scheme.tertiary),
       pinned: true,
       floating: true,
       expandedHeight: 250,
@@ -65,7 +65,7 @@ class RestaurantSliverAppBar extends StatelessWidget {
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: Sizes.fontLg,
-                            color: scheme.inversePrimary,
+                            color: scheme.tertiary,
                           ),
                         ),
                         Row(
@@ -75,7 +75,7 @@ class RestaurantSliverAppBar extends StatelessWidget {
                                   .clamp(0.0, 5.0)
                                   .toStringAsFixed(2),
                               style: TextStyle(
-                                color: scheme.inversePrimary,
+                                color: scheme.tertiary,
                                 fontSize: Sizes.fontLg,
                               ),
                             ),
@@ -93,7 +93,7 @@ class RestaurantSliverAppBar extends StatelessWidget {
                       restaurant.category.enumToString(),
                       style: TextStyle(
                         fontSize: Sizes.fontMd,
-                        color: scheme.inversePrimary,
+                        color: scheme.tertiary,
                       ),
                     )
                   ],
