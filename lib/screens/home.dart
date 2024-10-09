@@ -1,18 +1,18 @@
 import 'package:delivery_app_flutter/screens/login.dart';
+import 'package:delivery_app_flutter/common/home/home_categories.dart';
+import 'package:delivery_app_flutter/common/home/home_recommended.dart';
+import 'package:delivery_app_flutter/common/home/home_restaurants.dart';
+import 'package:delivery_app_flutter/common/home/home_sliver_app_bar.dart';
+import 'package:delivery_app_flutter/common/widgets/header.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
-  static const route = "/";
+  static const route = "/home";
   static const routeName = "Home";
 
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     void _navigateToLogin() {
@@ -24,6 +24,21 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Center(
         child: OutlinedButton(
             onPressed: () => _navigateToLogin(), child: const Text("Login")),
+    final scheme = Theme.of(context).colorScheme;
+
+    return Scaffold(
+      backgroundColor: scheme.surface,
+      body: const CustomScrollView(
+        slivers: [
+          HomeSliverAppBar(),
+          HomeCategories(),
+          HomeRecommended(),
+          // HomeRestaurantsTitle
+          SliverToBoxAdapter(
+            child: Center(child: Header(heading: "All Restaurants")),
+          ),
+          HomeRestaurants(),
+        ],
       ),
     );
   }

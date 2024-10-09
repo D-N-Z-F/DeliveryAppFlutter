@@ -3,44 +3,46 @@ class User {
   final String email;
   final String username;
   final List<String> orderHistory;
-  final Status status;
+  final List<String> favourites;
 
-  User(
-      {this.id,
-      required this.email,
-      required this.username,
-      required this.orderHistory,
-      this.status = Status.normal});
+  User({
+    this.id,
+    required this.email,
+    required this.username,
+    this.orderHistory = const [],
+    this.favourites = const [],
+  });
 
-  User copy(String? id, String? email, String? username,
-          List<String>? orderHistory, Status? status) =>
+  User copy({
+    String? id,
+    String? email,
+    String? username,
+    List<String>? orderHistory,
+    List<String>? favourites,
+  }) =>
       User(
         id: id ?? this.id,
         email: email ?? this.email,
         username: username ?? this.username,
         orderHistory: orderHistory ?? this.orderHistory,
-        status: status ?? this.status,
+        favourites: favourites ?? this.favourites,
       );
 
   Map<String, dynamic> toMap() => {
-        "id": id,
         "email": email,
         "username": username,
         "orderHistory": orderHistory,
-        "status": status
+        "favourites": favourites
       };
 
   static User fromMap(Map<String, dynamic> map) => User(
-        id: map["id"],
         email: map["email"],
         username: map["username"],
-        orderHistory: map["orderHistory"],
-        status: map["status"],
+        orderHistory: List<String>.from(map["orderHistory"]),
+        favourites: List<String>.from(map["favourites"]),
       );
 
   @override
   String toString() =>
-      "User(ID: $id, Email: $email, Username: $username, Status: $status)\nOrder History: $orderHistory";
+      "User(ID: $id, Email: $email, Username: $username, Order History: $orderHistory)";
 }
-
-enum Status { normal, premium }

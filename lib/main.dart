@@ -1,16 +1,38 @@
+import 'package:delivery_app_flutter/data/providers/auth_provider.dart';
+import 'package:delivery_app_flutter/data/services/hive_service.dart';
+import 'package:delivery_app_flutter/data/services/stripe_service.dart';
+import 'package:delivery_app_flutter/screens/auth.dart';
+import 'package:delivery_app_flutter/screens/cart_screen.dart';
+import 'package:delivery_app_flutter/screens/categories_screen.dart';
+import 'package:delivery_app_flutter/screens/checkout_screen.dart';
+import 'package:delivery_app_flutter/screens/order_screen.dart';
+import 'package:delivery_app_flutter/screens/restaurant_screen.dart';
+import 'package:delivery_app_flutter/screens/search_screen.dart';
 import 'package:delivery_app_flutter/firebase_options.dart';
 import 'package:delivery_app_flutter/screens/home.dart';
 import 'package:delivery_app_flutter/screens/login.dart';
 import 'package:delivery_app_flutter/screens/register.dart';
+import 'package:delivery_app_flutter/screens/profile_screen.dart';
+import 'package:delivery_app_flutter/screens/settings_screen.dart';
+import 'package:delivery_app_flutter/screens/tab_container_screen.dart';
+import 'package:delivery_app_flutter/data/providers/theme_provider.dart';
+import 'package:delivery_app_flutter/screens/update_profile_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:path/path.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {
+  await Hive.initFlutter();
+  await HiveService().openBox();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(const MyApp());
+  await dotenv.load(fileName: ".env");
+  await StripeService().init();
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -31,17 +53,93 @@ class MyApp extends StatelessWidget {
         name: RegisterScreen.routeName,
         builder: (context, state) => const RegisterScreen())
   ];
+final routerProvider = Provider<GoRouter>((ref) {
+  return GoRouter(
+    initialLocation: TabContainerScreen.route,
+    routes: [
+      GoRoute(
+        path: TabContainerScreen.route,
+        name: TabContainerScreen.routeName,
+        builder: (context, state) => const TabContainerScreen(),
+      ),
+      GoRoute(
+        path: HomeScreen.route,
+        name: HomeScreen.routeName,
+        builder: (context, state) => const HomeScreen(),
+      ),
+      GoRoute(
+        path: AuthScreen.route,
+        name: AuthScreen.routeName,
+        builder: (context, state) => const AuthScreen(),
+      ),
+      GoRoute(
+        path: SearchScreen.route,
+        name: SearchScreen.routeName,
+        builder: (context, state) => const SearchScreen(),
+      ),
+      GoRoute(
+        path: CartScreen.route,
+        name: CartScreen.routeName,
+        builder: (context, state) => const CartScreen(),
+      ),
+      GoRoute(
+        path: SettingsScreen.route,
+        name: SettingsScreen.routeName,
+        builder: (context, state) => const SettingsScreen(),
+      ),
+      GoRoute(
+        path: ProfileScreen.route,
+        name: ProfileScreen.routeName,
+        builder: (context, state) => const ProfileScreen(),
+      ),
+      GoRoute(
+        path: RestaurantScreen.route,
+        name: RestaurantScreen.routeName,
+        builder: (context, state) => RestaurantScreen(
+          id: state.pathParameters["id"]!,
+        ),
+      ),
+      GoRoute(
+        path: CategoriesScreen.route,
+        name: CategoriesScreen.routeName,
+        builder: (context, state) => CategoriesScreen(
+          name: state.pathParameters["name"]!,
+        ),
+      ),
+      GoRoute(
+        path: UpdateProfileScreen.route,
+        name: UpdateProfileScreen.routeName,
+        builder: (context, state) => UpdateProfileScreen(
+          id: state.pathParameters["id"]!,
+        ),
+      ),
+        path: CheckoutScreen.route,
+        name: CheckoutScreen.routeName,
+        builder: (context, state) => const CheckoutScreen(),
+      ),
+      GoRoute(
+        path: OrderScreen.route,
+        name: OrderScreen.routeName,
+        builder: (context, state) => const OrderScreen(),
+      ),
+    ],
+    redirect: (context, state) {
+      final isLoggedIn = ref.watch(authProvider);
+      final onAuthScreen = state.name == AuthScreen.routeName;
+      if (isLoggedIn && onAuthScreen) return HomeScreen.route;
+      if (!isLoggedIn && !onAuthScreen) return AuthScreen.route;
+      return null;
+    },
+  );
+});
 
-  static SnackBar actionSnackbarBuilder(
-          BuildContext context, String action, bool isSuccessful) =>
-      SnackBar(
-        content: Text("$action ${isSuccessful ? "" : "un"}successful."),
-        duration: const Duration(seconds: 2),
-      );
+class MyApp extends ConsumerWidget {
+  const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final router = ref.watch(routerProvider);
+    final themeData = ref.watch(themeProvider);
     return MaterialApp.router(
       title: 'Delivery App',
       theme: ThemeData(
@@ -49,6 +147,9 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       routerConfig: GoRouter(routes: routes, initialLocation: LoginScreen.route),
+      theme: themeData,
+      darkTheme: themeData,
+      routerConfig: router,
     );
   }
 }
