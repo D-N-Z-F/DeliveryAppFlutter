@@ -10,7 +10,6 @@ class OrderCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
     final items = <Item, int>{};
     for (final item in order.cart.items) {
       items[item] = (items[item] ?? 0) + 1;

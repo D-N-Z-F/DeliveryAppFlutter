@@ -5,6 +5,7 @@ import 'package:delivery_app_flutter/screens/auth.dart';
 import 'package:delivery_app_flutter/screens/cart_screen.dart';
 import 'package:delivery_app_flutter/screens/categories_screen.dart';
 import 'package:delivery_app_flutter/screens/checkout_screen.dart';
+import 'package:delivery_app_flutter/screens/favourites_screen.dart';
 import 'package:delivery_app_flutter/screens/order_screen.dart';
 import 'package:delivery_app_flutter/screens/restaurant_screen.dart';
 import 'package:delivery_app_flutter/screens/search_screen.dart';
@@ -121,6 +122,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: OrderScreen.route,
         name: OrderScreen.routeName,
         builder: (context, state) => const OrderScreen(),
+      ),
+      GoRoute(
+        path: FavouritesScreen.route,
+        name: FavouritesScreen.routeName,
+        builder: (context, state) => const FavouritesScreen(),
       ),
     ],
     redirect: (context, state) {
