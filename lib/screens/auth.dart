@@ -84,6 +84,17 @@ class AuthScreen extends ConsumerWidget {
                 labelText: "Enter your password",
                 hintText: "e.g johndoe123",
                 isPasswordField: true,
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
+                child: TextFormField(
+                    controller: controllers["password"],
+                    obscureText: true,    
+                    validator: (value) => Validators.validatePassword(value),
+                    decoration: InputDecoration(
+                        labelText: "Enter your password",
+                        hintText: "e.g johndoe123",
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0)))),
               ),
               if (isRegistering)
                 AuthTextFormField(

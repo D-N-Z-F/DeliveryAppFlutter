@@ -87,6 +87,39 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           ),
                         ],
                       ),
+                  color: scheme.primary,
+                  borderRadius: BorderRadius.circular(12.0)),
+              margin: const EdgeInsets.only(left: 10, top: 10, right: 10),
+              padding: const EdgeInsets.all(15),
+              child: data.when(
+                data: (user) {
+                  if (user == null) {
+                    return const Text("User not found");
+                  }
+                  return Row(
+                    children: [
+                      SizedBox(
+                          child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            user.username,
+                            style: const TextStyle(fontSize: Sizes.fontLg),
+                          ),
+                          Text("Email: ${user.email}")
+                        ],
+                      )),
+                      const Spacer(),
+                      GestureDetector(
+                        onTap: navigateToUpdateProfile,
+                        child: Icon(
+                          Icons.edit,
+                          size: Sizes.icon["lg"],
+                        ),
+                      )
+                    ],
+                  );
+                },
                 error: (_, __) => const EmptyDisplay(),
                 loading: () => const Center(child: CircularProgressIndicator()),
               ),

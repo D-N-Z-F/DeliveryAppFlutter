@@ -55,6 +55,26 @@ class HomeCategories extends StatelessWidget {
                                 fontSize: Sizes.fontXs,
                                 color: scheme.get(MainColors.primary),
                               ),
+                  child: Column(
+                    children: [
+                      Container(
+                        width: 100,
+                        height: 100,
+                        margin: const EdgeInsets.only(
+                          left: 10,
+                          right: 10,
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.blue,
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              category.getIcon(),
+                              color: Colors.white,
+                              size: 40,
                             ),
                           )
                         ],
