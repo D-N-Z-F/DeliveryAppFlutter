@@ -73,3 +73,7 @@ Grub On is a user-friendly food delivery app designed to make ordering meals a s
 ## Github
 
 **Link:** https://github.com/D-N-Z-F/DeliveryAppFlutter
+
+## PPT Slides
+
+**Link:** https://www.canva.com/design/DAGSyj0ZDLE/6wM2ypDOeFXkT-zhXAjIBg/view?utm_content=DAGSyj0ZDLE&utm_campaign=designshare&utm_medium=link&utm_source=editor
