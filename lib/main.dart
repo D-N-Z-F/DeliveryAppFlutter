@@ -91,6 +91,7 @@ class MyApp extends ConsumerWidget {
       theme: themeData,
       darkTheme: themeData,
       routerConfig: router,
+      debugShowCheckedModeBanner: false,
     );
   }
 }

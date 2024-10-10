@@ -1,5 +1,7 @@
 import 'package:delivery_app_flutter/common/auth/auth_text_form_field.dart';
+import 'package:delivery_app_flutter/common/widgets/loading_indicator.dart';
 import 'package:delivery_app_flutter/data/providers/auth_provider.dart';
+import 'package:delivery_app_flutter/data/providers/loading_provider.dart';
 import 'package:delivery_app_flutter/data/repositories/user_repo.dart';
 import 'package:delivery_app_flutter/utils/constants/enums.dart';
 import 'package:delivery_app_flutter/utils/constants/sizes.dart';
@@ -19,6 +21,7 @@ class AuthScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final scheme = Theme.of(context).colorScheme;
     final isRegistering = ref.watch(authStateProvider);
+    final isLoading = ref.watch(loadingProvider);
     final formKey = GlobalKey<FormState>();
     final userRepo = UserRepo();
     final usernameController = TextEditingController();
@@ -28,18 +31,22 @@ class AuthScreen extends ConsumerWidget {
 
     void login() async {
       if (formKey.currentState!.validate()) {
+        ref.read(loadingProvider.notifier).startLoading();
         await userRepo.login(emailController.text, passwordController.text);
+        ref.read(loadingProvider.notifier).stopLoading();
       }
     }
 
     void register() async {
       if (formKey.currentState!.validate()) {
+        ref.read(loadingProvider.notifier).startLoading();
         await userRepo.register(
           usernameController.text,
           emailController.text,
           passwordController.text,
           password2Controller.text,
         );
+        ref.read(loadingProvider.notifier).stopLoading();
       }
     }
 
@@ -107,14 +114,20 @@ class AuthScreen extends ConsumerWidget {
               ),
               Center(
                 child: ElevatedButton(
-                  onPressed: isRegistering ? register : login,
+                  onPressed: isLoading
+                      ? null
+                      : isRegistering
+                          ? register
+                          : login,
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
                     backgroundColor: scheme.get(MainColors.secondary),
                   ),
-                  child: Text(isRegistering ? "Register" : "Login"),
+                  child: isLoading
+                      ? const LoadingIndicator()
+                      : Text(isRegistering ? "Register" : "Login"),
                 ),
               ),
             ],

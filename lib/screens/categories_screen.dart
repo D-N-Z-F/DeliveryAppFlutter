@@ -1,5 +1,6 @@
 import 'package:delivery_app_flutter/common/widgets/empty_display.dart';
 import 'package:delivery_app_flutter/common/widgets/header.dart';
+import 'package:delivery_app_flutter/common/widgets/loading_indicator.dart';
 import 'package:delivery_app_flutter/common/widgets/restaurant_card.dart';
 import 'package:delivery_app_flutter/data/providers/restaurant_provider.dart';
 import 'package:delivery_app_flutter/utils/helpers/helpers.dart';
@@ -37,7 +38,7 @@ class CategoriesScreen extends ConsumerWidget {
           );
         },
         error: (_, __) => const EmptyDisplay(),
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const Center(child: LoadingIndicator()),
       ),
     );
   }

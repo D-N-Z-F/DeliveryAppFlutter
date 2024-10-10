@@ -1,6 +1,7 @@
 import 'package:delivery_app_flutter/common/auth/auth_text_form_field.dart';
 import 'package:delivery_app_flutter/common/widgets/empty_display.dart';
 import 'package:delivery_app_flutter/common/widgets/header.dart';
+import 'package:delivery_app_flutter/common/widgets/loading_indicator.dart';
 import 'package:delivery_app_flutter/data/providers/address_provider.dart';
 import 'package:delivery_app_flutter/data/services/hive_service.dart';
 import 'package:delivery_app_flutter/screens/search_screen.dart';
@@ -131,9 +132,7 @@ class HomeSliverAppBar extends ConsumerWidget {
                         error: (_, __) => const EmptyDisplay(
                           message: Strings.defaultErrorMessage,
                         ),
-                        loading: () => const Center(
-                          child: CircularProgressIndicator(),
-                        ),
+                        loading: () => const Center(child: LoadingIndicator()),
                       ),
                       const Icon(Icons.location_on_outlined),
                     ],

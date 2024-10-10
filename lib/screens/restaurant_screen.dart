@@ -1,6 +1,7 @@
 import 'package:delivery_app_flutter/common/widgets/empty_display.dart';
 import 'package:delivery_app_flutter/common/restaurant/item_card.dart';
 import 'package:delivery_app_flutter/common/restaurant/restaurant_sliver_app_bar.dart';
+import 'package:delivery_app_flutter/common/widgets/loading_indicator.dart';
 import 'package:delivery_app_flutter/data/providers/restaurant_provider.dart';
 import 'package:delivery_app_flutter/data/repositories/restaurant_repo.dart';
 import 'package:delivery_app_flutter/utils/constants/enums.dart';
@@ -84,7 +85,7 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen>
         },
         error: (_, __) =>
             const EmptyDisplay(message: Strings.cartDisplayMessage),
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const Center(child: LoadingIndicator()),
       ),
     );
   }

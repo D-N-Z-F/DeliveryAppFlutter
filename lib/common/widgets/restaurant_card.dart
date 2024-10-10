@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:delivery_app_flutter/common/widgets/default_image.dart';
 import 'package:delivery_app_flutter/common/widgets/empty_display.dart';
+import 'package:delivery_app_flutter/common/widgets/loading_indicator.dart';
 import 'package:delivery_app_flutter/data/models/restaurant.dart';
 import 'package:delivery_app_flutter/data/providers/favourites_provider.dart';
 import 'package:delivery_app_flutter/data/repositories/user_repo.dart';
@@ -95,9 +96,7 @@ class RestaurantCard extends ConsumerWidget {
                         );
                       },
                       error: (_, __) => const EmptyDisplay(),
-                      loading: () => const Center(
-                        child: CircularProgressIndicator(),
-                      ),
+                      loading: () => const Center(child: LoadingIndicator()),
                     ),
                   ),
                 ),

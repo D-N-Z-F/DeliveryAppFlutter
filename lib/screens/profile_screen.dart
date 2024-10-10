@@ -1,5 +1,6 @@
 import 'package:delivery_app_flutter/common/widgets/header.dart';
 import 'package:delivery_app_flutter/common/widgets/empty_display.dart';
+import 'package:delivery_app_flutter/common/widgets/loading_indicator.dart';
 import 'package:delivery_app_flutter/data/providers/user_provider.dart';
 import 'package:delivery_app_flutter/data/repositories/user_repo.dart';
 import 'package:delivery_app_flutter/screens/favourites_screen.dart';
@@ -88,7 +89,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         ],
                       ),
                 error: (_, __) => const EmptyDisplay(),
-                loading: () => const Center(child: CircularProgressIndicator()),
+                loading: () => const Center(child: LoadingIndicator()),
               ),
             ),
             Container(

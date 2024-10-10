@@ -3,6 +3,7 @@ import 'package:delivery_app_flutter/common/cart/address_card.dart';
 import 'package:delivery_app_flutter/common/widgets/empty_display.dart';
 import 'package:delivery_app_flutter/common/widgets/header.dart';
 import 'package:delivery_app_flutter/common/order/price_summary.dart';
+import 'package:delivery_app_flutter/common/widgets/loading_indicator.dart';
 import 'package:delivery_app_flutter/data/models/item.dart';
 import 'package:delivery_app_flutter/data/providers/cart_provider.dart';
 import 'package:delivery_app_flutter/data/providers/restaurant_provider.dart';
@@ -70,15 +71,11 @@ class CheckoutScreen extends ConsumerWidget {
                   },
                   error: (_, __) =>
                       const EmptyDisplay(message: Strings.defaultErrorMessage),
-                  loading: () => const Center(
-                    child: CircularProgressIndicator(),
-                  ),
+                  loading: () => const Center(child: LoadingIndicator()),
                 ),
         error: (_, __) =>
             const EmptyDisplay(message: Strings.defaultErrorMessage),
-        loading: () => const Center(
-          child: CircularProgressIndicator(),
-        ),
+        loading: () => const Center(child: LoadingIndicator()),
       ),
     );
   }

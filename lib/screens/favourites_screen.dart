@@ -1,5 +1,6 @@
 import 'package:delivery_app_flutter/common/widgets/empty_display.dart';
 import 'package:delivery_app_flutter/common/widgets/header.dart';
+import 'package:delivery_app_flutter/common/widgets/loading_indicator.dart';
 import 'package:delivery_app_flutter/common/widgets/restaurant_card.dart';
 import 'package:delivery_app_flutter/data/providers/favourites_provider.dart';
 import 'package:delivery_app_flutter/utils/constants/sizes.dart';
@@ -37,7 +38,7 @@ class FavouritesScreen extends ConsumerWidget {
               : const EmptyDisplay();
         },
         error: (_, __) => const EmptyDisplay(),
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const Center(child: LoadingIndicator()),
       ),
     );
   }

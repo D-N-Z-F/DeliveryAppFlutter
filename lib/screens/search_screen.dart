@@ -1,4 +1,5 @@
 import 'package:delivery_app_flutter/common/widgets/empty_display.dart';
+import 'package:delivery_app_flutter/common/widgets/loading_indicator.dart';
 import 'package:delivery_app_flutter/data/models/restaurant.dart';
 import 'package:delivery_app_flutter/data/providers/recents_provider.dart';
 import 'package:delivery_app_flutter/data/repositories/restaurant_repo.dart';
@@ -107,7 +108,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                             message: error.toString(),
                           ),
                           loading: () => const Center(
-                            child: CircularProgressIndicator(),
+                            child: LoadingIndicator(),
                           ),
                         )
                       : searchResults.isEmpty

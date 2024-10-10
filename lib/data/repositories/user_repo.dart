@@ -82,7 +82,7 @@ class UserRepo {
   Future<bool> updateUserDetails(
     String username,
     String email,
-    String password,
+    String oldPassword,
   ) async {
     final update = await Helpers.globalErrorHandler(
       () async {
@@ -92,7 +92,7 @@ class UserRepo {
           await firebaseUser.reauthenticateWithCredential(
             EmailAuthProvider.credential(
               email: firebaseUser.email!,
-              password: password,
+              password: oldPassword,
             ),
           );
           await firebaseUser.verifyBeforeUpdateEmail(email);
@@ -112,12 +112,18 @@ class UserRepo {
     return update ?? false;
   }
 
-  Future<bool> updatePassword(String password) async {
+  Future<bool> updatePassword(String password, String oldPassword) async {
     final update = await Helpers.globalErrorHandler(
       () async {
         final firebaseUser = FirebaseAuth.instance.currentUser;
         debugPrint(firebaseUser.toString());
         if (firebaseUser != null) {
+          await firebaseUser.reauthenticateWithCredential(
+            EmailAuthProvider.credential(
+              email: firebaseUser.email!,
+              password: oldPassword,
+            ),
+          );
           await firebaseUser.updatePassword(password);
           await firebaseUser.reload();
           MyApp.showSnackBar(

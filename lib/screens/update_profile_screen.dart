@@ -1,9 +1,13 @@
 import 'package:delivery_app_flutter/common/widgets/empty_display.dart';
 import 'package:delivery_app_flutter/common/widgets/header.dart';
 import 'package:delivery_app_flutter/common/profile/update_profile_card.dart';
+import 'package:delivery_app_flutter/common/widgets/loading_indicator.dart';
 import 'package:delivery_app_flutter/data/providers/auth_provider.dart';
+import 'package:delivery_app_flutter/data/providers/loading_provider.dart';
 import 'package:delivery_app_flutter/data/providers/user_provider.dart';
 import 'package:delivery_app_flutter/data/repositories/user_repo.dart';
+import 'package:delivery_app_flutter/main.dart';
+import 'package:delivery_app_flutter/utils/constants/colors.dart';
 import 'package:delivery_app_flutter/utils/constants/enums.dart';
 import 'package:delivery_app_flutter/utils/constants/sizes.dart';
 import 'package:delivery_app_flutter/utils/constants/strings.dart';
@@ -26,18 +30,24 @@ class UpdateProfileScreen extends ConsumerWidget {
     final userRepo = UserRepo();
     final isChangingPassword = ref.watch(updateStateProvider);
     final data = ref.watch(userProvider);
+    final isLoading = ref.watch(loadingProvider);
     final usernameController = TextEditingController();
     final emailController = TextEditingController();
     final passwordController = TextEditingController();
     final password2Controller = TextEditingController();
+    final currentPasswordController = TextEditingController();
 
     void updateUserDetails() async {
       if (formKey.currentState!.validate()) {
+        ref.watch(loadingProvider.notifier).startLoading();
+
         final isSuccess = await userRepo.updateUserDetails(
           usernameController.text,
           emailController.text,
-          passwordController.text,
+          currentPasswordController.text,
         );
+        ref.watch(loadingProvider.notifier).stopLoading();
+
         if (isSuccess) {
           ref.invalidate(userProvider);
           if (context.mounted) Navigator.pop(context);
@@ -47,8 +57,20 @@ class UpdateProfileScreen extends ConsumerWidget {
 
     void updatePassword() async {
       if (formKey.currentState!.validate()) {
-        final isSuccess =
-            await userRepo.updatePassword(passwordController.text);
+        if (passwordController.text == currentPasswordController.text) {
+          MyApp.showSnackBar(
+            content: "New and current password cannot be same!",
+            theme: SnackBarTheme.warning,
+            color: MyColors.warning,
+          );
+          return;
+        }
+        ref.watch(loadingProvider.notifier).startLoading();
+        final isSuccess = await userRepo.updatePassword(
+          passwordController.text,
+          currentPasswordController.text,
+        );
+        ref.watch(loadingProvider.notifier).stopLoading();
         if (isSuccess) {
           ref.invalidate(userProvider);
           if (context.mounted) Navigator.pop(context);
@@ -93,15 +115,14 @@ class UpdateProfileScreen extends ConsumerWidget {
                               controller: emailController,
                               validator: Validators.validateEmail,
                             ),
-                          UpdateProfileCard(
-                            fieldName: "Password",
-                            labelText: isChangingPassword
-                                ? "Enter a new password"
-                                : "Enter your current password",
-                            controller: passwordController,
-                            validator: Validators.validatePassword,
-                            isPasswordField: true,
-                          ),
+                          if (isChangingPassword)
+                            UpdateProfileCard(
+                              fieldName: "New Password",
+                              labelText: "Enter a new password",
+                              controller: passwordController,
+                              validator: Validators.validatePassword,
+                              isPasswordField: true,
+                            ),
                           if (isChangingPassword)
                             UpdateProfileCard(
                               fieldName: "Confirm Password",
@@ -115,15 +136,24 @@ class UpdateProfileScreen extends ConsumerWidget {
                               isPasswordField: true,
                               comparator: passwordController.text,
                             ),
+                          UpdateProfileCard(
+                            fieldName: "Current password",
+                            labelText: "Enter your current password",
+                            controller: currentPasswordController,
+                            validator: Validators.validatePassword,
+                            isPasswordField: true,
+                          ),
                           Container(
                             margin: const EdgeInsets.only(top: Sizes.lg),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 ElevatedButton(
-                                  onPressed: () => isChangingPassword
-                                      ? updatePassword()
-                                      : updateUserDetails(),
+                                  onPressed: isLoading
+                                      ? null
+                                      : isChangingPassword
+                                          ? updatePassword
+                                          : updateUserDetails,
                                   style: ElevatedButton.styleFrom(
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10),
@@ -131,7 +161,9 @@ class UpdateProfileScreen extends ConsumerWidget {
                                     backgroundColor:
                                         scheme.get(MainColors.secondary),
                                   ),
-                                  child: const Text("Update"),
+                                  child: isLoading
+                                      ? const LoadingIndicator()
+                                      : const Text("Update"),
                                 ),
                                 Container(
                                   margin: const EdgeInsets.only(left: Sizes.sm),
@@ -158,7 +190,7 @@ class UpdateProfileScreen extends ConsumerWidget {
                       ),
                     ),
               error: (_, __) => const EmptyDisplay(),
-              loading: () => const Center(child: CircularProgressIndicator()),
+              loading: () => const Center(child: LoadingIndicator()),
             ),
           ],
         ),
