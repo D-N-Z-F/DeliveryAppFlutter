@@ -1,6 +1,9 @@
 # Grub On (Food Delivery App)
+
 ### Team members: Daryl Ng Zhi Fung, Teoh Jie Yie
+
 ## Introduction
+
 Grub On is a user-friendly food delivery app designed to make ordering meals a seamless and enjoyable experience. With features like easy restaurant browsing, personalized favorites, and secure payment integration, Grub On connects users with their favorite local restaurants in just a few taps. Whether you're looking for a quick snack or a gourmet meal, Grub On ensures timely deliveries and a smooth, hassle-free service. The app's sleek design and customizable themes offer a personalized experience for every user.
 
 <img src="https://github.com/user-attachments/assets/de9bb398-a995-44ca-a206-c52978430175" alt="screenshot-2024-10-09_23 27 51 601" width="200"/>
@@ -15,25 +18,32 @@ Grub On is a user-friendly food delivery app designed to make ordering meals a s
 
 ## Features
 
-#### User Registration & Profiles: 
+#### User Registration & Profiles:
+
 - The app allows users to create personalized accounts with secure email and password login. Users can easily manage their personal information, track order history and see their favorites. Profile customization is available, allowing users to update their username and email.
 
 #### Restaurant Browsing
+
 - An intuitive restaurant catalog allows users to browse restaurants by location, cuisine, and ratings. The search functionality includes smart suggestions and recent searches, providing users with a seamless browsing experience.
 
 #### Payment Gateway Integration
+
 - The app integrates secure and trusted payment processors to facilitate fast and seamless transactions. The payment process is designed to be smooth, secure, and user-friendly.
 
 #### Order History
+
 - Users can view a comprehensive history of their past orders, including restaurant details, items ordered, and payment summaries.
 
 #### Favorites
+
 - A favorites system enables users to save and organize their preferred restaurants for easy access in future sessions. This allows users to quickly order from their go-to places without needing to browse or search repeatedly.
 
 #### Category Filter
+
 - To streamline the user experience, the app offers category-based filtering, allowing users to sort restaurants based on cuisine types (e.g. Japanese, Dessert, Mexican) . This feature helps users quickly narrow down choices based on their preferences.
 
 #### Dark and Light Theme Settings
+
 - The app includes both dark and light themes, allowing users to choose their preferred visual setting. This ensures a comfortable user experience, whether in bright daylight or in low-light environments, with easy switching between themes.
 
 ## Future Updates
@@ -53,7 +63,13 @@ Grub On is a user-friendly food delivery app designed to make ordering meals a s
 **Database:** Firebase, Hive
 
 ## Figma
+
 **Link:** https://www.figma.com/design/7xiwrC1Gv0neswoUKOeVPg/Food-Delivery-App?node-id=0-1&t=vi0g57W9AawdhGgY-1
 
 ## Trello
+
 **Link:** https://trello.com/invite/b/66e91ea57715ec04b42bba59/ATTI570a8e27c0e6233bcda5f7ad7edcc174E2A0E1D5/delivery-app-flutter-project
+
+## Github
+
+**Link:** https://github.com/D-N-Z-F/DeliveryAppFlutter
