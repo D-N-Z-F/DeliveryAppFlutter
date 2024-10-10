@@ -20,16 +20,22 @@ class AddressCard extends ConsumerWidget {
         padding: const EdgeInsets.all(Sizes.lg),
         child: Row(
           children: [
-            const Icon(Icons.delivery_dining_outlined),
-            Padding(
-              padding: const EdgeInsets.only(left: Sizes.md),
-              child: data.when(
-                data: (address) => Text("Address: $address"),
-                error: (_, __) => const EmptyDisplay(
-                  message: Strings.defaultErrorMessage,
-                ),
-                loading: () => const Center(child: CircularProgressIndicator()),
-              ),
+            const Icon(Icons.delivery_dining_outlined, size: Sizes.xl),
+            const SizedBox(width: Sizes.sm),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text("Delivery Address:"),
+                data.when(
+                  data: (address) => Text("$address"),
+                  error: (_, __) => const EmptyDisplay(
+                    message: Strings.defaultErrorMessage,
+                  ),
+                  loading: () => const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                )
+              ],
             ),
           ],
         ),
